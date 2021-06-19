@@ -2,12 +2,12 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const electronLocalShortcut = require('electron-localshortcut');
 const Store = require('electron-store');
-const pkg = require('../package.json');
+const { version } = require('../../package.json');
 const schema = require('../config/store.json');
 const config = require('../config/base.json');
 require('@electron/remote/main').initialize();
 
-global.APP_VERSION_NAME = pkg.version;
+global.APP_VERSION_NAME = version;
 const winConfig = config.window;
 
 const isDev = !app.isPackaged;

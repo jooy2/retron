@@ -1,8 +1,8 @@
 {
   "name": "retron",
   "version": "1.0.0",
-  "description": "React + Electron template",
-  "main": "app/index.js",
+  "description": "Electron + React Template",
+  "main": "src/main/index.js",
   "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
