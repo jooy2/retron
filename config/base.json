@@ -1,0 +1,16 @@
+{
+  "window": {
+    "devWidth": 1300,
+    "devShowDevTools": true,
+    "devLoadUrl": "http://localhost:9090",
+    "width": 720,
+    "height": 540,
+    "minWidth": null,
+    "minHeight": null,
+    "resizable": null,
+    "alwaysOnTop": null,
+    "nodeIntegration": true,
+    "showMenuBar": false,
+    "userRefresh": false
+  }
+}

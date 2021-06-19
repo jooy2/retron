@@ -1,0 +1,7 @@
+{
+  "appTest": {
+    "type": "string",
+    "default": "test string"
+  }
+}
+
