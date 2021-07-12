@@ -22,7 +22,7 @@ This is a skeleton project for easily creating React-based Electron projects. It
 # Install
 Clone this repo using below command.
 ```shell
-$ git clone https://github.com/leejooy96/retron <PROJECT_NAME>
+$ git clone https://github.com/jooy2/retron <PROJECT_NAME>
 ```
 
 Then, install the dependency module.
@@ -59,4 +59,4 @@ You can report issues on Github Issue. You can also request a pull to fix bugs a
 
 
 # License
-Copyright © 2021 Jooyeon Lee Released under the MIT license.
+Copyright © 2021 jooy2 Released under the MIT license.
