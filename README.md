@@ -1,8 +1,17 @@
-![retron-logo](https://user-images.githubusercontent.com/48266008/122630475-0095fe80-d0ff-11eb-9a45-de362a380933.png)
+<div align="center">
 
-### Electron + React Template
+![retron-logo](retron-logo.png)
+## Electron + React Template
 
-This is a skeleton project for easily creating React-based Electron projects. It comes with several useful modules, including React.
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mui-org/material-ui/blob/master/LICENSE)
+![Programming Language Usage](https://img.shields.io/github/languages/top/jooy2/retron)
+![Languages](https://img.shields.io/github/languages/count/jooy2/retron)
+[![Followers](https://img.shields.io/github/followers/jooy2?style=social)](https://github.com/jooy2)
+
+This is a skeleton project for easily creating React-based Electron projects.
+
+It comes with several useful modules, including React.
+</div>
 
 # Components
  - **React 17.x**
@@ -55,8 +64,6 @@ $ npm run build:linux
 
 # Contribute
 You can report issues on Github Issue. You can also request a pull to fix bugs and add frequently used features.
-
-
 
 # License
 Copyright © 2021 jooy2 Released under the MIT license.
