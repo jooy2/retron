@@ -1,10 +1,11 @@
+/** @jsxImportSource @emotion/react */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useTranslation } from 'react-i18next';
-import './Main.css';
 
 import * as exampleActions from '../store/modules/example';
+import { bodyRoot, jumbo } from '../../assets/css/global';
 
 const Main = ({ ExampleActions, example }) => {
   const [t] = useTranslation(['common']);
@@ -19,9 +20,9 @@ const Main = ({ ExampleActions, example }) => {
   }, []);
 
   return (
-    <div className="root">
-      <div className="jumbo">
-        <h1>Hello, Retron!</h1>
+    <div className="root" css={bodyRoot}>
+      <div css={jumbo}>
+        <img alt="retron-logo" src="images/retron-logo.png" draggable="false" />
         <p>{t('hello-retron')}</p>
         <p>
           {t('using-version')}

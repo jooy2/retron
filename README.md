@@ -1,7 +1,7 @@
 <div align="center">
 
 ![retron-logo](retron-logo.png)
-## Electron + React Template
+## Electron + React + Material-UI Template
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mui-org/material-ui/blob/master/LICENSE)
 ![Programming Language Usage](https://img.shields.io/github/languages/top/jooy2/retron)
@@ -20,6 +20,9 @@ It comes with several useful modules, including React.
  - **Electron 15**
    - electron-builder (Package builder)
    - electron-store (Local storage)
+
+ - **Material-UI 5**
+   - @mui/material (Material Design CSS Framework)
    
  - **i18n + i18next**
    - i18next (Multilingual translation)

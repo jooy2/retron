@@ -5,11 +5,14 @@ import { Provider } from 'react-redux';
 import App from './renderer/App';
 import store from './renderer/store';
 import './renderer/i18n';
+import ThemeProvider from './renderer/components/base/ThemeProvider';
 
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </Provider>
   </BrowserRouter>,
   document.getElementById('root'),

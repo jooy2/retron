@@ -2,10 +2,12 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const electronLocalShortcut = require('electron-localshortcut');
 const Store = require('electron-store');
+const remoteMain = require('@electron/remote/main');
 const { version } = require('../package.json');
 const schema = require('../config/store.json');
 const config = require('../config/base.json');
-require('@electron/remote/main').initialize();
+
+remoteMain.initialize();
 
 global.APP_VERSION_NAME = version;
 const winConfig = config.window;
@@ -33,6 +35,7 @@ const createWindow = () => {
       contextIsolation: false,
     },
   });
+  remoteMain.enable(win.webContents);
   win.setMenuBarVisibility(winConfig.showMenuBar);
   win.loadURL(isDev ? winConfig.devLoadUrl : `file://${path.join(__dirname, '../build/index.html')}`).catch(e => {
     console.log(e);
