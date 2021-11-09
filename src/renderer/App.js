@@ -1,17 +1,18 @@
 import React from 'react';
-import { Route, HashRouter, Switch } from 'react-router-dom';
-import { withRouter } from 'react-router';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import PageNotFound from './PageNotFound';
 import Main from './screens/Main';
 
 const App = () => (
-  <HashRouter>
-    <Switch>
-      <Route exact path="/" component={Main} />
-      <Route component={PageNotFound} />
-    </Switch>
-  </HashRouter>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/">
+        <Route index element={<Main />} />
+        <Route path="*" element={PageNotFound} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
 );
 
-export default withRouter(App);
+export default App;
