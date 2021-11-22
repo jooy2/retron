@@ -3,7 +3,7 @@
 ![retron-logo](retron-logo.png)
 # Electron + React + Material-UI Template
 
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mui-org/material-ui/blob/master/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jooy2/retron/blob/master/LICENSE)
 ![Programming Language Usage](https://img.shields.io/github/languages/top/jooy2/retron)
 ![Languages](https://img.shields.io/github/languages/count/jooy2/retron)
 [![Followers](https://img.shields.io/github/followers/jooy2?style=social)](https://github.com/jooy2)
