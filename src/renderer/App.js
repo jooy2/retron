@@ -1,18 +1,18 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import PageNotFound from './PageNotFound';
 import Main from './screens/Main';
 
 const App = () => (
-  <BrowserRouter>
+  <HashRouter>
     <Routes>
       <Route path="/">
         <Route index element={<Main />} />
         <Route path="*" element={PageNotFound} />
       </Route>
     </Routes>
-  </BrowserRouter>
+  </HashRouter>
 );
 
 export default App;
