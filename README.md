@@ -8,28 +8,28 @@
 ![Languages](https://img.shields.io/github/languages/count/jooy2/retron)
 [![Followers](https://img.shields.io/github/followers/jooy2?style=social)](https://github.com/jooy2)
 
-This is a skeleton project for easily creating React-based Electron projects.
+This is a skeleton template for easily creating React-based Electron projects.
 
 It comes with several useful modules, including React.
 </div>
 
 ## Components
  - **React 17.x**
-   - redux (Global state management)
+   - `redux` (Global state management)
    
- - **Electron 15**
-   - electron-builder (Package builder)
-   - electron-store (Local storage)
+ - **Electron 16**
+   - `electron-builder` (Package builder)
+   - `electron-store` (Local storage)
 
  - **Material-UI 5**
-   - @mui/material (Material Design CSS Framework)
+   - `@mui/material` (Material Design CSS Framework)
    
  - **i18n + i18next**
-   - i18next (Multilingual translation)
+   - `i18next` (Multilingual translation)
 
  - **ESLint 7.x**
-   - eslint (Code syntax checking)
-   - eslint-plugin-react-hooks
+   - `eslint` (Code syntax checking)
+   - `eslint-plugin-react-hooks`
 
 ## Install
 Clone this repo using below command.
