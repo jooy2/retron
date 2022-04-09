@@ -14,7 +14,7 @@ It comes with several useful modules, including React.
 </div>
 
 ## Components
- - **React 17.x**
+ - **React 18.x**
    - `redux` (Global state management)
    
  - **Electron 18**
