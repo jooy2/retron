@@ -2,7 +2,6 @@
 import React, { useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
-import { connect } from 'react-redux';
 
 const ThemeProvider = ({ children }) => {
   const muiTheme = useMemo(() => createTheme({
@@ -29,8 +28,4 @@ const ThemeProvider = ({ children }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  config: state.config,
-});
-
-export default connect(mapStateToProps)(ThemeProvider);
+export default ThemeProvider;
