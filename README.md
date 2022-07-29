@@ -17,7 +17,7 @@ It comes with several useful modules, including React.
  - **React 18.x**
    - `redux` (Global state management)
    
- - **Electron 18**
+ - **Electron 19**
    - `electron-builder` (Package builder)
    - `electron-store` (Local storage)
 
