@@ -44,13 +44,16 @@ const createWindow = () => {
         console.log(e);
       })
       .then(() => {
-        if (isDev && winConfig.devShowDevTools) win.webContents.openDevTools();
+        if (winConfig.devShowDevTools) {
+          win.webContents.openDevTools();
+        }
       });
   } else {
     win.loadFile(path.join(__dirname, '../index.html')).catch(e => {
       console.log(e);
     });
   }
+
   if (winConfig.userRefresh) {
     win.on('focus', () => {
       electronLocalShortcut.register(win, ['CommandOrControl+R', 'CommandOrControl+Shift+R', 'F5'], () => {
