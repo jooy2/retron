@@ -5,6 +5,15 @@ import { resolve, join } from 'path';
 
 export default defineConfig({
   resolve: {
+    extensions: [
+      '.mjs',
+      '.js',
+      '.ts',
+      '.jsx',
+      '.tsx',
+      '.json',
+      '.scss',
+    ],
     alias: {
       '@': join(__dirname, 'src'),
     },
