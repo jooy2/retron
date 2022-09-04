@@ -3,9 +3,9 @@ const path = require('path');
 const electronLocalShortcut = require('electron-localshortcut');
 const Store = require('electron-store');
 const remoteMain = require('@electron/remote/main');
-const { version } = require('../package.json');
-const schema = require('../config/store.json');
-const config = require('../config/base.json');
+const { version } = require('../../package.json');
+const schema = require('./config/store.json');
+const config = require('./config/base.json');
 
 remoteMain.initialize();
 
@@ -37,11 +37,20 @@ const createWindow = () => {
   });
   remoteMain.enable(win.webContents);
   win.setMenuBarVisibility(winConfig.showMenuBar);
-  win.loadURL(isDev ? winConfig.devLoadUrl : `file://${path.join(__dirname, '../build/index.html')}`).catch(e => {
-    console.log(e);
-  }).then(() => {
-    if (isDev && winConfig.devShowDevTools) win.webContents.openDevTools();
-  });
+
+  if (isDev) {
+    win.loadURL(winConfig.devLoadUrl)
+      .catch(e => {
+        console.log(e);
+      })
+      .then(() => {
+        if (isDev && winConfig.devShowDevTools) win.webContents.openDevTools();
+      });
+  } else {
+    win.loadFile(path.join(__dirname, '../index.html')).catch(e => {
+      console.log(e);
+    });
+  }
   if (winConfig.userRefresh) {
     win.on('focus', () => {
       electronLocalShortcut.register(win, ['CommandOrControl+R', 'CommandOrControl+Shift+R', 'F5'], () => {

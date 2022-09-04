@@ -1,23 +1,48 @@
 <div align="center">
 
-![retron-logo](retron-logo.png)
-# Electron + React + Material-UI Template
+![Retron-logo](logo.webp)
+
+# Vite + Electron + React + Material-UI Template
+
+<table>
+<tr>
+  <td>📑</td>
+  <td>
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jooy2/retron/blob/master/LICENSE)
 ![Programming Language Usage](https://img.shields.io/github/languages/top/jooy2/retron)
 ![Languages](https://img.shields.io/github/languages/count/jooy2/retron)
+![Commit Count](https://img.shields.io/github/commit-activity/y/jooy2/retron)
+![Line Count](https://img.shields.io/tokei/lines/github/jooy2/retron)
+![github repo size](https://img.shields.io/github/repo-size/jooy2/retron)
+
+  </td>
+</tr>
+<tr>
+  <td>💕</td>
+  <td>
+
 [![Followers](https://img.shields.io/github/followers/jooy2?style=social)](https://github.com/jooy2)
+![Stars](https://img.shields.io/github/stars/jooy2/qsu?style=social)
+
+  </td>
+</tr>
+</table>
 
 This is a skeleton template for easily creating React-based Electron projects.
 
-It comes with several useful modules, including React.
+It is configured to experience fast development and build speed using Vite bundler. As a bonus, it includes several React utilities and layout configurations.
+
 </div>
 
 ## Components
+
+ - **Vite 3.x**
+
  - **React 18.x**
    - `redux` (Global state management)
    
- - **Electron 19**
+ - **Electron 20**
    - `electron-builder` (Package builder)
    - `electron-store` (Local storage)
 
@@ -27,12 +52,16 @@ It comes with several useful modules, including React.
  - **i18n + i18next**
    - `i18next` (Multilingual translation)
 
- - **ESLint 7.x**
+ - **ESLint 8.x**
    - `eslint` (Code syntax checking)
    - `eslint-plugin-react-hooks`
 
 ## Install
-Clone this repo using below command.
+
+Click **[Use this template](https://github.com/jooy2/retron/generate)** to instantly create your own project.
+
+OR, Clone this repo using below command.
+
 ```shell
 $ git clone https://github.com/jooy2/retron <PROJECT_NAME>
 ```
@@ -48,25 +77,31 @@ $ npm run dev
 ```
 
 ## Build
+
 Retron can build targeting Windows 7, 8.1, 10 or later, macOS 14.x or later, and major Linux distributions.
 
 ### Windows
+
 ```shell
 $ npm run build:win
 ```
 
 ### macOS
+
 ```shell
 $ npm run build:mac
 ```
 
 ### Linux
+
 ```shell
 $ npm run build:linux
 ```
 
 ## Contribute
-You can report issues on Github Issue. You can also request a pull to fix bugs and add frequently used features.
+
+You can report issues on [Github Issue](https://github.com/jooy2/retron/issues). You can also request a pull to fix bugs and add frequently used features.
 
 ## License
-Copyright © 2021 jooy2 Released under the MIT license.
+
+Copyright © 2021-2022 jooy2 Released under the [MIT license](https://github.com/jooy2/retron/blob/master/LICENSE).

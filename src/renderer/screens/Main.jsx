@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { useTranslation } from 'react-i18next';
 
 import * as exampleActions from '../store/modules/example';
-import { bodyRoot, jumbo } from '../../assets/css/global';
+import { bodyRoot, jumbo } from '../assets/css/global';
 
 const Main = ({ ExampleActions, example }) => {
   const [t] = useTranslation(['common']);
@@ -22,7 +22,7 @@ const Main = ({ ExampleActions, example }) => {
   return (
     <div className="root" css={bodyRoot}>
       <div css={jumbo}>
-        <img alt="retron-logo" src="images/retron-logo.png" draggable="false" />
+        <img alt="retron-logo" src="images/retron-logo.webp" draggable="false" />
         <p>{t('hello-retron')}</p>
         <p>
           {t('using-version')}
