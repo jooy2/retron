@@ -1,6 +1,6 @@
 <div align="center">
 
-![Retron-logo](logo.webp)
+![Retron-logo](src/renderer/public/images/retron-logo.webp)
 
 # Vite + Electron + React + Material-UI Template
 
