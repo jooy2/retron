@@ -10,7 +10,6 @@
     "start-electron-after-interface": "wait-on http://127.0.0.1:5173 && npm run start-electron",
     "build:mac": "cross-env CSC_IDENTITY_AUTO_DISCOVERY=false GENERATE_SOURCEMAP=false NODE_ENV=production vite build && electron-builder --mac",
     "build:win": "cross-env GENERATE_SOURCEMAP=false NODE_ENV=production vite build && electron-builder --windows nsis:x64",
-    "build:win-portable": "cross-env NODE_ENV=production vite build && electron-builder --windows portable --x64",
     "build:linux": "cross-env GENERATE_SOURCEMAP=false NODE_ENV=production vite build && electron-builder --linux",
     "dev": "cross-env NODE_ENV=dev concurrently -n interface,app 'npm:start-interface' 'npm:start-electron-after-interface'",
     "postinstall": "electron-builder install-app-deps",
@@ -26,8 +25,22 @@
     "extends": null,
     "win": {
       "target": [
-        "zip",
-        "nsis"
+        {
+          "target": "appx",
+          "arch": "x64"
+        },
+        {
+          "target": "zip",
+          "arch": "x64"
+        },
+        {
+          "target": "portable",
+          "arch": "x64"
+        },
+        {
+          "target": "nsis",
+          "arch": "x64"
+        }
       ],
       "icon": "./resources/installer/icon.ico"
     },
@@ -40,22 +53,33 @@
       "gatekeeperAssess": false,
       "icon": "resources/installer/icon.icns",
       "type": "distribution",
-      "target": {
-        "target": "dmg",
-        "arch": [
-          "x64",
-          "arm64",
-          "universal"
-        ]
-      }
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64",
+            "universal"
+          ]
+        }
+      ]
     },
     "linux": {
       "executableName": "retron",
       "icon": "resources/installer",
       "target": [
-        "deb",
-        "rpm",
-        "snap"
+        {
+          "target": "snap",
+          "arch": "x64"
+        },
+        {
+          "target": "deb",
+          "arch": "x64"
+        },
+        {
+          "target": "rpm",
+          "arch": "x64"
+        }
       ]
     },
     "directories": {
