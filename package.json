@@ -67,6 +67,7 @@
     "linux": {
       "executableName": "retron",
       "icon": "resources/installer",
+      "category": "Utility",
       "target": [
         {
           "target": "snap",
