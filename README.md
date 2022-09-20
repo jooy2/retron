@@ -2,7 +2,7 @@
 
 ![Retron-logo](src/renderer/public/images/retron-logo.webp)
 
-# Vite + Electron + React + Material-UI Template
+## Vite + Electron + React + Material-UI Template
 
 <table>
 <tr>
@@ -67,11 +67,13 @@ $ git clone https://github.com/jooy2/retron <PROJECT_NAME>
 ```
 
 Then, install the dependency module.
+
 ```shell
 $ npm i
 ```
 
 You can test your project in the development environment using the following command:
+
 ```shell
 $ npm run dev
 ```
@@ -97,6 +99,12 @@ $ npm run build:mac
 ```shell
 $ npm run build:linux
 ```
+
+## Looking for Electron templates made with Vue?
+
+Also check out the `Vutron` project, which consists of Vue 3 + Vuetify + Electron.
+
+https://github.com/jooy2/vutron
 
 ## Contribute
 
