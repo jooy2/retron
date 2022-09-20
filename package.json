@@ -44,6 +44,9 @@
       ],
       "icon": "./resources/installer/icon.ico"
     },
+    "portable": {
+      "artifactName": "${productName} ${version} Portable.${ext}"
+    },
     "nsis": {
       "oneClick": true
     },
