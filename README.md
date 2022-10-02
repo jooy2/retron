@@ -42,7 +42,7 @@ It is configured to experience fast development and build speed using Vite bundl
  - **React 18.x**
    - `redux` (Global state management)
    
- - **Electron 20**
+ - **Electron 21**
    - `electron-builder` (Package builder)
    - `electron-store` (Local storage)
 
