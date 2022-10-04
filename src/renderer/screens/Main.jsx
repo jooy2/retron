@@ -16,7 +16,7 @@ const Main = ({ ExampleActions, example }) => {
   };
 
   useEffect(() => {
-    getVersion().then(() => null);
+    getVersion();
   }, []);
 
   return (
