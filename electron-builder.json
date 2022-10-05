@@ -1,0 +1,79 @@
+{
+  "productName": "Retron Project",
+  "appId": "com.example.retron",
+  "asar": true,
+  "compression": "maximum",
+  "artifactName": "${productName} ${version}.${ext}",
+  "extends": null,
+  "win": {
+    "target": [
+      {
+        "target": "appx",
+        "arch": "x64"
+      },
+      {
+        "target": "zip",
+        "arch": "x64"
+      },
+      {
+        "target": "portable",
+        "arch": "x64"
+      },
+      {
+        "target": "nsis",
+        "arch": "x64"
+      }
+    ],
+    "icon": "./resources/installer/icon.ico"
+  },
+  "portable": {
+    "artifactName": "${productName} ${version} Portable.${ext}"
+  },
+  "nsis": {
+    "oneClick": true
+  },
+  "mac": {
+    "identity": null,
+    "hardenedRuntime": true,
+    "gatekeeperAssess": false,
+    "icon": "resources/installer/icon.icns",
+    "type": "distribution",
+    "target": [
+      {
+        "target": "dmg",
+        "arch": [
+          "x64",
+          "arm64",
+          "universal"
+        ]
+      }
+    ]
+  },
+  "linux": {
+    "executableName": "retron",
+    "icon": "resources/installer",
+    "category": "Utility",
+    "target": [
+      {
+        "target": "snap",
+        "arch": "x64"
+      },
+      {
+        "target": "deb",
+        "arch": "x64"
+      },
+      {
+        "target": "rpm",
+        "arch": "x64"
+      }
+    ]
+  },
+  "directories": {
+    "buildResources": "./resources/installer/",
+    "output": "./dist/release/${version}"
+  },
+  "files": [
+    "dist/**/*",
+    "!dist/release/**/*"
+  ]
+}
