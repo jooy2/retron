@@ -2,9 +2,10 @@
   "productName": "Retron Project",
   "appId": "com.example.retron",
   "asar": true,
-  "compression": "maximum",
-  "artifactName": "${productName} ${version}_${arch}.${ext}",
   "extends": null,
+  "compression": "maximum",
+  "copyright": "ⓒ 2022 ${author}",
+  "artifactName": "${productName} ${version}_${arch}.${ext}",
   "win": {
     "target": [
       {
