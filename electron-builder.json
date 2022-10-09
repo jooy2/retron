@@ -3,7 +3,7 @@
   "appId": "com.example.retron",
   "asar": true,
   "compression": "maximum",
-  "artifactName": "${productName} ${version}.${ext}",
+  "artifactName": "${productName} ${version}_${arch}.${ext}",
   "extends": null,
   "win": {
     "target": [
