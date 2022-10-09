@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
-import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
+import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 
 const ThemeProvider = ({ children }) => {
   const muiTheme = useMemo(() => createTheme({
@@ -21,6 +21,13 @@ const ThemeProvider = ({ children }) => {
 
   return (
     <MuiThemeProvider theme={muiTheme}>
+      <Global
+        styles={css`
+          body {
+            margin: 0;
+          }
+        `}
+      />
       <EmotionThemeProvider theme={muiTheme}>
         {children}
       </EmotionThemeProvider>
