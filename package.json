@@ -4,15 +4,12 @@
   "description": "Electron + React + Material-UI Template",
   "main": "dist/main/index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev concurrently -n interface,app 'npm:start-interface' 'npm:start-electron-after-interface'",
-    "start": "vite",
-    "start-interface": "cross-env PORT=5173 BROWSER=none npm run start",
-    "start-electron": "electron .",
-    "start-electron-after-interface": "wait-on http://127.0.0.1:5173 && npm run start-electron",
-    "build": "cross-env CSC_IDENTITY_AUTO_DISCOVERY=false GENERATE_SOURCEMAP=false NODE_ENV=production vite build && electron-builder -wml",
-    "build:win": "cross-env GENERATE_SOURCEMAP=false NODE_ENV=production vite build && electron-builder --windows nsis:x64",
-    "build:mac": "cross-env CSC_IDENTITY_AUTO_DISCOVERY=false GENERATE_SOURCEMAP=false NODE_ENV=production vite build && electron-builder --mac",
-    "build:linux": "cross-env GENERATE_SOURCEMAP=false NODE_ENV=production vite build && electron-builder --linux",
+    "dev": "cross-env NODE_ENV=development vite",
+    "build": "npm run build:pre && electron-builder -wml",
+    "build:pre": "cross-env CSC_IDENTITY_AUTO_DISCOVERY=false GENERATE_SOURCEMAP=false NODE_ENV=production vite build",
+    "build:win": "npm run build:pre && electron-builder --windows",
+    "build:mac": "npm run build:pre && electron-builder --mac",
+    "build:linux": "npm run build:pre && electron-builder --linux",
     "postinstall": "electron-builder install-app-deps",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src",
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src"
@@ -22,7 +19,6 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^2.1.0",
     "babel-plugin-import": "^1.13.5",
-    "concurrently": "^7.4.0",
     "cross-env": "^7.0.3",
     "electron": "^21.0.1",
     "electron-builder": "^23.3.3",
@@ -33,8 +29,7 @@
     "eslint-plugin-react": "^7.31.8",
     "eslint-plugin-react-hooks": "^4.6.0",
     "vite": "^3.1.4",
-    "vite-plugin-electron": "^0.9.3",
-    "wait-on": "^6.0.1"
+    "vite-plugin-electron": "^0.9.3"
   },
   "dependencies": {
     "@electron/remote": "^2.0.8",
