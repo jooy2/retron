@@ -4,30 +4,14 @@
 
 ## Vite + Electron + React + Material-UI Template
 
-<table>
-<tr>
-  <td>📑</td>
-  <td>
-
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jooy2/retron/blob/master/LICENSE)
+> [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jooy2/retron/blob/master/LICENSE)
 ![Programming Language Usage](https://img.shields.io/github/languages/top/jooy2/retron)
 ![Languages](https://img.shields.io/github/languages/count/jooy2/retron)
 ![Commit Count](https://img.shields.io/github/commit-activity/y/jooy2/retron)
 ![Line Count](https://img.shields.io/tokei/lines/github/jooy2/retron)
 ![github repo size](https://img.shields.io/github/repo-size/jooy2/retron)
-
-  </td>
-</tr>
-<tr>
-  <td>💕</td>
-  <td>
-
 [![Followers](https://img.shields.io/github/followers/jooy2?style=social)](https://github.com/jooy2)
 ![Stars](https://img.shields.io/github/stars/jooy2/qsu?style=social)
-
-  </td>
-</tr>
-</table>
 
 This is a skeleton template for easily creating React-based Electron projects.
 
@@ -56,9 +40,15 @@ It is configured to experience fast development and build speed using Vite bundl
    - `eslint` (Code syntax checking)
    - `eslint-plugin-react-hooks`
 
-## Install
+## Installation
 
-Click **[Use this template](https://github.com/jooy2/retron/generate)** to instantly create your own project.
+You can easily clone a repository with just the npm command. (Recommend)
+
+```shell
+$ npm init retron
+```
+
+OR, Click **[Use this template](https://github.com/jooy2/retron/generate)** to instantly create your own project.
 
 OR, Clone this repo using below command.
 

@@ -1,7 +1,7 @@
 {
   "name": "retron",
   "version": "1.0.0",
-  "description": "Electron + React + Material-UI Template",
+  "description": "ViteJS + Electron + React + Material-UI Template",
   "main": "dist/main/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite",
