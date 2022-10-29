@@ -2,6 +2,9 @@
   "name": "retron",
   "version": "1.0.0",
   "description": "ViteJS + Electron + React + Material-UI Template",
+	"homepage": "https://github.com/jooy2/retron",
+	"author": "jooy2 <jootc.help@gmail.com>",
+	"license": "MIT",
   "main": "dist/main/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite",
@@ -16,8 +19,6 @@
     "format": "prettier .",
     "format:fix": "prettier . --write"
   },
-  "author": "jooy2 <jootc.help@gmail.com>",
-  "license": "MIT",
   "devDependencies": {
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
