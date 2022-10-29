@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore } from 'redux';
 
 import thunk from 'redux-thunk';
-import modules from './modules';
+import modules from './modules/index';
 
 const configure = () => createStore(modules, applyMiddleware(thunk));
 

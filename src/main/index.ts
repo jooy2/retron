@@ -1,19 +1,23 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
-const electronLocalShortcut = require('electron-localshortcut');
-const Store = require('electron-store');
-const remoteMain = require('@electron/remote/main');
-const { version } = require('../../package.json');
-const schema = require('./config/store.json');
-const config = require('./config/base.json');
+import { app, BrowserWindow, ipcMain } from 'electron';
+
+import path from 'path';
+import * as electronLocalShortcut from 'electron-localshortcut';
+import * as remoteMain from '@electron/remote/main';
+import ElectronStore from 'electron-store';
+import { version } from '../../package.json';
+import mainStoreSchema from './schema';
+import config from './config/base.json';
+
+type DeepWriteable<T> = { -readonly [P in keyof T]: DeepWriteable<T[P]> };
 
 remoteMain.initialize();
 
 global.APP_VERSION_NAME = version;
-const winConfig = config.window;
+global.IS_DEV = !app.isPackaged;
 
-const isDev = !app.isPackaged;
-const store = new Store({ schema });
+const winConfig = config.window;
+const schema = mainStoreSchema as DeepWriteable<typeof mainStoreSchema>;
+const store = new ElectronStore({ schema });
 let win;
 
 const createWindow = () => {
@@ -26,19 +30,18 @@ const createWindow = () => {
 
   win = new BrowserWindow({
     ...additionalConfig,
-    width: isDev ? winConfig.devWidth : winConfig.width,
+    width: global.IS_DEV ? winConfig.devWidth : winConfig.width,
     height: winConfig.height,
     webPreferences: {
       nodeIntegration: winConfig.nodeIntegration,
-      devTools: isDev && winConfig.devShowDevTools,
-      enableRemoteModule: true,
+      devTools: global.IS_DEV && winConfig.devShowDevTools,
       contextIsolation: false,
     },
   });
   remoteMain.enable(win.webContents);
   win.setMenuBarVisibility(winConfig.showMenuBar);
 
-  if (isDev) {
+  if (global.IS_DEV) {
     win.loadURL(winConfig.devLoadUrl)
       .catch(e => {
         console.log(e);
@@ -100,5 +103,7 @@ ipcMain.on('restartApp', () => {
 
 ipcMain.on('resetAppConfig', (event, restart = false) => {
   store.clear();
-  if (restart) restartApp();
+  if (restart) {
+    restartApp();
+  }
 });

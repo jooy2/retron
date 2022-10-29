@@ -8,7 +8,7 @@ const App = () => (
     <Routes>
       <Route path="/">
         <Route index element={<Main />} />
-        <Route path="*" element={PageNotFound} />
+        <Route path="*" element={PageNotFound()} />
       </Route>
     </Routes>
   </HashRouter>

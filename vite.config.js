@@ -1,7 +1,8 @@
+import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
 import electron from 'vite-plugin-electron';
 import react from '@vitejs/plugin-react';
-import { resolve, join } from 'path';
+import { resolve, dirname } from 'path';
 
 export default defineConfig({
   resolve: {
@@ -15,7 +16,7 @@ export default defineConfig({
       '.scss',
     ],
     alias: {
-      '@': join(__dirname, 'src'),
+      '@': resolve(dirname(fileURLToPath(import.meta.url)), 'src'),
     },
   },
   base: './',
@@ -28,7 +29,7 @@ export default defineConfig({
     react(),
     electron({
       main: {
-        entry: 'src/main/index.js',
+        entry: 'src/main/index.ts',
         format: 'cjs',
         vite: {
           publicDir: resolve('./src/main'),

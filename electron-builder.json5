@@ -1,11 +1,20 @@
 {
-  "productName": "Retron Project",
+  "productName": "Retron",
   "appId": "com.example.retron",
   "asar": true,
   "extends": null,
   "compression": "maximum",
   "copyright": "ⓒ 2022 ${author}",
   "artifactName": "${productName} ${version}_${arch}.${ext}",
+  "directories": {
+    "buildResources": "./resources/installer/",
+    "output": "./dist/release/${version}"
+  },
+  "files": [
+    "dist/**/*",
+    "!dist/release/**/*",
+    "!dist/main/index.ts"
+  ],
   "win": {
     "target": [
       {
@@ -68,13 +77,5 @@
         "arch": "x64"
       }
     ]
-  },
-  "directories": {
-    "buildResources": "./resources/installer/",
-    "output": "./dist/release/${version}"
-  },
-  "files": [
-    "dist/**/*",
-    "!dist/release/**/*"
-  ]
+  }
 }

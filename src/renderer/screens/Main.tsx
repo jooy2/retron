@@ -11,7 +11,7 @@ const Main = ({ ExampleActions, example }) => {
   const [t] = useTranslation(['common']);
   const remote = window.require('@electron/remote');
 
-  const getVersion = async () => {
+  const getVersion = async () : Promise<void> => {
     await ExampleActions.setVersion(remote.getGlobal('APP_VERSION_NAME'));
   };
 

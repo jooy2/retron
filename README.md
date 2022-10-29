@@ -25,14 +25,16 @@ It is configured to experience fast development and build speed using Vite bundl
 
  - **React 18.x**
    - `redux` (Global state management)
-   
+
+ - **TypeScript 4.x**
+
  - **Electron 21**
    - `electron-builder` (Package builder)
    - `electron-store` (Local storage)
 
  - **Material-UI 5**
    - `@mui/material` (Material Design CSS Framework)
-   
+
  - **i18n + i18next**
    - `i18next` (Multilingual translation)
 
