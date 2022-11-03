@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useTranslation } from 'react-i18next';
 
+import { Button, Grid } from '@mui/material';
+import { openExternal } from '@/renderer/assets/js/utils';
 import * as exampleActions from '../store/modules/example';
 import { bodyRoot, jumbo } from '../assets/css/global';
 
@@ -15,6 +17,10 @@ const Main = ({ ExampleActions, example }) => {
     await ExampleActions.setVersion(remote.getGlobal('APP_VERSION_NAME'));
   };
 
+  const handleGithubLink = async (): Promise<void> => {
+    await openExternal('https://github.com/jooy2/retron');
+  };
+
   useEffect(() => {
     getVersion();
   }, []);
@@ -22,11 +28,21 @@ const Main = ({ ExampleActions, example }) => {
   return (
     <div className="root" css={bodyRoot}>
       <div css={jumbo}>
-        <img alt="retron-logo" src="images/retron-logo.webp" draggable="false" />
-        <p>{t('hello-retron')}</p>
-        <p>
-          {t('using-version')} <strong>{example.version}</strong>
-        </p>
+        <Grid container alignItems="center" spacing={3}>
+          <Grid item xs={5}>
+            <img alt="logo" src="images/retron-logo.webp" draggable="false" />
+          </Grid>
+          <Grid item xs={7}>
+            <h1>{t('hello-title')}</h1>
+            <p>{t('hello-desc')}</p>
+            <p>
+              {t('using-version')} <strong>{example.version}</strong>
+            </p>
+            <Button variant="contained" onClick={handleGithubLink}>
+              {t('github')}
+            </Button>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );

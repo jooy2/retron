@@ -1,4 +1,6 @@
 {
-  "hello-retron": "Use Retron templates to create awesome applications!",
-  "using-version": "The version currently in use is"
+  "hello-title": "Hello, Retron! Now you can start developing.",
+  "hello-desc": "You can now build your own web applications in a pre-configured environment. If you need help, please use the issue tracker on the project page.",
+  "using-version": "Application Version: ",
+  "github": "Project Source Code"
 }
