@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 
-import path from 'path';
+import { join } from 'path';
 import * as electronLocalShortcut from 'electron-localshortcut';
 import * as remoteMain from '@electron/remote/main';
 import ElectronStore from 'electron-store';
@@ -53,7 +53,7 @@ const createWindow = () => {
         }
       });
   } else {
-    win.loadFile(path.join(__dirname, '../index.html')).catch((e) => {
+    win.loadFile(join(__dirname, '../index.html')).catch((e) => {
       console.log(e);
     });
   }
