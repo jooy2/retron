@@ -19,10 +19,12 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    electron({
-      main: {
-        entry: 'src/main/index.ts',
-        format: 'cjs',
+    electron([
+      {
+        entry: ['src/main/index.ts'],
+        onstart: (options) => {
+          options.startup(['.', '--no-sandbox']);
+        },
         vite: {
           publicDir: resolve('./src/main'),
           build: {
@@ -31,7 +33,6 @@ export default defineConfig({
           },
         },
       },
-      renderer: {},
-    }),
+    ]),
   ],
 });
