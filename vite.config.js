@@ -1,7 +1,8 @@
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
-import electron from 'vite-plugin-electron';
-import react from '@vitejs/plugin-react';
+import electronPlugin from 'vite-plugin-electron';
+import rendererPlugin from 'vite-plugin-electron-renderer';
+import reactPlugin from '@vitejs/plugin-react';
 import { resolve, dirname } from 'path';
 
 export default defineConfig({
@@ -18,8 +19,9 @@ export default defineConfig({
     outDir: resolve('./dist'),
   },
   plugins: [
-    react(),
-    electron([
+    reactPlugin(),
+    // Docs: https://github.com/electron-vite/vite-plugin-electron
+    electronPlugin([
       {
         entry: ['src/main/index.ts'],
         onstart: (options) => {
@@ -34,5 +36,9 @@ export default defineConfig({
         },
       },
     ]),
+
+    rendererPlugin({
+      nodeIntegration: true,
+    }),
   ],
 });
