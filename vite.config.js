@@ -6,15 +6,7 @@ import { resolve, dirname } from 'path';
 
 export default defineConfig({
   resolve: {
-    extensions: [
-      '.mjs',
-      '.js',
-      '.ts',
-      '.jsx',
-      '.tsx',
-      '.json',
-      '.scss',
-    ],
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss'],
     alias: {
       '@': resolve(dirname(fileURLToPath(import.meta.url)), 'src'),
     },

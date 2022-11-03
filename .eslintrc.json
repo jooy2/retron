@@ -1,29 +1,26 @@
 {
-	"root": true,
+  "root": true,
   "env": {
     "browser": true,
     "node": true,
     "es6": true
   },
-	"parser": "@typescript-eslint/parser",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
     "sourceType": "module",
     "ecmaVersion": 2022,
-		"ecmaFeatures": {
-			"jsx": true
-		}
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
-  "extends": [
-    "airbnb",
-    "airbnb/hooks"
-  ],
-	"plugins": ["react"],
-	"settings":{
-		"import/resolver":{
-			"typescript":{}
-		}
-	},
+  "extends": ["airbnb", "airbnb/hooks", "prettier"],
+  "plugins": ["react"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
   "rules": {
     "linebreak-style": 0,
     "arrow-parens": 0,
@@ -33,13 +30,16 @@
     "no-tabs": 0,
     "no-mixed-spaces-and-tabs": 0,
     "max-len": 1,
-		"import/extensions": 0,
+    "import/extensions": 0,
     "import/no-extraneous-dependencies": 0,
     "react/react-in-jsx-scope": "off",
     "react/function-component-definition": 0,
-    "react/jsx-filename-extension": [2, {
-      "extensions": [".js", ".jsx", ".ts", ".tsx"]
-    }],
+    "react/jsx-filename-extension": [
+      2,
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    ],
     "react/prop-types": 0,
     "react-hooks/exhaustive-deps": 0,
     "react/jsx-props-no-spreading": 0,

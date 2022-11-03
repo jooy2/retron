@@ -22,10 +22,10 @@ let win;
 
 const createWindow = () => {
   const additionalConfig = {
-    ...winConfig.minWidth ? { minWidth: winConfig.minWidth } : {},
-    ...winConfig.minHeight ? { minHeight: winConfig.minHeight } : {},
-    ...winConfig.resizable ? { resizable: winConfig.resizable } : {},
-    ...winConfig.alwaysOnTop ? { alwaysOnTop: winConfig.alwaysOnTop } : {},
+    ...(winConfig.minWidth ? { minWidth: winConfig.minWidth } : {}),
+    ...(winConfig.minHeight ? { minHeight: winConfig.minHeight } : {}),
+    ...(winConfig.resizable ? { resizable: winConfig.resizable } : {}),
+    ...(winConfig.alwaysOnTop ? { alwaysOnTop: winConfig.alwaysOnTop } : {}),
   };
 
   win = new BrowserWindow({
@@ -42,8 +42,9 @@ const createWindow = () => {
   win.setMenuBarVisibility(winConfig.showMenuBar);
 
   if (global.IS_DEV) {
-    win.loadURL(winConfig.devLoadUrl)
-      .catch(e => {
+    win
+      .loadURL(winConfig.devLoadUrl)
+      .catch((e) => {
         console.log(e);
       })
       .then(() => {
@@ -52,15 +53,18 @@ const createWindow = () => {
         }
       });
   } else {
-    win.loadFile(path.join(__dirname, '../index.html')).catch(e => {
+    win.loadFile(path.join(__dirname, '../index.html')).catch((e) => {
       console.log(e);
     });
   }
 
   if (winConfig.userRefresh) {
     win.on('focus', () => {
-      electronLocalShortcut.register(win, ['CommandOrControl+R', 'CommandOrControl+Shift+R', 'F5'], () => {
-      });
+      electronLocalShortcut.register(
+        win,
+        ['CommandOrControl+R', 'CommandOrControl+Shift+R', 'F5'],
+        () => {},
+      );
     });
   }
   win.on('blur', () => {

@@ -5,7 +5,7 @@
     "jsx": "preserve",
     "moduleResolution": "node",
     "composite": true,
-		"isolatedModules": false,
+    "isolatedModules": false,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true
   },

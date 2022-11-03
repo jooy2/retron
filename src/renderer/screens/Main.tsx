@@ -11,7 +11,7 @@ const Main = ({ ExampleActions, example }) => {
   const [t] = useTranslation(['common']);
   const remote = window.require('@electron/remote');
 
-  const getVersion = async () : Promise<void> => {
+  const getVersion = async (): Promise<void> => {
     await ExampleActions.setVersion(remote.getGlobal('APP_VERSION_NAME'));
   };
 
@@ -25,20 +25,18 @@ const Main = ({ ExampleActions, example }) => {
         <img alt="retron-logo" src="images/retron-logo.webp" draggable="false" />
         <p>{t('hello-retron')}</p>
         <p>
-          {t('using-version')}
-          {' '}
-          <strong>{example.version}</strong>
+          {t('using-version')} <strong>{example.version}</strong>
         </p>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   example: state.example,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   ExampleActions: bindActionCreators({ ...exampleActions }, dispatch),
 });
 
