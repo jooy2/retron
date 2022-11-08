@@ -4,6 +4,7 @@ import electronPlugin from 'vite-plugin-electron';
 import rendererPlugin from 'vite-plugin-electron-renderer';
 import reactPlugin from '@vitejs/plugin-react';
 import { resolve, dirname } from 'path';
+import { builtinModules } from 'module';
 
 export default defineConfig({
   resolve: {
@@ -32,6 +33,9 @@ export default defineConfig({
           build: {
             emptyOutDir: true,
             outDir: 'dist/main',
+            rollupOptions: {
+              external: ['electron', ...builtinModules],
+            },
           },
         },
       },
