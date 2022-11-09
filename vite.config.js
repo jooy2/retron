@@ -29,7 +29,6 @@ export default defineConfig({
           options.startup(['.', '--no-sandbox']);
         },
         vite: {
-          publicDir: resolve('./src/main'),
           build: {
             emptyOutDir: true,
             outDir: 'dist/main',
@@ -40,7 +39,6 @@ export default defineConfig({
         },
       },
     ]),
-
     rendererPlugin({
       nodeIntegration: true,
     }),
