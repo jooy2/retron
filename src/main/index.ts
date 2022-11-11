@@ -36,6 +36,7 @@ const createWindow = () => {
       nodeIntegration: winConfig.nodeIntegration,
       devTools: global.IS_DEV && winConfig.devShowDevTools,
       contextIsolation: false,
+      preload: join(__dirname, '../preload/index.js'),
     },
   });
   remoteMain.enable(win.webContents);

@@ -4,7 +4,10 @@ import electronPlugin from 'vite-plugin-electron';
 import rendererPlugin from 'vite-plugin-electron-renderer';
 import reactPlugin from '@vitejs/plugin-react';
 import { resolve, dirname } from 'path';
+import { rmSync } from 'fs';
 import { builtinModules } from 'module';
+
+rmSync('dist', { recursive: true, force: true });
 
 export default defineConfig({
   resolve: {
@@ -30,11 +33,19 @@ export default defineConfig({
         },
         vite: {
           build: {
-            emptyOutDir: true,
+            assetsDir: '.',
             outDir: 'dist/main',
             rollupOptions: {
               external: ['electron', ...builtinModules],
             },
+          },
+        },
+      },
+      {
+        entry: ['src/preload/index.ts'],
+        vite: {
+          build: {
+            outDir: 'dist/preload',
           },
         },
       },
