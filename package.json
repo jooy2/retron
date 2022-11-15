@@ -13,7 +13,6 @@
     "build:win": "npm run build:pre && electron-builder --windows",
     "build:mac": "npm run build:pre && electron-builder --mac",
     "build:linux": "npm run build:pre && electron-builder --linux",
-    "postinstall": "electron-builder install-app-deps",
     "format": "prettier .",
     "format:fix": "prettier . --write"
   },
@@ -63,17 +62,5 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }
