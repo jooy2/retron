@@ -19,7 +19,12 @@
     },
     "lib": ["esnext", "dom", "dom.iterable"]
   },
-  "include": ["src/renderer/**/*/*.ts", "src/renderer/**/*/*.d.ts", "src/renderer/**/*/*.tsx", "src/preload/**/*/*.ts"],
+  "include": [
+    "src/renderer/**/*/*.ts",
+    "src/renderer/**/*/*.d.ts",
+    "src/renderer/**/*/*.tsx",
+    "src/preload/**/*/*.ts"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

@@ -36,6 +36,7 @@ It is configured to experience fast development and build speed using Vite bundl
   - `i18next` (Multilingual translation)
 
 - **ESLint 8.x**
+
   - `eslint` (Code syntax checking)
   - `eslint-plugin-react-hooks`
 
@@ -58,7 +59,14 @@ $ git clone https://github.com/jooy2/retron <PROJECT_NAME>
 Then, install the dependency module.
 
 ```shell
+# via npm
 $ npm i
+
+# via yarn (https://yarnpkg.com)
+$ yarn install
+
+# via pnpm (https://pnpm.io)
+$ pnpm i
 ```
 
 You can test your project in the development environment using the following command:
@@ -71,27 +79,44 @@ $ npm run dev
 
 Retron can build targeting Windows 7, 8.1, 10 or later, macOS 14.x or later, and major Linux distributions.
 
-### Windows
-
 ```shell
+# For Windows (.exe, .appx)
 $ npm run build:win
-```
 
-### macOS
-
-```shell
+# For macOS (.dmg)
 $ npm run build:mac
+
+# For Linux (.rpm, .deb, .snap)
+$ npm run build:linux
 ```
 
-### Linux
+The built packages can be found in `release/{version}` location.
+
+### Build settings for projects that use Native Node modules
+
+For projects that use the **Native Node Module**, add the following script to your `package.json`: When installing dependencies, `electron-builder` will take care of any modules that require rebuilding.
+
+```json
+{
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps"
+  }
+}
+```
+
+### What do I need to do for a multi-platform build?
+
+**macOS** is recommended if you want to build multiple platforms simultaneously on one platform. Because it can be configured with just a few very simple settings.
+
+You can perform multi-platform builds at once with the following command. Alternatively, you can just do it for the OS you want via the individual build commands above.
 
 ```shell
-$ npm run build:linux
+$ npm run build
 ```
 
 ## Looking for Electron templates made with Vue?
 
-Also check out the `Vutron` project, which consists of Vue 3 + Vuetify + Electron.
+Also check out the `Vutron` project, which consists of Vite + Vue 3 + Vuetify + Electron.
 
 https://github.com/jooy2/vutron
 
