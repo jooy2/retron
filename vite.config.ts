@@ -21,6 +21,7 @@ export default defineConfig({
   root: resolve('./src/renderer'),
   publicDir: resolve('./src/renderer/public'),
   build: {
+    assetsDir: '', // See: https://github.com/electron-vite/electron-vite-vue/issues/287
     outDir: resolve('./dist'),
   },
   plugins: [
@@ -55,6 +56,9 @@ export default defineConfig({
     ]),
     rendererPlugin({
       nodeIntegration: true,
+      optimizeDeps: {
+        include: ['path'],
+      },
     }),
   ],
 });
