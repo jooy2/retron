@@ -7,7 +7,7 @@
   copyright: 'ⓒ 2022 ${author}',
   artifactName: '${productName} ${version}_${arch}.${ext}',
   directories: {
-    buildResources: './resources/installer/',
+    buildResources: './buildAssets/installer/',
     output: './dist/release/${version}',
   },
   files: ['dist/**/*', '!dist/release/**/*', '!dist/main/index.ts'],
@@ -30,7 +30,7 @@
         arch: 'x64',
       },
     ],
-    icon: './resources/installer/icon.ico',
+    icon: './buildAssets/installer/icon.ico',
   },
   portable: {
     artifactName: '${productName} ${version} Portable.${ext}',
@@ -42,7 +42,7 @@
     identity: null,
     hardenedRuntime: true,
     gatekeeperAssess: false,
-    icon: 'resources/installer/icon.icns',
+    icon: 'buildAssets/installer/icon.icns',
     type: 'distribution',
     target: [
       {
@@ -53,7 +53,7 @@
   },
   linux: {
     executableName: 'retron',
-    icon: 'resources/installer',
+    icon: 'buildAssets/installer',
     category: 'Utility',
     target: [
       {
