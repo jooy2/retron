@@ -1,6 +1,7 @@
 # Project files
 node_modules/
 dist/
+release/
 
 .eslintcache
 vite-plugin-electron.log

@@ -7,5 +7,6 @@
 
 # Project files
 .github/
-resources/
+buildAssets/
 dist/
+release/

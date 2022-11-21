@@ -8,9 +8,9 @@
   artifactName: '${productName} ${version}_${arch}.${ext}',
   directories: {
     buildResources: './buildAssets/installer/',
-    output: './dist/release/${version}',
+    output: './release/${version}',
   },
-  files: ['dist/**/*', '!dist/release/**/*', '!dist/main/index.ts'],
+  files: ['dist/**/*', '!release/**/*'],
   win: {
     target: [
       {
