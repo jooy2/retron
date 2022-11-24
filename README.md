@@ -126,4 +126,4 @@ You can report issues on [Github Issue](https://github.com/jooy2/retron/issues).
 
 ## License
 
-Copyright © 2021-2022 jooy2 Released under the [MIT license](https://github.com/jooy2/retron/blob/master/LICENSE).
+Copyright © 2021-2022 [Jooy2](https://jooy2.com) <[jooy.contact@gmail.com](mailto:jooy.contact@gmail.com)> Released under the MIT license.
