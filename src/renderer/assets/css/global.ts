@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
 export const bodyRoot = css`
-  background: white;
   user-select: none;
   img {
     max-width: 100%;
@@ -18,10 +17,9 @@ export const jumbo = css`
   }
   p {
     font-size: 1.2rem;
-    color: #505050;
   }
   strong {
-    color: #024ca7;
+    color: green;
   }
 `;
 

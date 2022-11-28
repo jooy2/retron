@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useTranslation } from 'react-i18next';
 
-import { Button, Grid } from '@mui/material';
+import { Button, ButtonGroup, Grid } from '@mui/material';
 import { openExternal } from '@/renderer/assets/js/utils';
 import * as exampleActions from '../store/modules/example';
 import { bodyRoot, jumbo } from '../assets/css/global';
@@ -19,6 +19,10 @@ const Main = ({ ExampleActions, example }) => {
 
   const handleGithubLink = async (): Promise<void> => {
     await openExternal('https://github.com/jooy2/retron');
+  };
+
+  const handleChangeTheme = async (): Promise<void> => {
+    await ExampleActions.setDarkTheme(!example.darkTheme);
   };
 
   useEffect(() => {
@@ -38,9 +42,10 @@ const Main = ({ ExampleActions, example }) => {
             <p>
               {t('using-version')} <strong>{example.version}</strong>
             </p>
-            <Button variant="contained" onClick={handleGithubLink}>
-              {t('github')}
-            </Button>
+            <ButtonGroup variant="contained">
+              <Button onClick={handleGithubLink}>{t('github')}</Button>
+              <Button onClick={handleChangeTheme}>{example.darkTheme ? '🌞' : '🌙'}</Button>
+            </ButtonGroup>
           </Grid>
         </Grid>
       </div>

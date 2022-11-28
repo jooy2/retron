@@ -2,8 +2,10 @@
 import { useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
+import { connect } from 'react-redux';
+import { CssBaseline } from '@mui/material';
 
-const ThemeProvider = ({ children }) => {
+const ThemeProvider = ({ children, example }) => {
   const muiTheme = useMemo(
     () =>
       createTheme({
@@ -17,10 +19,13 @@ const ThemeProvider = ({ children }) => {
           },
         },
         palette: {
-          mode: 'light',
+          mode: example.darkTheme ? 'dark' : 'light',
+          background: {
+            default: example.darkTheme ? '#111111' : '#ffffff',
+          },
         },
       }),
-    [],
+    [example.darkTheme],
   );
 
   return (
@@ -32,9 +37,14 @@ const ThemeProvider = ({ children }) => {
           }
         `}
       />
+      <CssBaseline />
       <EmotionThemeProvider theme={muiTheme}>{children}</EmotionThemeProvider>
     </MuiThemeProvider>
   );
 };
 
-export default ThemeProvider;
+const mapStateToProps = (state) => ({
+  example: state.example,
+});
+
+export default connect(mapStateToProps)(ThemeProvider);
