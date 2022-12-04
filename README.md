@@ -22,7 +22,7 @@ It is configured to experience fast development and build speed using Vite bundl
 
 - **TypeScript 4.x**
 
-- **Electron 21**
+- **Electron 22**
 
   - `electron-builder` (Package builder)
   - `electron-store` (Local storage)
