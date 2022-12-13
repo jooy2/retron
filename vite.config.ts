@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 import electronPlugin from 'vite-plugin-electron';
 import rendererPlugin from 'vite-plugin-electron-renderer';
 import eslintPlugin from 'vite-plugin-eslint';
-import reactPlugin from '@vitejs/plugin-react';
+import reactPlugin from '@vitejs/plugin-react-swc';
 import { resolve, dirname } from 'path';
 import { rmSync } from 'fs';
 import { builtinModules } from 'module';

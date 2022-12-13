@@ -14,7 +14,7 @@ It is configured to experience fast development and build speed using Vite bundl
 
 ## Components
 
-- **Vite 3.x**
+- **Vite 4.x**
 
 - **React 18.x**
 
