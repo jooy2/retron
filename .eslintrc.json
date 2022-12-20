@@ -33,7 +33,7 @@
     "import/extensions": 0,
     "import/no-extraneous-dependencies": 0,
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
-    "react/react-in-jsx-scope": "off",
+    "react/react-in-jsx-scope": 0,
     "react/function-component-definition": 0,
     "react/jsx-filename-extension": [
       2,
