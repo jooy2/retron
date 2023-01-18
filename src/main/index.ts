@@ -94,14 +94,6 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('getAppConfig', () => {
-  win.webContents.send('receiveAppConfig', store.store);
-});
-
-ipcMain.on('setAppConfig', (event, args) => {
-  store.set(args);
-});
-
 ipcMain.on('restartApp', () => {
   restartApp();
 });
