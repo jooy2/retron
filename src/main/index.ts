@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow } from 'electron';
 
 import { join } from 'path';
 import * as electronLocalShortcut from 'electron-localshortcut';
@@ -73,11 +73,6 @@ const createWindow = () => {
   });
 };
 
-const restartApp = () => {
-  app.relaunch();
-  app.exit();
-};
-
 app.whenReady().then(() => {
   createWindow();
 });
@@ -94,13 +89,9 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('restartApp', () => {
-  restartApp();
-});
-
-ipcMain.on('resetAppConfig', (event, restart = false) => {
+/* ipcMain.on('resetAppConfig', (event) => {
   store.clear();
-  if (restart) {
-    restartApp();
-  }
-});
+  // Restart app
+  app.relaunch();
+  app.exit();
+}); */
