@@ -122,7 +122,7 @@ https://github.com/jooy2/vutron
 
 ## Contribute
 
-You can report issues on [Github Issue](https://github.com/jooy2/retron/issues). You can also request a pull to fix bugs and add frequently used features.
+You can report issues on [GitHub Issue](https://github.com/jooy2/retron/issues). You can also request a pull to fix bugs and add frequently used features.
 
 ## License
 
