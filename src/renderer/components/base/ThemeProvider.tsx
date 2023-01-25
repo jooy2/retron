@@ -2,10 +2,12 @@
 import { useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { CssBaseline } from '@mui/material';
+import { RootState } from '@/renderer/store';
 
-const ThemeProvider = ({ children, example }) => {
+const ThemeProvider = ({ children }) => {
+  const darkTheme = useSelector((state: RootState) => state.appScreen.darkTheme);
   const muiTheme = useMemo(
     () =>
       createTheme({
@@ -19,13 +21,13 @@ const ThemeProvider = ({ children, example }) => {
           },
         },
         palette: {
-          mode: example.darkTheme ? 'dark' : 'light',
+          mode: darkTheme ? 'dark' : 'light',
           background: {
-            default: example.darkTheme ? '#111111' : '#ffffff',
+            default: darkTheme ? '#111111' : '#ffffff',
           },
         },
       }),
-    [example.darkTheme],
+    [darkTheme],
   );
 
   return (
@@ -43,8 +45,4 @@ const ThemeProvider = ({ children, example }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  example: state.example,
-});
-
-export default connect(mapStateToProps)(ThemeProvider);
+export default ThemeProvider;

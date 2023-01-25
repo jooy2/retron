@@ -18,6 +18,7 @@ global.IS_DEV = !app.isPackaged;
 const winConfig = config.window;
 const schema = mainStoreSchema as DeepWriteable<typeof mainStoreSchema>;
 const store = new ElectronStore({ schema });
+console.log(store);
 let win;
 
 const createWindow = () => {

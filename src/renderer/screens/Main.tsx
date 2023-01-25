@@ -1,32 +1,37 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonGroup, Grid } from '@mui/material';
 import { openExternal } from '@/renderer/assets/js/utils';
-import * as exampleActions from '../store/modules/example';
-import { bodyRoot, jumbo } from '../assets/css/global';
+import { increaseCount, setDarkTheme, setVersion } from '@/renderer/store/slices/appScreenSlice';
+import { bodyRoot, jumbo } from '@/renderer/assets/css/global';
+import type { RootState } from '@/renderer/store';
 
-const Main = ({ ExampleActions, example }) => {
+const Main = () => {
+  const darkTheme = useSelector((state: RootState) => state.appScreen.darkTheme);
+  const version = useSelector((state: RootState) => state.appScreen.version);
+  const counterValue = useSelector((state: RootState) => state.appScreen.counterValue);
   const [t] = useTranslation(['common']);
   const remote = window.require('@electron/remote');
-
-  const getVersion = async (): Promise<void> => {
-    await ExampleActions.setVersion(remote.getGlobal('APP_VERSION_NAME'));
-  };
+  const dispatch = useDispatch();
 
   const handleGithubLink = async (): Promise<void> => {
     await openExternal('https://github.com/jooy2/retron');
   };
 
-  const handleChangeTheme = async (): Promise<void> => {
-    await ExampleActions.setDarkTheme(!example.darkTheme);
+  const handleChangeTheme = (): void => {
+    dispatch(setDarkTheme(!darkTheme));
+  };
+
+  const handleIncreaseCount = (): void => {
+    dispatch(increaseCount());
   };
 
   useEffect(() => {
-    getVersion();
+    // Get app version name from main process
+    dispatch(setVersion(remote.getGlobal('APP_VERSION_NAME')));
   }, []);
 
   return (
@@ -40,11 +45,15 @@ const Main = ({ ExampleActions, example }) => {
             <h1>{t('hello-title')}</h1>
             <p>{t('hello-desc')}</p>
             <p>
-              {t('using-version')} <strong>{example.version}</strong>
+              {t('using-version')} <strong>{version}</strong>
+            </p>
+            <p>
+              {t('count-value')} <strong>{counterValue}</strong>
             </p>
             <ButtonGroup variant="contained">
               <Button onClick={handleGithubLink}>{t('github')}</Button>
-              <Button onClick={handleChangeTheme}>{example.darkTheme ? '🌞' : '🌙'}</Button>
+              <Button onClick={handleChangeTheme}>{darkTheme ? '🌞' : '🌙'}</Button>
+              <Button onClick={handleIncreaseCount}>+1</Button>
             </ButtonGroup>
           </Grid>
         </Grid>
@@ -53,12 +62,4 @@ const Main = ({ ExampleActions, example }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  example: state.example,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  ExampleActions: bindActionCreators({ ...exampleActions }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default Main;

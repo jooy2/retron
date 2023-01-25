@@ -51,8 +51,8 @@
     "@electron/remote": "^2.0.9",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.5",
+    "@reduxjs/toolkit": "^1.9.1",
     "electron-localshortcut": "^3.2.1",
     "electron-store": "^8.1.0",
     "i18next": "^22.4.9",
@@ -63,9 +63,7 @@
     "react-i18next": "^12.1.4",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.7.0",
-    "redux": "^4.2.0",
-    "redux-actions": "^2.6.5",
-    "redux-thunk": "^2.4.2"
+    "redux": "^4.2.0"
   },
   "eslintConfig": {
     "extends": "react-app"
