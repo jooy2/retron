@@ -8,37 +8,42 @@
 
 This is a skeleton template for easily creating React-based Electron projects.
 
-It is configured to experience fast development and build speed using Vite bundler. As a bonus, it includes several React utilities and layout configurations.
+It is configured to experience fast development and build speed using **[Vite](https://vitejs.dev)** bundler. As a bonus, it includes several React utilities and layout configurations.
 
 </div>
 
 ## Components
 
-- **Vite 4.x**
+- **For compile & build**
 
-- **React 18.x**
-
-  - `redux` (Global state management)
-
-- **TypeScript 4.x**
-
-- **Electron 22**
-
+  - `vite`
+  - `electron`
   - `electron-builder` (Package builder)
+
+- **For main process utils**
+
+  - `electron-localshortcut` (Global shortcut manager)
   - `electron-store` (Local storage)
 
-- **Material-UI 5**
+- **For web development framework**
+
+  - `react`
+  - `react-dom`
+  - `redux` (Global state management)
+  - `typescript`
+
+- **For CSS Design**
 
   - `@mui/material` (Material Design CSS Framework)
 
-- **i18n + i18next**
+- **For Multilingual language support**
 
   - `i18next` (Multilingual translation)
 
-- **ESLint 8.x**
-
+- **For development utils**
   - `eslint` (Code syntax checking)
   - `eslint-plugin-react-hooks`
+  - `prettier`
 
 ## Installation
 
