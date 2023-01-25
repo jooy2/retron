@@ -12,6 +12,22 @@ It is configured to experience fast development and build speed using **[Vite](h
 
 </div>
 
+## Advantages of use
+
+- ✅ You can build immediately without any presets, so you can develop quickly.
+- ✅ It is being maintained quickly to be compatible with the latest `React` and `Electron`, as well as many modules.
+- ✅ There is no need to worry about layout and data management by using various additional templates.
+
+## Features
+
+- ⚡️ Rapid development through hot-reload
+- ⚡️ Cross-platform development and build support
+- ⚡️ Multilingual support
+- ⚡️ Support for themes (dark & light)
+- ⚡️ Basic layout manager
+- ⚡️ Global state management through the Redux store
+- ⚡️ TypeScript support
+
 ## Components
 
 - **For compile & build**
