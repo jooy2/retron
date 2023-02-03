@@ -23,6 +23,8 @@
     "src/renderer/**/*/*.ts",
     "src/renderer/**/*/*.d.ts",
     "src/renderer/**/*/*.tsx",
+    "src/renderer/*.ts",
+    "src/renderer/*.tsx",
     "src/preload/**/*/*.ts"
   ],
   "references": [
