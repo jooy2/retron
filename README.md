@@ -39,7 +39,6 @@ It is configured to experience fast development and build speed using **[Vite](h
 - **For main process utils**
 
   - `electron-localshortcut` (Global shortcut manager)
-  - `electron-store` (Local storage)
 
 - **For web development framework**
 

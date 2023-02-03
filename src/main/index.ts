@@ -3,10 +3,7 @@ import { app, BrowserWindow } from 'electron';
 import { join } from 'path';
 import * as electronLocalShortcut from 'electron-localshortcut';
 import * as remoteMain from '@electron/remote/main';
-import ElectronStore from 'electron-store';
 import { version } from '../../package.json';
-import mainStoreSchema from './schema';
-import config from './config/base.json';
 
 type DeepWriteable<T> = { -readonly [P in keyof T]: DeepWriteable<T[P]> };
 
@@ -15,44 +12,30 @@ remoteMain.initialize();
 global.APP_VERSION_NAME = version;
 global.IS_DEV = !app.isPackaged;
 
-const winConfig = config.window;
-const schema = mainStoreSchema as DeepWriteable<typeof mainStoreSchema>;
-const store = new ElectronStore({ schema });
-console.log(store);
 let win;
 
 const createWindow = () => {
-  const additionalConfig = {
-    ...(winConfig.minWidth ? { minWidth: winConfig.minWidth } : {}),
-    ...(winConfig.minHeight ? { minHeight: winConfig.minHeight } : {}),
-    ...(winConfig.resizable ? { resizable: winConfig.resizable } : {}),
-    ...(winConfig.alwaysOnTop ? { alwaysOnTop: winConfig.alwaysOnTop } : {}),
-  };
-
   win = new BrowserWindow({
-    ...additionalConfig,
-    width: global.IS_DEV ? winConfig.devWidth : winConfig.width,
-    height: winConfig.height,
+    width: global.IS_DEV ? 1300 : 720,
+    height: 540,
     webPreferences: {
-      nodeIntegration: winConfig.nodeIntegration,
-      devTools: global.IS_DEV && winConfig.devShowDevTools,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
+      devTools: global.IS_DEV,
       preload: join(__dirname, '../preload/index.js'),
     },
   });
   remoteMain.enable(win.webContents);
-  win.setMenuBarVisibility(winConfig.showMenuBar);
+  win.setMenuBarVisibility(false);
 
   if (global.IS_DEV) {
     win
-      .loadURL(winConfig.devLoadUrl)
+      .loadURL('http://localhost:5173')
       .catch((e) => {
         console.log(e);
       })
       .then(() => {
-        if (winConfig.devShowDevTools) {
-          win.webContents.openDevTools();
-        }
+        win.webContents.openDevTools();
       });
   } else {
     win.loadFile(join(__dirname, '../index.html')).catch((e) => {
@@ -60,7 +43,7 @@ const createWindow = () => {
     });
   }
 
-  if (winConfig.userRefresh) {
+  if (global.IS_DEV) {
     win.on('focus', () => {
       electronLocalShortcut.register(
         win,
@@ -89,10 +72,3 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
-/* ipcMain.on('resetAppConfig', (event) => {
-  store.clear();
-  // Restart app
-  app.relaunch();
-  app.exit();
-}); */
