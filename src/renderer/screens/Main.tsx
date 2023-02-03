@@ -53,7 +53,9 @@ const Main = () => {
             <ButtonGroup variant="contained">
               <Button onClick={handleGithubLink}>{t('github')}</Button>
               <Button onClick={handleChangeTheme}>{darkTheme ? '🌞' : '🌙'}</Button>
-              <Button onClick={handleIncreaseCount}>+1</Button>
+              <Button color="success" onClick={handleIncreaseCount}>
+                +1
+              </Button>
             </ButtonGroup>
           </Grid>
         </Grid>
