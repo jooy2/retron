@@ -49,7 +49,6 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "dependencies": {
-    "@electron/remote": "^2.0.9",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.6",

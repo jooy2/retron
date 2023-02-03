@@ -11,10 +11,9 @@ import type { RootState } from '@/renderer/store';
 
 const Main = () => {
   const darkTheme = useSelector((state: RootState) => state.appScreen.darkTheme);
-  const version = useSelector((state: RootState) => state.appScreen.version);
+  const appVersion = useSelector((state: RootState) => state.appScreen.version);
   const counterValue = useSelector((state: RootState) => state.appScreen.counterValue);
   const [t] = useTranslation(['common']);
-  const remote = window.require('@electron/remote');
   const dispatch = useDispatch();
 
   const handleGithubLink = async (): Promise<void> => {
@@ -30,8 +29,12 @@ const Main = () => {
   };
 
   useEffect(() => {
-    // Get app version name from main process
-    dispatch(setVersion(remote.getGlobal('APP_VERSION_NAME')));
+    // Get application version from package.json version string (Using IPC communication)
+    window.mainApi.receive('msgReceivedVersion', (version: string) => {
+      dispatch(setVersion(version));
+    });
+
+    window.mainApi.send('msgRequestGetVersion');
   }, []);
 
   return (
@@ -45,7 +48,7 @@ const Main = () => {
             <h1>{t('hello-title')}</h1>
             <p>{t('hello-desc')}</p>
             <p>
-              {t('using-version')} <strong>{version}</strong>
+              {t('using-version')} <strong>{appVersion}</strong>
             </p>
             <p>
               {t('count-value')} <strong>{counterValue}</strong>

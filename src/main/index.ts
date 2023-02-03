@@ -1,21 +1,17 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 
 import { join } from 'path';
 import * as electronLocalShortcut from 'electron-localshortcut';
-import * as remoteMain from '@electron/remote/main';
 import { version } from '../../package.json';
 
 type DeepWriteable<T> = { -readonly [P in keyof T]: DeepWriteable<T[P]> };
 
-remoteMain.initialize();
-
-global.APP_VERSION_NAME = version;
 global.IS_DEV = !app.isPackaged;
 
-let win;
+let mainWindow;
 
 const createWindow = () => {
-  win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: global.IS_DEV ? 1300 : 720,
     height: 540,
     webPreferences: {
@@ -25,35 +21,34 @@ const createWindow = () => {
       preload: join(__dirname, '../preload/index.js'),
     },
   });
-  remoteMain.enable(win.webContents);
-  win.setMenuBarVisibility(false);
+  mainWindow.setMenuBarVisibility(false);
 
   if (global.IS_DEV) {
-    win
+    mainWindow
       .loadURL('http://localhost:5173')
       .catch((e) => {
         console.log(e);
       })
       .then(() => {
-        win.webContents.openDevTools();
+        mainWindow.webContents.openDevTools();
       });
   } else {
-    win.loadFile(join(__dirname, '../index.html')).catch((e) => {
+    mainWindow.loadFile(join(__dirname, '../index.html')).catch((e) => {
       console.log(e);
     });
   }
 
   if (global.IS_DEV) {
-    win.on('focus', () => {
+    mainWindow.on('focus', () => {
       electronLocalShortcut.register(
-        win,
+        mainWindow,
         ['CommandOrControl+R', 'CommandOrControl+Shift+R', 'F5'],
         () => {},
       );
     });
   }
-  win.on('blur', () => {
-    electronLocalShortcut.unregisterAll(win);
+  mainWindow.on('blur', () => {
+    electronLocalShortcut.unregisterAll(mainWindow);
   });
 };
 
@@ -71,4 +66,12 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
+});
+
+/*
+ * IPC Communications
+ * */
+// Get application version
+ipcMain.on('msgRequestGetVersion', () => {
+  mainWindow.webContents.send('msgReceivedVersion', version);
 });
