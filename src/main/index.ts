@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 
 import { join } from 'path';
 import * as electronLocalShortcut from 'electron-localshortcut';
@@ -74,4 +74,9 @@ app.on('activate', () => {
 // Get application version
 ipcMain.on('msgRequestGetVersion', () => {
   mainWindow.webContents.send('msgReceivedVersion', version);
+});
+
+// Open url via web browser
+ipcMain.on('msgOpenExternalLink', async (event, url) => {
+  await shell.openExternal(url);
 });

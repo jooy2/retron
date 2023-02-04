@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonGroup, Grid } from '@mui/material';
-import { openExternal } from '@/renderer/assets/js/utils';
 import { increaseCount, setDarkTheme, setVersion } from '@/renderer/store/slices/appScreenSlice';
 import { bodyRoot, jumbo } from '@/renderer/assets/css/global';
 import type { RootState } from '@/renderer/store';
@@ -17,7 +16,7 @@ const Main = () => {
   const dispatch = useDispatch();
 
   const handleGithubLink = async (): Promise<void> => {
-    await openExternal('https://github.com/jooy2/retron');
+    await window.mainApi.send('msgOpenExternalLink', 'https://github.com/jooy2/retron');
   };
 
   const handleChangeTheme = (): void => {
