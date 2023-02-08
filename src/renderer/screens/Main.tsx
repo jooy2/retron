@@ -29,7 +29,7 @@ const Main = () => {
 
   useEffect(() => {
     // Get application version from package.json version string (Using IPC communication)
-    window.mainApi.receive('msgReceivedVersion', (version: string) => {
+    window.mainApi.receive('msgReceivedVersion', (event, version: string) => {
       dispatch(setVersion(version));
     });
 
