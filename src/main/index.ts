@@ -1,7 +1,6 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
 
 import { join } from 'path';
-import * as electronLocalShortcut from 'electron-localshortcut';
 import { version } from '../../package.json';
 
 type DeepWriteable<T> = { -readonly [P in keyof T]: DeepWriteable<T[P]> };
@@ -37,19 +36,6 @@ const createWindow = () => {
       console.log(e);
     });
   }
-
-  if (global.IS_DEV) {
-    mainWindow.on('focus', () => {
-      electronLocalShortcut.register(
-        mainWindow,
-        ['CommandOrControl+R', 'CommandOrControl+Shift+R', 'F5'],
-        () => {},
-      );
-    });
-  }
-  mainWindow.on('blur', () => {
-    electronLocalShortcut.unregisterAll(mainWindow);
-  });
 };
 
 app.whenReady().then(() => {
