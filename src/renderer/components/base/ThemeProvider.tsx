@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
-import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
+import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { useSelector } from 'react-redux';
 import { CssBaseline } from '@mui/material';
 import { RootState } from '@/renderer/store';
@@ -32,13 +32,6 @@ const ThemeProvider = ({ children }) => {
 
   return (
     <MuiThemeProvider theme={muiTheme}>
-      <Global
-        styles={css`
-          body {
-            margin: 0;
-          }
-        `}
-      />
       <CssBaseline />
       <EmotionThemeProvider theme={muiTheme}>{children}</EmotionThemeProvider>
     </MuiThemeProvider>
