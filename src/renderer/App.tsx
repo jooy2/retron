@@ -1,6 +1,6 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
-import PageNotFound from './PageNotFound';
+import PageNotFound from './screens/PageNotFound';
 import Main from './screens/Main';
 
 const App = () => (
