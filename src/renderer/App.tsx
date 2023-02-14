@@ -1,7 +1,7 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
-import PageNotFound from './screens/PageNotFound';
-import Main from './screens/Main';
+import PageNotFound from '@/renderer/screens/PageNotFound';
+import Main from '@/renderer/screens/Main';
 
 const App = () => (
   <HashRouter>

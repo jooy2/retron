@@ -1,9 +1,9 @@
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import App from './App';
-import { store } from './store';
-import './i18n';
-import ThemeProvider from './components/base/ThemeProvider';
+import App from '@/renderer/App';
+import { store } from '@/renderer/store';
+import '@/renderer/i18n';
+import ThemeProvider from '@/renderer/components/base/ThemeProvider';
 
 // Add API key defined in contextBridge to window object type
 declare global {

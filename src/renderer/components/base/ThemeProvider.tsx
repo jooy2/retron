@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { useSelector } from 'react-redux';
-import { CssBaseline } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
 import { RootState } from '@/renderer/store';
 
 const ThemeProvider = ({ children }) => {

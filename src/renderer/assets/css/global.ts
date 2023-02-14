@@ -25,4 +25,5 @@ export const jumbo = css`
 
 export default {
   bodyRoot,
+  jumbo,
 };
