@@ -36,26 +36,25 @@ It is configured to experience fast development and build speed using **[Vite](h
   - `electron`
   - `electron-builder` (Package builder)
 
-- **For main process utils**
-
-  - `electron-localshortcut` (Global shortcut manager)
-
 - **For web development framework**
 
   - `react`
   - `react-dom`
-  - `redux` (Global state management)
+  - `react-router-dom`
+  - `@redux/toolkit` & `react-redux` (Global state management)
   - `typescript`
 
 - **For CSS Design**
 
   - `@mui/material` (Material Design CSS Framework)
+  - `@emotion/react`
 
 - **For Multilingual language support**
 
   - `i18next` (Multilingual translation)
 
 - **For development utils**
+
   - `eslint` (Code syntax checking)
   - `eslint-plugin-react-hooks`
   - `prettier`
