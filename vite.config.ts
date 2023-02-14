@@ -10,6 +10,8 @@ import { builtinModules } from 'module';
 
 rmSync('dist', { recursive: true, force: true });
 
+const isDEV = process.env.NODE_ENV === 'development';
+
 export default defineConfig({
   resolve: {
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss'],
@@ -21,6 +23,8 @@ export default defineConfig({
   root: resolve('./src/renderer'),
   publicDir: resolve('./src/renderer/public'),
   build: {
+    sourcemap: isDEV,
+    minify: !isDEV,
     assetsDir: '', // See: https://github.com/electron-vite/electron-vite-vue/issues/287
     outDir: resolve('./dist'),
   },
@@ -54,10 +58,6 @@ export default defineConfig({
         },
       },
     ]),
-    rendererPlugin({
-      optimizeDeps: {
-        include: ['path'],
-      },
-    }),
+    rendererPlugin(),
   ],
 });
