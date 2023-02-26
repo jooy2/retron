@@ -39,7 +39,7 @@ const Main = () => {
   }, []);
 
   return (
-    <div className="root" css={bodyRoot}>
+    <div css={bodyRoot}>
       <div css={jumbo}>
         <Grid container alignItems="center" spacing={3}>
           <Grid item xs={5}>
