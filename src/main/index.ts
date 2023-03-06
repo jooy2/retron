@@ -1,7 +1,7 @@
-import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import { app, BrowserWindow } from 'electron';
 
 import { join } from 'path';
-import { version } from '../../package.json';
+import IPCs from './IPCs';
 
 type DeepWriteable<T> = { -readonly [P in keyof T]: DeepWriteable<T[P]> };
 
@@ -36,6 +36,9 @@ const createWindow = () => {
       console.log(e);
     });
   }
+
+  // Initialize IPC Communication
+  IPCs.initialize(mainWindow);
 };
 
 app.whenReady().then(() => {
@@ -52,17 +55,4 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
-});
-
-/*
- * IPC Communications
- * */
-// Get application version
-ipcMain.on('msgRequestGetVersion', () => {
-  mainWindow.webContents.send('msgReceivedVersion', version);
-});
-
-// Open url via web browser
-ipcMain.on('msgOpenExternalLink', async (event, url) => {
-  await shell.openExternal(url);
 });
