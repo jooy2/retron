@@ -14,7 +14,7 @@ const initialState: AppScreenState = {
 };
 
 export const appScreenSlice = createSlice({
-  name: 'counter',
+  name: 'appScreen',
   initialState,
   reducers: {
     setVersion: (state, action: PayloadAction<string>) => {
