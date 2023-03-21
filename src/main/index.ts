@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, systemPreferences } from 'electron';
 
 import { join } from 'path';
 import IPCs from './IPCs';
@@ -42,6 +42,11 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
+  if (process.platform === 'darwin') {
+    systemPreferences.setUserDefault('NSDisabledDictationMenuItem', 'boolean', true);
+    systemPreferences.setUserDefault('NSDisabledCharacterPaletteMenuItem', 'boolean', true);
+  }
+
   createWindow();
 });
 
