@@ -9,6 +9,14 @@ global.IS_DEV = !app.isPackaged;
 
 let mainWindow;
 
+const exitApp = (): void => {
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.hide();
+  }
+  mainWindow.destroy();
+  app.exit();
+};
+
 const createWindow = async () => {
   mainWindow = new BrowserWindow({
     width: global.IS_DEV ? 1300 : 720,
@@ -22,6 +30,11 @@ const createWindow = async () => {
   });
 
   mainWindow.setMenu(null);
+
+  mainWindow.on('close', (event: Event): void => {
+    event.preventDefault();
+    exitApp();
+  });
 
   mainWindow.webContents.on('did-frame-finish-load', (): void => {
     if (global.IS_DEV) {
