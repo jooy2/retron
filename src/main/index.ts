@@ -9,7 +9,7 @@ global.IS_DEV = !app.isPackaged;
 
 let mainWindow;
 
-const createWindow = () => {
+const createWindow = async () => {
   mainWindow = new BrowserWindow({
     width: global.IS_DEV ? 1300 : 720,
     height: 540,
@@ -20,21 +20,26 @@ const createWindow = () => {
       preload: join(__dirname, '../preload/index.js'),
     },
   });
-  mainWindow.setMenuBarVisibility(false);
+
+  mainWindow.setMenu(null);
+
+  mainWindow.webContents.on('did-frame-finish-load', (): void => {
+    if (global.IS_DEV) {
+      mainWindow.webContents.openDevTools();
+    }
+  });
+
+  mainWindow.once('ready-to-show', (): void => {
+    mainWindow.setAlwaysOnTop(true);
+    mainWindow.show();
+    mainWindow.focus();
+    mainWindow.setAlwaysOnTop(false);
+  });
 
   if (global.IS_DEV) {
-    mainWindow
-      .loadURL('http://localhost:5173')
-      .catch((e) => {
-        console.log(e);
-      })
-      .then(() => {
-        mainWindow.webContents.openDevTools();
-      });
+    await mainWindow.loadURL('http://localhost:5173');
   } else {
-    mainWindow.loadFile(join(__dirname, '../index.html')).catch((e) => {
-      console.log(e);
-    });
+    await mainWindow.loadFile(join(__dirname, '../index.html'));
   }
 
   // Initialize IPC Communication
