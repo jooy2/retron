@@ -1,6 +1,6 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
-import PageNotFound from '@/renderer/screens/PageNotFound';
+import ScreenNotFound from '@/renderer/screens/ScreenNotFound';
 import Main from '@/renderer/screens/Main';
 
 const App = () => (
@@ -8,7 +8,7 @@ const App = () => (
     <Routes>
       <Route path="/">
         <Route index element={<Main />} />
-        <Route path="*" element={PageNotFound()} />
+        <Route path="*" element={ScreenNotFound()} />
       </Route>
     </Routes>
   </HashRouter>

@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 
-const PageNotFound = () => (
+const ScreenNotFound = () => (
   <div>
-    <h1>Page Not Found</h1>
+    <h1>Screen Not Found</h1>
     <Link to="/">Go to main page</Link>
   </div>
 );
 
-export default PageNotFound;
+export default ScreenNotFound;
