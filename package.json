@@ -50,7 +50,7 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.6",
+    "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.11.15",
     "@reduxjs/toolkit": "^1.9.3",
