@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
+    "@emotion/styled": "^11.10.8",
     "@mui/material": "^5.11.15",
     "@reduxjs/toolkit": "^1.9.3",
     "i18next": "^22.4.14",
