@@ -20,13 +20,8 @@
     "lib": ["esnext", "dom", "dom.iterable"]
   },
   "include": [
-    "src/renderer/**/*/*.ts",
-    "src/renderer/**/*/*.d.ts",
-    "src/renderer/**/*/*.tsx",
-    "src/renderer/*.ts",
-    "src/renderer/*.tsx",
-    "src/preload/**/*/*.ts",
-    "src/preload/**/*/*.d.ts"
+    "src/renderer",
+    "src/preload"
   ],
   "references": [
     {
