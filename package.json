@@ -54,7 +54,7 @@
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.11.15",
     "@reduxjs/toolkit": "^1.9.3",
-    "i18next": "^22.4.14",
+    "i18next": "^23.2.6",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.2.0",
     "react": "^18.2.0",
