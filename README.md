@@ -4,7 +4,7 @@
 
 ## Vite + Electron + React + Material-UI Template
 
-> [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jooy2/retron/blob/master/LICENSE) ![Programming Language Usage](https://img.shields.io/github/languages/top/jooy2/retron) ![Languages](https://img.shields.io/github/languages/count/jooy2/retron) ![Commit Count](https://img.shields.io/github/commit-activity/y/jooy2/retron) ![Line Count](https://img.shields.io/tokei/lines/github/jooy2/retron) ![github repo size](https://img.shields.io/github/repo-size/jooy2/retron) [![Followers](https://img.shields.io/github/followers/jooy2?style=social)](https://github.com/jooy2) ![Stars](https://img.shields.io/github/stars/jooy2/qsu?style=social)
+> [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jooy2/retron/blob/master/LICENSE) ![Programming Language Usage](https://img.shields.io/github/languages/top/jooy2/retron) ![Languages](https://img.shields.io/github/languages/count/jooy2/retron) ![Commit Count](https://img.shields.io/github/commit-activity/y/jooy2/retron) ![github repo size](https://img.shields.io/github/repo-size/jooy2/retron) [![Followers](https://img.shields.io/github/followers/jooy2?style=social)](https://github.com/jooy2) ![Stars](https://img.shields.io/github/stars/jooy2/retron?style=social)
 
 This is a skeleton template for easily creating React-based Electron projects.
 
@@ -22,11 +22,13 @@ It is configured to experience fast development and build speed using **[Vite](h
 
 - ⚡️ Rapid development through hot-reload
 - ⚡️ Cross-platform development and build support
+- ⚡️ Support for automated application testing
+- ⚡️ TypeScript support
 - ⚡️ Multilingual support
 - ⚡️ Support for themes (dark & light)
 - ⚡️ Basic layout manager
 - ⚡️ Global state management through the Redux store
-- ⚡️ TypeScript support
+- ⚡️ Quick support through the GitHub community
 
 ## Components
 
@@ -58,6 +60,10 @@ It is configured to experience fast development and build speed using **[Vite](h
   - `eslint` (Code syntax checking)
   - `eslint-plugin-react-hooks`
   - `prettier`
+
+- **For testing**
+
+  - `playwright`
 
 ## Installation
 
@@ -96,7 +102,7 @@ $ npm run dev
 
 ## Build
 
-Retron can build targeting Windows 7, 8.1, 10 or later, macOS 14.x or later, and major Linux distributions.
+**Retron** can build targeting Windows 10 or later, macOS 14.x or later, and major Linux distributions.
 
 ```shell
 # For Windows (.exe, .appx)
