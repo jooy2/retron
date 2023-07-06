@@ -43,7 +43,7 @@ const Main = () => {
       <div css={jumbo}>
         <Grid container alignItems="center" spacing={3}>
           <Grid item xs={5}>
-            <img alt="logo" src="images/retron-logo.webp" draggable="false" />
+            <img id="main-logo" alt="logo" src="images/retron-logo.webp" draggable="false" />
           </Grid>
           <Grid item xs={7}>
             <h1>{t('hello-title')}</h1>
@@ -52,12 +52,17 @@ const Main = () => {
               {t('using-version')} <strong>{appVersion}</strong>
             </p>
             <p>
-              {t('count-value')} <strong>{counterValue}</strong>
+              {t('count-value')}{' '}
+              <span id="counter-value">
+                <strong>{counterValue}</strong>
+              </span>
             </p>
             <ButtonGroup variant="contained">
               <Button onClick={handleGithubLink}>{t('github')}</Button>
-              <Button onClick={handleChangeTheme}>{darkTheme ? '🌞' : '🌙'}</Button>
-              <Button color="success" onClick={handleIncreaseCount}>
+              <Button id="btn-change-theme" onClick={handleChangeTheme}>
+                {darkTheme ? '🌞' : '🌙'}
+              </Button>
+              <Button id="btn-counter" color="success" onClick={handleIncreaseCount}>
                 +1
               </Button>
             </ButtonGroup>

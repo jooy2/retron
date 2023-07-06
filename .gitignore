@@ -2,6 +2,7 @@
 node_modules/
 dist/
 release/
+tests/results/
 
 .eslintcache
 vite-plugin-electron.log
