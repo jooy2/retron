@@ -1,9 +1,9 @@
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
-import electronPlugin from 'vite-plugin-electron';
-import rendererPlugin from 'vite-plugin-electron-renderer';
-import eslintPlugin from 'vite-plugin-eslint';
-import reactPlugin from '@vitejs/plugin-react-swc';
+import ElectronPlugin from 'vite-plugin-electron';
+import RendererPlugin from 'vite-plugin-electron-renderer';
+import EslintPlugin from 'vite-plugin-eslint';
+import ReactPlugin from '@vitejs/plugin-react-swc';
 import { resolve, dirname } from 'path';
 import { rmSync } from 'fs';
 import { builtinModules } from 'module';
@@ -30,11 +30,11 @@ export default defineConfig(() => {
       outDir: resolve('./dist'),
     },
     plugins: [
-      reactPlugin(),
+      ReactPlugin(),
       // Docs: https://github.com/gxmari007/vite-plugin-eslint
-      eslintPlugin(),
+      EslintPlugin(),
       // Docs: https://github.com/electron-vite/vite-plugin-electron
-      electronPlugin([
+      ElectronPlugin([
         {
           entry: ['src/main/index.ts'],
           onstart: (options) => {
@@ -62,7 +62,7 @@ export default defineConfig(() => {
           },
         },
       ]),
-      rendererPlugin(),
+      RendererPlugin(),
     ],
   };
 });
