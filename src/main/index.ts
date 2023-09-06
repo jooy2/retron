@@ -3,8 +3,6 @@ import { app, BrowserWindow, systemPreferences } from 'electron';
 import { join } from 'path';
 import IPCs from './IPCs';
 
-type DeepWriteable<T> = { -readonly [P in keyof T]: DeepWriteable<T[P]> };
-
 global.IS_DEV = process.env.NODE_ENV === 'development';
 
 let mainWindow;
