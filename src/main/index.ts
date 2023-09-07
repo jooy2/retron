@@ -2,6 +2,9 @@ import { app, BrowserWindow, systemPreferences } from 'electron';
 
 import { join } from 'path';
 import IPCs from './IPCs';
+import installExtension, {
+  REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS
+} from "electron-extension-installer";
 
 global.IS_DEV = process.env.NODE_ENV === 'development';
 
@@ -57,13 +60,26 @@ const createWindow = async () => {
   IPCs.initialize(mainWindow);
 };
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   if (process.platform === 'darwin') {
     systemPreferences.setUserDefault('NSDisabledDictationMenuItem', 'boolean', true);
     systemPreferences.setUserDefault('NSDisabledCharacterPaletteMenuItem', 'boolean', true);
   }
 
-  createWindow();
+  if (global.IS_DEV) {
+    await installExtension(REACT_DEVELOPER_TOOLS, {
+      loadExtensionOptions: {
+        allowFileAccess: true
+      }
+    })
+    await installExtension(REDUX_DEVTOOLS, {
+      loadExtensionOptions: {
+        allowFileAccess: true
+      }
+    })
+  }
+
+  await createWindow();
 });
 
 app.on('window-all-closed', () => {
