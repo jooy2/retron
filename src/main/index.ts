@@ -1,10 +1,11 @@
 import { app, BrowserWindow, systemPreferences } from 'electron';
 
 import { join } from 'path';
-import IPCs from './IPCs';
 import installExtension, {
-  REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS
-} from "electron-extension-installer";
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
+} from 'electron-extension-installer';
+import IPCs from './IPCs';
 
 global.IS_DEV = process.env.NODE_ENV === 'development';
 
@@ -69,14 +70,14 @@ app.whenReady().then(async () => {
   if (global.IS_DEV) {
     await installExtension(REACT_DEVELOPER_TOOLS, {
       loadExtensionOptions: {
-        allowFileAccess: true
-      }
-    })
+        allowFileAccess: true,
+      },
+    });
     await installExtension(REDUX_DEVTOOLS, {
       loadExtensionOptions: {
-        allowFileAccess: true
-      }
-    })
+        allowFileAccess: true,
+      },
+    });
   }
 
   await createWindow();
