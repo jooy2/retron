@@ -23,6 +23,7 @@
     "build:all": "npm run build:pre && electron-builder -wml --config=buildAssets/builder/config.js",
     "build:dir": "npm run build:pre && electron-builder --dir --config=buildAssets/builder/config.js",
     "build:win": "npm run build:pre && electron-builder --windows --config=buildAssets/builder/config.js",
+    "build:win:portable": "npm run build:pre && electron-builder --windows nsis:ia32 portable --config=buildAssets/builder/config.js",
     "build:mac": "npm run build:pre && electron-builder --mac --config=buildAssets/builder/config.js",
     "build:linux": "npm run build:pre && electron-builder --linux --config=buildAssets/builder/config.js",
     "lint": "eslint --ext .js,.ts,.vue -f ./node_modules/eslint-friendly-formatter src",
