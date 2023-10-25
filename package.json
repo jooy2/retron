@@ -30,7 +30,7 @@
     "lint:fix": "eslint --ext .js,.ts,.vue -f ./node_modules/eslint-friendly-formatter --fix src",
     "format": "prettier .",
     "format:fix": "prettier . --write",
-    "test": "npm run build:dir && xvfb-maybe -- playwright test"
+    "test": "npm run build:pre && xvfb-maybe -- playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.39.0",
