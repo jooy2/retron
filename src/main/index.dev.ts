@@ -6,13 +6,11 @@ import installExtension, {
   REDUX_DEVTOOLS,
 } from 'electron-extension-installer';
 
-installExtension(REACT_DEVELOPER_TOOLS, {
+const commonExtensionOptions = {
   loadExtensionOptions: {
     allowFileAccess: true,
   },
-});
-installExtension(REDUX_DEVTOOLS, {
-  loadExtensionOptions: {
-    allowFileAccess: true,
-  },
-});
+};
+
+installExtension(REACT_DEVELOPER_TOOLS, commonExtensionOptions);
+installExtension(REDUX_DEVTOOLS, commonExtensionOptions);
