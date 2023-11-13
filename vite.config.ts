@@ -28,7 +28,6 @@ export default defineConfig(() => {
     build: {
       sourcemap: isDEV,
       minify: !isDEV,
-      assetsDir: '', // See: https://github.com/electron-vite/electron-vite-vue/issues/287
       outDir: resolve('./dist'),
     },
     plugins: [
