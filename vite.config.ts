@@ -4,6 +4,7 @@ import ElectronPlugin from 'vite-plugin-electron';
 import RendererPlugin from 'vite-plugin-electron-renderer';
 import EslintPlugin from 'vite-plugin-eslint';
 import ReactPlugin from '@vitejs/plugin-react-swc';
+// eslint-disable-next-line import/no-unresolved
 import MillionPlugin from 'million/compiler';
 import { resolve, dirname } from 'path';
 import { rmSync } from 'fs';
@@ -38,9 +39,9 @@ export default defineConfig(() => {
       // Docs: https://github.com/electron-vite/vite-plugin-electron
       ElectronPlugin([
         {
-          entry: ['src/main/index.ts', 'src/main/index.dev.ts'],
-          onstart: (options) => {
-            options.startup();
+          entry: 'src/main/index.ts',
+          onstart: ({ startup }) => {
+            startup();
           },
           vite: {
             build: {
@@ -52,10 +53,20 @@ export default defineConfig(() => {
             },
           },
         },
+        isDEV
+          ? {
+              entry: 'src/main/index.dev.ts',
+              vite: {
+                build: {
+                  outDir: 'dist/main',
+                },
+              },
+            }
+          : {},
         {
-          entry: ['src/preload/index.ts'],
-          onstart: (options) => {
-            options.reload();
+          entry: 'src/preload/index.ts',
+          onstart: ({ reload }) => {
+            reload();
           },
           vite: {
             build: {
