@@ -19,13 +19,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node_version: ['16', '18', '20']
+        node_version: ['18', '20']
         os: [windows-latest, macos-latest, ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Install xvfb
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt install -y -q --no-install-recommends xvfb
 
       - name: Setup NodeJS ${{ matrix.node_version }}
         uses: actions/setup-node@v3
@@ -48,5 +53,12 @@ jobs:
         if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm i
 
-      - name: Test module script
-        run: npm run test
+      - name: Test module script (Windows or macOS)
+        if: runner.os != 'Linux'
+        run: |
+          npm run test
+
+      - name: Test module script (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          npm run test:linux
