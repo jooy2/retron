@@ -8,6 +8,7 @@ on:
       - '!*.md'
       - '!LICENSE'
       - '!.github/**'
+      - '.github/app-test.yml'
   pull_request:
     branches: [master]
   workflow_dispatch:
@@ -23,7 +24,7 @@ jobs:
         os: [windows-latest, macos-latest, ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -33,7 +34,7 @@ jobs:
           sudo apt install -y -q --no-install-recommends xvfb
 
       - name: Setup NodeJS ${{ matrix.node_version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
           cache: npm
