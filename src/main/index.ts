@@ -54,7 +54,7 @@ const createWindow = async () => {
   }
 
   // Initialize IPC Communication
-  IPCs.initialize(mainWindow);
+  IPCs.initialize();
 };
 
 app.whenReady().then(async () => {
