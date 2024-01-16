@@ -1,11 +1,13 @@
 import { app, BrowserWindow, systemPreferences } from 'electron';
 
-import { join } from 'path';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 import IPCs from './IPCs';
 
 global.IS_DEV = process.env.NODE_ENV === 'development';
 
 let mainWindow;
+const currentDirName = dirname(fileURLToPath(import.meta.url));
 
 const exitApp = (): void => {
   if (mainWindow && !mainWindow.isDestroyed()) {
@@ -23,7 +25,7 @@ const createWindow = async () => {
       nodeIntegration: false,
       contextIsolation: true,
       devTools: global.IS_DEV,
-      preload: join(__dirname, '../preload/index.js'),
+      preload: join(currentDirName, '../preload/index.js'),
     },
   });
 
@@ -50,7 +52,7 @@ const createWindow = async () => {
   if (global.IS_DEV) {
     await mainWindow.loadURL('http://localhost:5173');
   } else {
-    await mainWindow.loadFile(join(__dirname, '../index.html'));
+    await mainWindow.loadFile(join(currentDirName, '../index.html'));
   }
 
   // Initialize IPC Communication
