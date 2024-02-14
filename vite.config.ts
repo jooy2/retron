@@ -4,7 +4,6 @@ import ElectronPlugin, { ElectronOptions } from 'vite-plugin-electron';
 import RendererPlugin from 'vite-plugin-electron-renderer';
 import EslintPlugin from 'vite-plugin-eslint';
 import ReactPlugin from '@vitejs/plugin-react-swc';
-// eslint-disable-next-line import/no-unresolved
 import MillionPlugin from 'million/compiler';
 import { resolve, dirname } from 'path';
 import { rmSync } from 'fs';
