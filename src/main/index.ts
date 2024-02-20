@@ -1,4 +1,4 @@
-import { app, BrowserWindow, systemPreferences } from 'electron';
+import { app, BrowserWindow } from 'electron';
 
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -60,10 +60,13 @@ const createWindow = async () => {
 };
 
 app.whenReady().then(async () => {
+  // Disable special menus on macOS by uncommenting the following, if necessary
+  /*
   if (process.platform === 'darwin') {
     systemPreferences.setUserDefault('NSDisabledDictationMenuItem', 'boolean', true);
     systemPreferences.setUserDefault('NSDisabledCharacterPaletteMenuItem', 'boolean', true);
   }
+  */
 
   if (global.IS_DEV) {
     import('./index.dev');
