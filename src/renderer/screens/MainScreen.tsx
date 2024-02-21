@@ -59,7 +59,7 @@ const MainScreen = () => {
               </span>
             </p>
             <ButtonGroup variant="contained">
-              <Button onClick={handleGithubLink}>{t('github')}</Button>
+              <Button onClick={handleGithubLink}>{t('source-code')}</Button>
               <Button data-testid="btn-change-theme" onClick={handleChangeTheme}>
                 {darkTheme ? '🌞' : '🌙'}
               </Button>
