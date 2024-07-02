@@ -1,5 +1,6 @@
 {
   "name": "retron",
+  "appId": "com.retron.retron",
   "version": "1.0.0",
   "description": "ViteJS + Electron + React + Material-UI Template",
   "homepage": "https://github.com/jooy2/retron",

@@ -1,9 +1,10 @@
 /* eslint-disable no-template-curly-in-string */
 const dotenv = require('dotenv')
+const packageJson = require('../../package.json')
 
 const baseConfig = {
-  productName: 'Retron',
-  appId: 'com.retron.retron',
+  productName: packageJson.name,
+  appId: packageJson.appId,
   asar: true,
   extends: null,
   compression: 'maximum',
@@ -71,7 +72,7 @@ const baseConfig = {
     oneClick: true
   },
   linux: {
-    executableName: 'retron',
+    executableName: packageJson.name.toLowerCase(),
     icon: 'buildAssets/installer',
     category: 'Utility',
     target: [
