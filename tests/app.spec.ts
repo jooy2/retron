@@ -20,7 +20,15 @@ function existElementByTestId(selector: string, waitingMilliseconds = 100) {
 test.beforeAll(async () => {
   // Open Electron app from build directory
   appElectron = await electron.launch({
-    args: ['dist/main/index.js'],
+    args: [
+      'dist/main/index.js',
+      ...(process.env.CI === 'true' ? ['--no-sandbox'] : []),
+      '--enable-logging',
+      '--ignore-certificate-errors',
+      '--ignore-ssl-errors',
+      '--ignore-blocklist',
+      '--ignore-gpu-blocklist',
+    ],
     locale: 'en-US',
     colorScheme: 'light',
     env: {
