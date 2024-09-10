@@ -6,7 +6,15 @@
     "moduleResolution": "node",
     "composite": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true
   },
-  "include": ["package.json", "src/main", "vite.config.ts"]
+  "include": [
+    "package.json",
+    "src/main",
+    "vite.config.ts",
+    "tests/**/*.ts",
+    "tests/**/*.mts",
+    "tests/**/*.spec.ts"]
 }

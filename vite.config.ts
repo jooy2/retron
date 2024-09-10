@@ -69,7 +69,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     resolve: {
-      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss'],
+      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.mts', '.json', '.scss'],
       alias: {
         '@': resolve(dirname(fileURLToPath(import.meta.url)), 'src'),
       },

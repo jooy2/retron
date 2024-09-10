@@ -30,6 +30,7 @@
     "no-tabs": 0,
     "no-mixed-spaces-and-tabs": 0,
     "no-param-reassign": ["error", { "props": false }],
+    "no-underscore-dangle": 0,
     "max-len": 1,
     "import/extensions": 0,
     "import/no-extraneous-dependencies": 0,
@@ -39,7 +40,7 @@
     "react/jsx-filename-extension": [
       2,
       {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".mjs", ".mts"]
       }
     ],
     "react/prop-types": 0,
