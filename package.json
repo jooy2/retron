@@ -58,7 +58,7 @@
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/parser": "7.17.0",
     "@vitejs/plugin-react-swc": "^3.7.0",
-    "electron": "^32.0.2",
+    "electron": "^32.1.2",
     "electron-builder": "^25.0.5",
     "electron-extension-installer": "^1.2.0",
     "eslint": "8.57.0",
