@@ -61,7 +61,7 @@
     "electron": "^32.0.2",
     "electron-builder": "^25.0.5",
     "electron-extension-installer": "^1.2.0",
-    "eslint": "8.57.0",
+    "eslint": "8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-react-app": "^7.0.1",
