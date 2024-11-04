@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import { increaseCount, setDarkTheme, setVersion } from '@/renderer/store/slices/appScreenSlice';
 import { bodyRoot, jumbo } from '@/renderer/assets/css/global';
 import type { RootState } from '@/renderer/store';
@@ -38,7 +38,7 @@ const MainScreen = () => {
     <div css={bodyRoot}>
       <div css={jumbo}>
         <Grid container alignItems="center" spacing={3}>
-          <Grid item xs={5}>
+          <Grid size={{ xs: 5 }}>
             <img
               data-testid="main-logo"
               alt="logo"
@@ -46,7 +46,7 @@ const MainScreen = () => {
               draggable="false"
             />
           </Grid>
-          <Grid item xs={7}>
+          <Grid size={{ xs: 7 }}>
             <h1>{t('hello-title')}</h1>
             <p>{t('hello-desc')}</p>
             <p>
