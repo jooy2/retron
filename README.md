@@ -145,10 +145,10 @@ Also check out the `Vutron` project, which consists of Vite + Vue 3 + Vuetify + 
 
 https://github.com/jooy2/vutron
 
-## Contribute
+## Contributing
 
-You can report issues on [GitHub Issue](https://github.com/jooy2/retron/issues). You can also request a pull to fix bugs and add frequently used features.
+Anyone can contribute to the project by reporting new issues or submitting a pull request. For more information, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-Copyright © 2021-2024 [Jooy2](https://jooy2.com) <[jooy2.contact@gmail.com](mailto:jooy2.contact@gmail.com)> Released under the MIT license.
+Please see the [LICENSE](LICENSE) file for more information about project owners, usage rights, and more.
