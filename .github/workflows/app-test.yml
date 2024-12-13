@@ -2,7 +2,7 @@ name: app-test
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - '**'
       - '!*.md'
@@ -10,7 +10,7 @@ on:
       - '!.github/**'
       - '.github/workflows/app-test.yml'
   pull_request:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
