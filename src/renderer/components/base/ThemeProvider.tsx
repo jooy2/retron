@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import CssBaseline from '@mui/material/CssBaseline';
 import { RootState } from '@/renderer/store';
 
-const ThemeProvider = ({ children }) => {
+export default function ThemeProvider({ children }) {
   const darkTheme = useSelector((state: RootState) => state.appScreen.darkTheme);
   const muiTheme = useMemo(
     () =>
@@ -27,6 +27,4 @@ const ThemeProvider = ({ children }) => {
       <EmotionThemeProvider theme={muiTheme}>{children}</EmotionThemeProvider>
     </MuiThemeProvider>
   );
-};
-
-export default ThemeProvider;
+}

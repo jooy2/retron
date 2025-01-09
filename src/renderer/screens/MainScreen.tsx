@@ -10,7 +10,7 @@ import { increaseCount, setDarkTheme, setVersion } from '@/renderer/store/slices
 import { bodyRoot, jumbo } from '@/renderer/assets/css/global';
 import type { RootState } from '@/renderer/store';
 
-const MainScreen = () => {
+export default function MainScreen() {
   const darkTheme = useSelector((state: RootState) => state.appScreen.darkTheme);
   const appVersion = useSelector((state: RootState) => state.appScreen.version);
   const counterValue = useSelector((state: RootState) => state.appScreen.counterValue);
@@ -72,6 +72,4 @@ const MainScreen = () => {
       </div>
     </div>
   );
-};
-
-export default MainScreen;
+}
