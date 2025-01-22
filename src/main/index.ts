@@ -3,6 +3,7 @@ import { app, BrowserWindow } from 'electron';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import IPCs from './IPCs';
+import { debug } from '../../package.json';
 
 global.IS_DEV = process.env.NODE_ENV === 'development';
 
@@ -50,7 +51,7 @@ const createWindow = async () => {
   });
 
   if (global.IS_DEV) {
-    await mainWindow.loadURL('http://localhost:5173');
+    await mainWindow.loadURL(debug.env.VITE_DEV_SERVER_URL);
   } else {
     await mainWindow.loadFile(join(currentDirName, '../index.html'));
   }
