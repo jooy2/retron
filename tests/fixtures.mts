@@ -1,5 +1,5 @@
 import * as base from '@playwright/test';
-import {_electron as electron, Page, ElectronApplication} from 'playwright';
+import { _electron as electron, Page, ElectronApplication } from 'playwright';
 import { join } from 'path';
 import { main } from '../package.json';
 import TestUtil from './testUtil.mjs';
@@ -62,10 +62,12 @@ export const afterAll = async () => {
 export const test = base.test.extend({
   // eslint-disable-next-line no-empty-pattern
   page: async ({}, use) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(page);
   },
-  // eslint-disable-next-line no-shadow
+  // @ts-expect-error ignore
   util: async ({ page }, use, testInfo) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(new TestUtil(page, testInfo, __testScreenshotPath));
   },
 });

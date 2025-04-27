@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { useSelector } from 'react-redux';
 import CssBaseline from '@mui/material/CssBaseline';
 import { RootState } from '@/renderer/store';
 
-export default function ThemeProvider({ children }) {
+export default function ThemeProvider({ children }: { children: ReactNode }) {
   const darkTheme = useSelector((state: RootState) => state.appScreen.darkTheme);
   const muiTheme = useMemo(
     () =>

@@ -19,7 +19,6 @@ contextBridge.exposeInMainWorld('mainApi', {
 
     throw new Error(`Unknown ipc channel name: ${channel}`);
   },
-  // eslint-disable-next-line no-unused-vars
   on: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
     if (rendererAvailChannels.includes(channel)) {
       ipcRenderer.on(channel, listener);
@@ -27,7 +26,6 @@ contextBridge.exposeInMainWorld('mainApi', {
       throw new Error(`Unknown ipc channel name: ${channel}`);
     }
   },
-  // eslint-disable-next-line no-unused-vars
   once: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
     if (rendererAvailChannels.includes(channel)) {
       ipcRenderer.once(channel, listener);
@@ -35,7 +33,6 @@ contextBridge.exposeInMainWorld('mainApi', {
       throw new Error(`Unknown ipc channel name: ${channel}`);
     }
   },
-  // eslint-disable-next-line no-unused-vars
   off: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
     if (rendererAvailChannels.includes(channel)) {
       ipcRenderer.off(channel, listener);
