@@ -31,7 +31,12 @@ export default pluginTypeScriptESLint.config(
     '**/package-lock.json',
   ]),
   {
-    files: ['**/*.{js,mjs,cjs,ts,tsx}'],
+    files: ['**/*.{js,mjs,cjs,jsx,tsx,ts}'],
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
