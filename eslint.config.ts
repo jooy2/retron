@@ -7,11 +7,12 @@ import pluginNode from 'eslint-plugin-n';
 import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
 import parserTypeScript from '@typescript-eslint/parser';
 import pluginImport from 'eslint-plugin-import';
-import configPrettier from 'eslint-config-prettier';
+import pluginPrettier from 'eslint-plugin-prettier/recommended';
 
 import globals from 'globals';
 
 export default pluginTypeScriptESLint.config(
+  pluginPrettier,
   pluginReact.configs.flat.recommended,
   pluginJs.configs.recommended,
   pluginReactHooks.configs['recommended-latest'],
@@ -87,5 +88,4 @@ export default pluginTypeScriptESLint.config(
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
-  configPrettier,
 );
