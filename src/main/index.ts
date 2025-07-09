@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import IPCs from './IPCs';
 import { debug } from '../../package.json';
 
-global.IS_DEV = process.env.NODE_ENV === 'development';
+const isDevEnv = process.env.NODE_ENV === 'development';
 
 let mainWindow;
 const currentDirName = dirname(fileURLToPath(import.meta.url));
@@ -20,12 +20,12 @@ const exitApp = (): void => {
 
 const createWindow = async () => {
   mainWindow = new BrowserWindow({
-    width: global.IS_DEV ? 1300 : 720,
+    width: isDevEnv ? 1300 : 720,
     height: 540,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      devTools: global.IS_DEV,
+      devTools: isDevEnv,
       preload: join(currentDirName, '../preload/index.js'),
     },
   });
@@ -38,7 +38,7 @@ const createWindow = async () => {
   });
 
   mainWindow.webContents.on('did-frame-finish-load', (): void => {
-    if (global.IS_DEV) {
+    if (isDevEnv) {
       mainWindow.webContents.openDevTools();
     }
   });
@@ -50,7 +50,7 @@ const createWindow = async () => {
     mainWindow.setAlwaysOnTop(false);
   });
 
-  if (global.IS_DEV) {
+  if (isDevEnv) {
     await mainWindow.loadURL(debug.env.VITE_DEV_SERVER_URL);
   } else {
     await mainWindow.loadFile(join(currentDirName, '../index.html'));
@@ -69,7 +69,7 @@ app.whenReady().then(async () => {
   }
   */
 
-  if (global.IS_DEV) {
+  if (isDevEnv) {
     import('./index.dev');
   }
 
