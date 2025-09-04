@@ -56,6 +56,7 @@ export default pluginTypeScriptESLint.config(
     },
     rules: {
       eqeqeq: 'error',
+      'no-unused-vars': 'off',
       'no-underscore-dangle': 'warn',
       'no-case-declarations': 'off',
       'no-trailing-spaces': 'error',
@@ -85,6 +86,14 @@ export default pluginTypeScriptESLint.config(
       'jsx-a11y/no-noninteractive-element-interactions': 0,
       'jsx-a11y/click-events-have-key-events': 0,
       'jsx-a11y/no-static-element-interactions': 0,
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
