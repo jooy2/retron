@@ -20,7 +20,7 @@ const exitApp = (): void => {
 
 const createWindow = async () => {
   mainWindow = new BrowserWindow({
-    width: isDevEnv ? 1300 : 720,
+    width: 720,
     height: 540,
     webPreferences: {
       nodeIntegration: false,
