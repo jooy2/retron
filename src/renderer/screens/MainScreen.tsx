@@ -38,7 +38,7 @@ export default function MainScreen() {
     <div css={bodyRoot}>
       <div css={jumbo}>
         <Grid container alignItems="center" spacing={3}>
-          <Grid size={{ xs: 5 }}>
+          <Grid size={5}>
             <img
               data-testid="main-logo"
               alt="logo"
@@ -46,7 +46,7 @@ export default function MainScreen() {
               draggable="false"
             />
           </Grid>
-          <Grid size={{ xs: 7 }}>
+          <Grid size={7}>
             <h1>{t('hello-title')}</h1>
             <p>{t('hello-desc')}</p>
             <p>
