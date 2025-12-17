@@ -1,4 +1,4 @@
-import { globalIgnores } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import pluginJs from '@eslint/js';
 import pluginTypeScriptESLint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
@@ -11,11 +11,11 @@ import pluginPrettier from 'eslint-plugin-prettier/recommended';
 
 import globals from 'globals';
 
-export default pluginTypeScriptESLint.config(
+export default defineConfig(
   pluginPrettier,
   pluginReact.configs.flat.recommended,
   pluginJs.configs.recommended,
-  pluginReactHooks.configs['recommended-latest'],
+  pluginReactHooks.configs.flat.recommended,
   pluginTypeScriptESLint.configs.recommended,
   pluginImport.flatConfigs.electron,
   pluginJsxA11y.flatConfigs.recommended,
