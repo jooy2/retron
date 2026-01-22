@@ -18,6 +18,15 @@ const exitApp = (): void => {
   app.exit();
 };
 
+const installDevTron = async () => {
+  try {
+    const { devtron } = await import('@electron/devtron');
+    await devtron.install();
+  } catch {
+    // Do nothing
+  }
+};
+
 const createWindow = async () => {
   mainWindow = new BrowserWindow({
     width: 720,
@@ -60,7 +69,7 @@ const createWindow = async () => {
   IPCs.initialize();
 };
 
-app.whenReady().then(async () => {
+app.on('ready', async () => {
   // Disable special menus on macOS by uncommenting the following, if necessary
   /*
   if (process.platform === 'darwin') {
@@ -70,7 +79,8 @@ app.whenReady().then(async () => {
   */
 
   if (isDevEnv) {
-    import('./index.dev');
+    await import('./index.dev');
+    installDevTron();
   }
 
   await createWindow();
