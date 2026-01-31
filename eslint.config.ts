@@ -11,8 +11,7 @@ import pluginPrettier from 'eslint-plugin-prettier/recommended';
 
 import globals from 'globals';
 
-export default defineConfig(
-  pluginPrettier,
+export default defineConfig([
   pluginReact.configs.flat.recommended,
   pluginJs.configs.recommended,
   pluginReactHooks.configs.flat.recommended,
@@ -95,6 +94,13 @@ export default defineConfig(
         },
       ],
       '@typescript-eslint/no-explicit-any': 'off',
+      'prettier/prettier': [
+        'error',
+        {
+          endOfLine: 'auto',
+        },
+      ],
     },
   },
-);
+  pluginPrettier,
+]);
