@@ -3,9 +3,7 @@ import { TestInfo } from 'playwright/test';
 
 export default class TestUtil {
   _page: Page;
-
   _testInfo: TestInfo;
-
   _testScreenshotPath: string;
 
   constructor(page: Page, testInfo: TestInfo, testScreenshotPath: string) {
