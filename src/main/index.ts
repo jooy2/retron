@@ -7,7 +7,7 @@ import { debug } from '../../package.json';
 
 const isDevEnv = process.env.NODE_ENV === 'development';
 
-let mainWindow;
+let mainWindow: BrowserWindow;
 const currentDirName = dirname(fileURLToPath(import.meta.url));
 
 const exitApp = (): void => {
@@ -41,6 +41,7 @@ const createWindow = async () => {
 
   mainWindow.setMenu(null);
 
+  // @ts-expect-error ignore
   mainWindow.on('close', (event: Event): void => {
     event.preventDefault();
     exitApp();
