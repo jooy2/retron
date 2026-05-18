@@ -37,7 +37,7 @@ export default function MainScreen() {
   return (
     <div css={bodyRoot}>
       <div css={jumbo}>
-        <Grid container alignItems="center" spacing={3}>
+        <Grid container sx={{ alignItems: 'center' }} spacing={3}>
           <Grid size={5}>
             <img
               data-testid="main-logo"
