@@ -2,7 +2,7 @@ import * as base from '@playwright/test';
 import { _electron as electron, Page, ElectronApplication } from 'playwright';
 import { join } from 'path';
 import pkg from '../package.json' with { type: 'json' };
-import TestUtil from './testUtil.mjs';
+import TestUtil from './testUtil';
 
 const { main } = pkg;
 

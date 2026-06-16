@@ -1,4 +1,4 @@
-import { test, expect, beforeAll, afterAll } from '../fixtures.mjs';
+import { test, expect, beforeAll, afterAll } from '../fixtures';
 
 test.beforeAll(beforeAll);
 test.afterAll(afterAll);

@@ -17,7 +17,6 @@
     "vite.config.ts",
     "buildAssets/builder",
     "tests/**/*.ts",
-    "tests/**/*.mts",
     "tests/**/*.spec.ts"
   ]
 }

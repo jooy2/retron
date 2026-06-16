@@ -1,19 +1,33 @@
 /* eslint-disable no-template-curly-in-string */
-const dotenv = require('dotenv')
-const packageJson = require('../../package.json')
+import type { Configuration } from 'electron-builder';
+import dotenv from 'dotenv';
+import packageJson from '../../package.json' with { type: 'json' };
 
-const baseConfig = {
+dotenv.config();
+
+const config: Configuration = {
   productName: packageJson.name,
   appId: packageJson.appId,
   asar: true,
   extends: null,
   compression: 'maximum',
   artifactName: '${productName} ${version}_${arch}.${ext}',
+  copyright: `ⓒ ${new Date().getFullYear()} ${packageJson.author}`,
   directories: {
     buildResources: './buildAssets/installer/',
     output: './release/${version}'
   },
-  files: ['dist/**/*', '!release/**/*', '!tests/**/*'],
+  files: [
+    /* A list of files not to be included in the build. */
+    /*
+      (Required) The files and folders listed below should not be included in the build.
+    */
+    'dist/**/*',
+    '!dist/main/index.dev.js',
+    '!docs/**/*',
+    '!tests/**/*',
+    '!release/**/*'
+  ],
   mac: {
     bundleVersion: '1.0',
     hardenedRuntime: true,
@@ -21,6 +35,8 @@ const baseConfig = {
     notarize: false,
     icon: 'buildAssets/installer/icon.icns',
     type: 'distribution',
+    // TODO: Notarize for macOS
+    identity: null,
     target: [
       {
         target: 'dmg',
@@ -90,31 +106,6 @@ const baseConfig = {
       }
     ]
   }
-}
+};
 
-dotenv.config()
-
-baseConfig.copyright = `ⓒ ${new Date().getFullYear()} $\{author}`
-baseConfig.files = [
-  /* A list of files not to be included in the build. */
-  /*
-    (Required) The files and folders listed below should not be included in the build.
-  */
-  'dist/**/*',
-  '!dist/main/index.dev.js',
-  '!docs/**/*',
-  '!tests/**/*',
-  '!release/**/*'
-]
-
-// TODO: Notarize for macOS
-baseConfig.mac.identity = null
-/* if (process.env.MAC_NOTARIZE === 'true') {
-  baseConfig.afterSign = './buildAssets/builder/notarize.ts'
-} else {
-  baseConfig.mac.identity = null
-} */
-
-module.exports = {
-  ...baseConfig
-}
+export default config;
