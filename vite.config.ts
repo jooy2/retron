@@ -1,13 +1,14 @@
 import { fileURLToPath } from 'url';
 import { defineConfig, loadEnv } from 'vite';
-import ElectronPlugin, { ElectronOptions } from 'vite-plugin-electron';
+import electron, { ElectronSimpleOptions } from 'vite-plugin-electron/simple';
 import RendererPlugin from 'vite-plugin-electron-renderer';
-import EslintPlugin from 'vite-plugin-eslint';
+import EslintPlugin from '@nabla/vite-plugin-eslint';
 import ReactPlugin from '@vitejs/plugin-react-swc';
 import { resolve, dirname } from 'path';
 import { rmSync } from 'fs';
 import { builtinModules } from 'module';
 
+const projectRoot = dirname(fileURLToPath(import.meta.url));
 const isDEV = process.env.NODE_ENV === 'development';
 
 export default defineConfig(({ mode }) => {
@@ -21,72 +22,60 @@ export default defineConfig(({ mode }) => {
     ...loadEnv(mode, process.cwd()),
   };
 
-  rmSync('dist', { recursive: true, force: true });
+  rmSync(resolve(projectRoot, 'dist'), { recursive: true, force: true });
 
-  const electronPluginConfigs: ElectronOptions[] = [
-    {
+  const electronPluginConfigs: ElectronSimpleOptions = {
+    main: {
       entry: 'src/main/index.ts',
       onstart: ({ startup }) => {
-        startup();
+        const debugArgs = ['.', '--inspect=9228', '--remote-debugging-port=9229'];
+        startup(debugArgs, { cwd: projectRoot });
       },
       vite: {
-        root: resolve('.'),
+        root: resolve(projectRoot),
+        base: './',
         build: {
+          sourcemap: true,
           assetsDir: '.',
-          outDir: 'dist/main',
-          rollupOptions: {
+          outDir: resolve(projectRoot, 'dist/main'),
+          rolldownOptions: {
             external: ['electron', ...builtinModules],
           },
         },
       },
     },
-    {
-      entry: 'src/preload/index.ts',
-      onstart: ({ reload }) => {
-        reload();
-      },
+    preload: {
+      input: resolve(projectRoot, 'src/preload/index.ts'),
       vite: {
-        root: resolve('.'),
         build: {
-          outDir: 'dist/preload',
+          outDir: resolve(projectRoot, 'dist/preload'),
         },
       },
     },
-  ];
-
-  if (isDEV) {
-    electronPluginConfigs.push({
-      entry: 'src/main/index.dev.ts',
-      vite: {
-        root: resolve('.'),
-        build: {
-          outDir: 'dist/main',
-        },
-      },
-    });
-  }
+  };
 
   return {
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.mts', '.json', '.scss'],
       alias: {
-        '@': resolve(dirname(fileURLToPath(import.meta.url)), 'src'),
+        '@': resolve(projectRoot, 'src'),
       },
     },
     base: './',
-    root: resolve('./src/renderer'),
-    publicDir: resolve('./src/renderer/public'),
+    root: resolve(projectRoot, 'src/renderer'),
+    publicDir: resolve(projectRoot, 'src/renderer/public'),
+    clearScreen: false,
     build: {
       sourcemap: isDEV,
       minify: !isDEV,
-      outDir: resolve('./dist'),
+      outDir: resolve(projectRoot, 'dist'),
     },
     plugins: [
       ReactPlugin(),
-      // Docs: https://github.com/gxmari007/vite-plugin-eslint
+      // Docs: https://github.com/nabla/vite-plugin-eslint
       EslintPlugin(),
       // Docs: https://github.com/electron-vite/vite-plugin-electron
-      ElectronPlugin(electronPluginConfigs),
+      electron(electronPluginConfigs),
       RendererPlugin(),
     ],
   };
