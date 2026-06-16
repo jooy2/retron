@@ -1,8 +1,10 @@
 import * as base from '@playwright/test';
 import { _electron as electron, Page, ElectronApplication } from 'playwright';
 import { join } from 'path';
-import { main } from '../package.json';
+import pkg from '../package.json' with { type: 'json' };
 import TestUtil from './testUtil.mjs';
+
+const { main } = pkg;
 
 let appElectron: ElectronApplication;
 let page: Page;
