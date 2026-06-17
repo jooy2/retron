@@ -19,16 +19,30 @@ contextBridge.exposeInMainWorld('mainApi', {
 
     throw new Error(`Unknown ipc channel name: ${channel}`);
   },
-  on: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
+  on: (
+    channel: string,
+    listener: (event: IpcRendererEvent, ...args: any[]) => void,
+  ): (() => void) => {
     if (rendererAvailChannels.includes(channel)) {
       ipcRenderer.on(channel, listener);
+
+      return () => {
+        ipcRenderer.off(channel, listener);
+      };
     } else {
       throw new Error(`Unknown ipc channel name: ${channel}`);
     }
   },
-  once: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
+  once: (
+    channel: string,
+    listener: (event: IpcRendererEvent, ...args: any[]) => void,
+  ): (() => void) => {
     if (rendererAvailChannels.includes(channel)) {
       ipcRenderer.once(channel, listener);
+
+      return () => {
+        ipcRenderer.off(channel, listener);
+      };
     } else {
       throw new Error(`Unknown ipc channel name: ${channel}`);
     }
