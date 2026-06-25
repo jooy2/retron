@@ -26,13 +26,13 @@ export default class TestUtil {
     }
   }
 
-  async onTestError(error: Error) {
+  async onTestError(error: unknown) {
     const titleLists = [...this._testInfo.titlePath];
     titleLists.shift();
     const title = titleLists.join('-');
 
     await this.captureScreenshot(this._page, `${title}_${Date.now()}`);
 
-    return new Error(error.message);
+    return error instanceof Error ? error : new Error(String(error));
   }
 }

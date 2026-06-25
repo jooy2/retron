@@ -45,8 +45,10 @@ export const beforeAll = async () => {
     const currentWindow = BrowserWindow.getFocusedWindow();
 
     // Fix window position for testing
-    currentWindow.setPosition(50, 50);
-    currentWindow.setSize(1080, 560);
+    if (currentWindow) {
+      currentWindow.setPosition(50, 50);
+      currentWindow.setSize(1080, 560);
+    }
 
     return {
       packaged: app.isPackaged,
@@ -61,13 +63,16 @@ export const afterAll = async () => {
   await appElectron.close();
 };
 
-export const test = base.test.extend({
+type Fixtures = {
+  util: TestUtil;
+};
+
+export const test = base.test.extend<Fixtures>({
   // eslint-disable-next-line no-empty-pattern
   page: async ({}, use) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(page);
   },
-  // @ts-expect-error ignore
   util: async ({ page }, use, testInfo) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(new TestUtil(page, testInfo, __testScreenshotPath));

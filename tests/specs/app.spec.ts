@@ -3,7 +3,6 @@ import { test, expect, beforeAll, afterAll } from '../fixtures';
 test.beforeAll(beforeAll);
 test.afterAll(afterAll);
 
-// @ts-expect-error ignore
 test('Document element check', async ({ page, util }) => {
   try {
     await expect(
@@ -21,7 +20,6 @@ test('Document element check', async ({ page, util }) => {
   }
 });
 
-// @ts-expect-error ignore
 test('Counter button click check', async ({ page, util }) => {
   try {
     await page.getByTestId('btn-counter').click({ clickCount: 10, delay: 50 });
