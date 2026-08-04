@@ -80,10 +80,3 @@ export const test = base.test.extend<Fixtures>({
 });
 
 export const { expect } = base;
-
-export default {
-  test,
-  expect,
-  beforeAll,
-  afterAll,
-};

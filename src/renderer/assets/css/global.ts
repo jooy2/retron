@@ -22,8 +22,3 @@ export const jumbo = css`
     color: green;
   }
 `;
-
-export default {
-  bodyRoot,
-  jumbo,
-};
