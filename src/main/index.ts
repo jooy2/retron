@@ -13,9 +13,9 @@ const currentDirName = dirname(fileURLToPath(import.meta.url));
 const exitApp = (): void => {
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.hide();
+    mainWindow.destroy();
   }
-  mainWindow.destroy();
-  app.exit();
+  app.quit();
 };
 
 const installDevTron = async () => {
