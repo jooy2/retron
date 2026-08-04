@@ -6,6 +6,9 @@ import IPCs from './IPCs';
 import { debug } from '../../package.json';
 
 const isDevEnv = process.env.NODE_ENV === 'development';
+// `vite-plugin-electron` injects the address the dev server actually bound to.
+// The value in `package.json` is only a fallback for a manually started server.
+const devServerUrl = process.env.VITE_DEV_SERVER_URL || debug.env.VITE_DEV_SERVER_URL;
 
 let mainWindow: BrowserWindow;
 const currentDirName = dirname(fileURLToPath(import.meta.url));
@@ -74,7 +77,7 @@ const createWindow = async () => {
   });
 
   if (isDevEnv) {
-    await mainWindow.loadURL(debug.env.VITE_DEV_SERVER_URL);
+    await mainWindow.loadURL(devServerUrl);
   } else {
     await mainWindow.loadFile(join(currentDirName, '../index.html'));
   }
