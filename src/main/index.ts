@@ -41,8 +41,13 @@ const createWindow = async () => {
 
   mainWindow.setMenu(null);
 
-  // @ts-expect-error ignore
-  mainWindow.on('close', (event: Event): void => {
+  mainWindow.on('close', (event): void => {
+    // On macOS it is conventional to keep the app running after the window is
+    // closed, so the default behavior is kept and `activate` re-creates it.
+    if (process.platform === 'darwin') {
+      return;
+    }
+
     event.preventDefault();
     exitApp();
   });
@@ -94,8 +99,8 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.on('activate', () => {
+app.on('activate', async () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    await createWindow();
   }
 });
