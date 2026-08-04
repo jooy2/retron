@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -8,14 +7,14 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { increaseCount, setDarkTheme, setVersion } from '@/renderer/store/slices/appScreenSlice';
 import { bodyRoot, jumbo } from '@/renderer/assets/css/global';
-import type { RootState } from '@/renderer/store';
+import { useAppDispatch, useAppSelector } from '@/renderer/store/hooks';
 
 export default function MainScreen() {
-  const darkTheme = useSelector((state: RootState) => state.appScreen.darkTheme);
-  const appVersion = useSelector((state: RootState) => state.appScreen.version);
-  const counterValue = useSelector((state: RootState) => state.appScreen.counterValue);
+  const darkTheme = useAppSelector((state) => state.appScreen.darkTheme);
+  const appVersion = useAppSelector((state) => state.appScreen.version);
+  const counterValue = useAppSelector((state) => state.appScreen.counterValue);
   const [t] = useTranslation(['common']);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleGithubLink = async (): Promise<void> => {
     await window.mainApi.send('msgOpenExternalLink', 'https://github.com/jooy2/retron');
