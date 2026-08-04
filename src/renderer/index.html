@@ -3,7 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <!--
+      `ws://localhost:*` and `http://localhost:*` are only required by the Vite dev
+      server and can be dropped in an app that is never started with `npm run dev`.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' file: data:; font-src 'self' file: data:; connect-src 'self' file: ws://localhost:* http://localhost:*; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none';"
+    />
     <title>Retron Template</title>
   </head>
   <body>
