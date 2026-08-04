@@ -42,7 +42,7 @@ export const beforeAll = async () => {
   page.on('pageerror', console.log);
 
   const evaluateResult = await appElectron.evaluate(async ({ app, BrowserWindow }) => {
-    const currentWindow = BrowserWindow.getFocusedWindow();
+    const [currentWindow] = BrowserWindow.getAllWindows();
 
     // Fix window position for testing
     if (currentWindow) {

@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, nativeTheme } from 'electron';
 
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -31,6 +31,9 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     width: 720,
     height: 540,
+    // Keep the window hidden until the first paint is ready to avoid a white flash
+    show: false,
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#111111' : '#ffffff',
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
