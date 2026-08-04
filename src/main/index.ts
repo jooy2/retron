@@ -42,7 +42,12 @@ const createWindow = async () => {
     },
   });
 
-  mainWindow.setMenu(null);
+  // `BrowserWindow.setMenu` is only supported on Windows and Linux. The macOS
+  // application menu is left untouched so that standard shortcuts such as
+  // Cmd+Q and Cmd+C keep working.
+  if (process.platform !== 'darwin') {
+    mainWindow.setMenu(null);
+  }
 
   mainWindow.on('close', (event): void => {
     // On macOS it is conventional to keep the app running after the window is
