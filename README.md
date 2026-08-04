@@ -114,6 +114,38 @@ $ npm run dev
 
 `npm run build:pre` runs on its own before every build target. It type-checks the renderer, the main process and the preload script with `tsc -b`, then bundles the app with Vite.
 
+## Project structure
+
+An Electron app runs in more than one process, and each one has different privileges. Knowing which directory belongs to which process is the first thing to learn about this template.
+
+```
+src
+├── main         Main process. Full Node.js access: windows, menus, files, IPC handlers.
+│   ├── index.ts       Application entry point (`main` field of package.json)
+│   ├── index.dev.ts   Development-only extensions, stripped from release builds
+│   └── IPCs.ts        Every `ipcMain` handler lives here
+├── preload      Bridge between the two processes. Runs before the page scripts.
+│   ├── index.ts       Exposes `window.mainApi` through `contextBridge`
+│   └── types.ts       Channel names and the type of `window.mainApi`
+├── renderer     The React application. Sandboxed, no Node.js access.
+│   ├── assets         Global styles
+│   ├── components     Reusable components
+│   ├── screens        One component per route
+│   ├── store          Redux Toolkit store, slices and pre-typed hooks
+│   ├── public         Static files copied as-is (images, translations)
+│   ├── i18n.ts        i18next setup and the list of supported languages
+│   └── index.html     Renderer entry point, including the Content Security Policy
+└── global.d.ts  Declares `window.mainApi` for the renderer
+
+buildAssets
+├── builder      electron-builder configuration
+└── installer    Installer icons
+
+tests           Playwright end-to-end suite
+```
+
+The renderer is deliberately unprivileged: `nodeIntegration` is off and `contextIsolation` is on. Anything that needs the operating system has to go through IPC.
+
 ## Build
 
 **Retron** can build targeting Windows 10 or later, macOS 12 (Monterey) or later, and major Linux distributions. The macOS floor is the one `electron@42` declares; it moves up as Electron drops older releases.
