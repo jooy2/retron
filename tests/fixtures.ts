@@ -9,18 +9,18 @@ const { main } = pkg;
 let appElectron: ElectronApplication;
 let page: Page;
 
-const __cwd = process.cwd();
-const __isCiProcess = process.env.CI === 'true';
-const __testPath = join(__cwd, 'tests');
-const __testResultPath = join(__testPath, 'results');
-const __testScreenshotPath = join(__testResultPath, 'screenshots');
+const cwd = process.cwd();
+const isCiProcess = process.env.CI === 'true';
+const testPath = join(cwd, 'tests');
+const testResultPath = join(testPath, 'results');
+const testScreenshotPath = join(testResultPath, 'screenshots');
 
 export const beforeAll = async () => {
   // Open Electron app from build directory
   appElectron = await electron.launch({
     args: [
       main,
-      ...(__isCiProcess ? ['--no-sandbox'] : []),
+      ...(isCiProcess ? ['--no-sandbox'] : []),
       '--enable-logging',
       '--ignore-certificate-errors',
       '--ignore-ssl-errors',
@@ -75,7 +75,7 @@ export const test = base.test.extend<Fixtures>({
   },
   util: async ({ page }, use, testInfo) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    await use(new TestUtil(page, testInfo, __testScreenshotPath));
+    await use(new TestUtil(page, testInfo, testScreenshotPath));
   },
 });
 
