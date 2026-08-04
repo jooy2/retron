@@ -14,7 +14,7 @@ export default function App() {
           <Routes>
             <Route path="/">
               <Route index element={<MainScreen />} />
-              <Route path="*" element={NotFoundScreen()} />
+              <Route path="*" element={<NotFoundScreen />} />
             </Route>
           </Routes>
         </HashRouter>
