@@ -99,6 +99,21 @@ You can test your project in the development environment using the following com
 $ npm run dev
 ```
 
+## Scripts
+
+| Command              | Description                                                             |
+| -------------------- | ----------------------------------------------------------------------- |
+| `npm run dev`        | Start the Vite dev server and launch Electron with hot-reload           |
+| `npm run lint`       | Report ESLint problems                                                  |
+| `npm run lint:fix`   | Report ESLint problems and fix the ones that can be fixed automatically |
+| `npm run format`     | Check that every file follows the Prettier code style                   |
+| `npm run format:fix` | Rewrite every file with the Prettier code style                         |
+| `npm run test`       | Build the app and run the Playwright end-to-end suite                   |
+| `npm run test:linux` | Same as `npm run test`, wrapped in `xvfb-run` for headless Linux        |
+| `npm run build`      | Build a distributable package for the current platform                  |
+
+`npm run build:pre` runs on its own before every build target. It type-checks the renderer, the main process and the preload script with `tsc -b`, then bundles the app with Vite.
+
 ## Build
 
 **Retron** can build targeting Windows 10 or later, macOS 12 (Monterey) or later, and major Linux distributions. The macOS floor is the one `electron@42` declares; it moves up as Electron drops older releases.
