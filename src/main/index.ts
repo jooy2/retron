@@ -65,9 +65,6 @@ const createWindow = async () => {
   } else {
     await mainWindow.loadFile(join(currentDirName, '../index.html'));
   }
-
-  // Initialize IPC Communication
-  IPCs.initialize();
 };
 
 app.on('ready', async () => {
@@ -83,6 +80,10 @@ app.on('ready', async () => {
     await import('./index.dev');
     installDevTron();
   }
+
+  // Initialize IPC Communication. Handlers must be registered only once,
+  // otherwise re-creating the window would attach duplicated listeners.
+  IPCs.initialize();
 
   await createWindow();
 });
