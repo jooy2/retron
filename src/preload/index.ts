@@ -1,29 +1,27 @@
-import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
+import type { MainApi, MainChannel, RendererChannel, RendererListener } from './types';
 
 // Whitelist of valid channels used for IPC communication (Send message from Renderer to Main)
-const mainAvailChannels: string[] = ['msgRequestGetVersion', 'msgOpenExternalLink'];
+const mainAvailChannels: MainChannel[] = ['msgRequestGetVersion', 'msgOpenExternalLink'];
 // Whitelist of valid channels used for IPC communication (Send message from Main to Renderer)
-const rendererAvailChannels: string[] = ['msgNativeThemeUpdated'];
+const rendererAvailChannels: RendererChannel[] = ['msgNativeThemeUpdated'];
 
-contextBridge.exposeInMainWorld('mainApi', {
-  send: (channel: string, ...data: any[]): void => {
+const mainApi: MainApi = {
+  send: (channel: MainChannel, ...data: any[]): void => {
     if (mainAvailChannels.includes(channel)) {
       ipcRenderer.send.apply(null, [channel, ...data]);
     } else {
       throw new Error(`Unknown ipc channel name: ${channel}`);
     }
   },
-  sendSync: (channel: string, ...data: any[]): any => {
+  sendSync: (channel: MainChannel, ...data: any[]): any => {
     if (mainAvailChannels.includes(channel)) {
       return ipcRenderer.sendSync.apply(null, [channel, ...data]);
     }
 
     throw new Error(`Unknown ipc channel name: ${channel}`);
   },
-  on: (
-    channel: string,
-    listener: (event: IpcRendererEvent, ...args: any[]) => void,
-  ): (() => void) => {
+  on: (channel: RendererChannel, listener: RendererListener): (() => void) => {
     if (rendererAvailChannels.includes(channel)) {
       ipcRenderer.on(channel, listener);
 
@@ -34,10 +32,7 @@ contextBridge.exposeInMainWorld('mainApi', {
       throw new Error(`Unknown ipc channel name: ${channel}`);
     }
   },
-  once: (
-    channel: string,
-    listener: (event: IpcRendererEvent, ...args: any[]) => void,
-  ): (() => void) => {
+  once: (channel: RendererChannel, listener: RendererListener): (() => void) => {
     if (rendererAvailChannels.includes(channel)) {
       ipcRenderer.once(channel, listener);
 
@@ -48,18 +43,20 @@ contextBridge.exposeInMainWorld('mainApi', {
       throw new Error(`Unknown ipc channel name: ${channel}`);
     }
   },
-  off: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
+  off: (channel: RendererChannel, listener: RendererListener): void => {
     if (rendererAvailChannels.includes(channel)) {
       ipcRenderer.off(channel, listener);
     } else {
       throw new Error(`Unknown ipc channel name: ${channel}`);
     }
   },
-  invoke: async (channel: string, ...data: any[]): Promise<any> => {
+  invoke: async (channel: MainChannel, ...data: any[]): Promise<any> => {
     if (mainAvailChannels.includes(channel)) {
       const result = await ipcRenderer.invoke.apply(null, [channel, ...data]);
       return result;
     }
     throw new Error(`Unknown ipc channel name: ${channel}`);
   },
-});
+};
+
+contextBridge.exposeInMainWorld('mainApi', mainApi);

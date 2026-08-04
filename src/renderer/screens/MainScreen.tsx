@@ -16,8 +16,8 @@ export default function MainScreen() {
   const [t] = useTranslation(['common']);
   const dispatch = useAppDispatch();
 
-  const handleGithubLink = async (): Promise<void> => {
-    await window.mainApi.send('msgOpenExternalLink', 'https://github.com/jooy2/retron');
+  const handleGithubLink = (): void => {
+    window.mainApi.send('msgOpenExternalLink', 'https://github.com/jooy2/retron');
   };
 
   const handleChangeTheme = (): void => {
