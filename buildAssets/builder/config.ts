@@ -23,7 +23,9 @@ const config: Configuration = {
       (Required) The files and folders listed below should not be included in the build.
     */
     'dist/**/*',
-    '!dist/main/index.dev.js',
+    /* The development entry is emitted as a hashed chunk, so match it by prefix. */
+    '!dist/main/index.dev*',
+    '!dist/**/*.map',
     '!docs/**/*',
     '!tests/**/*',
     '!release/**/*'
