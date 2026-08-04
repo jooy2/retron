@@ -28,7 +28,7 @@
     "dev:debug": "vite -d",
     "dev:debug:force": "vite -d --force",
     "build": "npm run build:pre && electron-builder --config=buildAssets/builder/config.ts",
-    "build:pre": "tsc && vite build",
+    "build:pre": "tsc -b && vite build",
     "build:all": "npm run build:pre && electron-builder -wml --config=buildAssets/builder/config.ts",
     "build:dir": "npm run build:pre && electron-builder --dir --config=buildAssets/builder/config.ts",
     "build:win": "npm run build:pre && electron-builder --windows --config=buildAssets/builder/config.ts",

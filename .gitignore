@@ -64,6 +64,7 @@ $RECYCLE.BIN/
 dist/
 release/
 tests/results/
+.tscache/
 .eslintcache
 vite-plugin-electron.log
 *.tsbuildinfo

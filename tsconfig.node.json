@@ -5,7 +5,9 @@
     "moduleDetection": "force",
     "jsx": "preserve",
     "composite": true,
-    "noEmit": true,
+    /* A referenced project cannot disable emit, so throwaway output is kept out of the way. */
+    "outDir": ".tscache",
+    "tsBuildInfoFile": ".tscache/node.tsbuildinfo",
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,

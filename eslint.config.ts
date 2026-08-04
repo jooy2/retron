@@ -22,6 +22,7 @@ export default defineConfig([
   globalIgnores([
     '**/node_modules',
     '**/dist',
+    '**/.tscache',
     '**/release',
     '**/.idea',
     '**/.vscode',

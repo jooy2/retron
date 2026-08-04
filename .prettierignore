@@ -11,3 +11,4 @@
 buildAssets/
 dist/
 release/
+.tscache/
