@@ -9,9 +9,12 @@ import { rmSync } from 'fs';
 import { builtinModules } from 'module';
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
-const isDEV = process.env.NODE_ENV === 'development';
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
+  // `NODE_ENV` is not set yet while this config file is being evaluated,
+  // so the Vite command is used to detect the development environment.
+  const isDEV = command === 'serve';
+
   process.env = {
     ...(isDEV
       ? {
