@@ -146,6 +146,38 @@ tests           Playwright end-to-end suite
 
 The renderer is deliberately unprivileged: `nodeIntegration` is off and `contextIsolation` is on. Anything that needs the operating system has to go through IPC.
 
+## Adding an IPC channel
+
+Channels are whitelisted, so a new one always touches three files. Adding it in only one place fails fast with `Unknown ipc channel name`.
+
+**1. Declare the channel name** in `src/preload/types.ts`. `MainChannel` is Renderer → Main, `RendererChannel` is Main → Renderer.
+
+```ts
+export type MainChannel = 'msgRequestGetVersion' | 'msgReadConfigFile';
+```
+
+**2. Allow it in the preload whitelist** in `src/preload/index.ts`.
+
+```ts
+const mainAvailChannels: MainChannel[] = ['msgRequestGetVersion', 'msgReadConfigFile'];
+```
+
+**3. Handle it in the main process** in `src/main/IPCs.ts`.
+
+```ts
+ipcMain.handle('msgReadConfigFile', async (event, path: string) => readFile(path, 'utf8'));
+```
+
+The renderer can then call it, fully typed:
+
+```ts
+const config = await window.mainApi.invoke('msgReadConfigFile', '/etc/hosts');
+```
+
+For the Main → Renderer direction, send from the main process with `webContents.send(...)` and subscribe with `window.mainApi.on(...)`, which returns the function that removes the listener again. `msgNativeThemeUpdated` is a working example of this.
+
+> Treat every value that arrives from the renderer as untrusted. `openExternalLink` in `src/main/IPCs.ts` shows the expected shape: validate first, act second.
+
 ## Build
 
 **Retron** can build targeting Windows 10 or later, macOS 12 (Monterey) or later, and major Linux distributions. The macOS floor is the one `electron@42` declares; it moves up as Electron drops older releases.
