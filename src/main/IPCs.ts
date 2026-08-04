@@ -1,4 +1,4 @@
-import { IpcMainEvent, ipcMain, shell } from 'electron';
+import { BrowserWindow, IpcMainEvent, ipcMain, nativeTheme, shell } from 'electron';
 import { version } from '../../package.json';
 
 const allowedExternalProtocols = ['http:', 'https:', 'mailto:'];
@@ -35,6 +35,15 @@ export default class IPCs {
     // Open url via web browser
     ipcMain.on('msgOpenExternalLink', async (event: IpcMainEvent, url: string) => {
       await openExternalLink(url);
+    });
+
+    // Push the operating system color scheme to every renderer.
+    // This is the Main -> Renderer direction of the bridge; the renderer
+    // subscribes to it through `window.mainApi.on`.
+    nativeTheme.on('updated', () => {
+      BrowserWindow.getAllWindows().forEach((browserWindow) => {
+        browserWindow.webContents.send('msgNativeThemeUpdated', nativeTheme.shouldUseDarkColors);
+      });
     });
   }
 }
