@@ -38,7 +38,7 @@ export default defineConfig(({ command, mode }) => {
         root: resolve(projectRoot),
         base: './',
         build: {
-          sourcemap: true,
+          sourcemap: isDEV,
           assetsDir: '.',
           outDir: resolve(projectRoot, 'dist/main'),
           rolldownOptions: {
