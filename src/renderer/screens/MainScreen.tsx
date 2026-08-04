@@ -5,15 +5,18 @@ import { useTranslation } from 'react-i18next';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 import { increaseCount, setDarkTheme, setVersion } from '@/renderer/store/slices/appScreenSlice';
 import { bodyRoot, jumbo } from '@/renderer/assets/css/global';
+import { languageNames, supportedLanguages } from '@/renderer/i18n';
 import { useAppDispatch, useAppSelector } from '@/renderer/store/hooks';
 
 export default function MainScreen() {
   const darkTheme = useAppSelector((state) => state.appScreen.darkTheme);
   const appVersion = useAppSelector((state) => state.appScreen.version);
   const counterValue = useAppSelector((state) => state.appScreen.counterValue);
-  const [t] = useTranslation(['common']);
+  const [t, i18n] = useTranslation(['common']);
   const dispatch = useAppDispatch();
 
   const handleGithubLink = (): void => {
@@ -26,6 +29,11 @@ export default function MainScreen() {
 
   const handleIncreaseCount = (): void => {
     dispatch(increaseCount());
+  };
+
+  const handleChangeLanguage = async (language: string): Promise<void> => {
+    // The detector caches the choice, so it is restored on the next launch
+    await i18n.changeLanguage(language);
   };
 
   useEffect(() => {
@@ -66,6 +74,21 @@ export default function MainScreen() {
                 +1
               </Button>
             </ButtonGroup>
+            <TextField
+              select
+              size="small"
+              margin="normal"
+              label={t('language')}
+              value={i18n.resolvedLanguage ?? 'en'}
+              onChange={(event) => handleChangeLanguage(event.target.value)}
+              data-testid="select-language"
+            >
+              {supportedLanguages.map((language) => (
+                <MenuItem key={language} value={language}>
+                  {languageNames[language]}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
         </Grid>
       </div>

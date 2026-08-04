@@ -3,5 +3,8 @@
   "hello-desc": "Vous pouvez désormais créer vos propres applications Web dans un environnement préconfiguré. Si vous avez besoin d'aide, veuillez utiliser l'outil de suivi des problèmes sur la page du projet.",
   "using-version": "Version de l'application: ",
   "count-value": "compter: ",
-  "source-code": "code source du projet"
+  "source-code": "code source du projet",
+  "language": "Langue",
+  "not-found-title": "Écran introuvable",
+  "not-found-link": "Aller à la page principale"
 }

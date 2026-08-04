@@ -9,6 +9,16 @@ export const supportedLanguages = ['en', 'de', 'fr', 'ja', 'ko'] as const;
 
 export type SupportedLanguage = (typeof supportedLanguages)[number];
 
+// Language names are intentionally not translated, so that every entry stays
+// readable no matter which language is currently active.
+export const languageNames: Record<SupportedLanguage, string> = {
+  en: 'English',
+  de: 'Deutsch',
+  fr: 'Français',
+  ja: '日本語',
+  ko: '한국어',
+};
+
 i18n
   .use(Backend)
   .use(LanguageDetector)
