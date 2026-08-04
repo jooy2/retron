@@ -82,6 +82,7 @@ export default function MainScreen() {
               value={i18n.resolvedLanguage ?? 'en'}
               onChange={(event) => handleChangeLanguage(event.target.value)}
               data-testid="select-language"
+              sx={{ display: 'flex', maxWidth: 160 }}
             >
               {supportedLanguages.map((language) => (
                 <MenuItem key={language} value={language}>
