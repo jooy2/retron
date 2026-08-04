@@ -2,7 +2,7 @@ import { app, BrowserWindow, nativeTheme } from 'electron';
 
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import IPCs from './IPCs';
+import IPCs, { openExternalLink } from './IPCs';
 import { debug } from '../../package.json';
 
 const isDevEnv = process.env.NODE_ENV === 'development';
@@ -61,6 +61,34 @@ const createWindow = async () => {
 
     event.preventDefault();
     exitApp();
+  });
+
+  // Never let the renderer navigate away from the application itself.
+  // Everything that points somewhere else is handed to the default browser.
+  const isInternalUrl = (url: string): boolean => {
+    try {
+      const target = new URL(url);
+      const current = new URL(mainWindow.webContents.getURL());
+
+      return target.protocol === current.protocol && target.host === current.host;
+    } catch {
+      return false;
+    }
+  };
+
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    void openExternalLink(url);
+
+    return { action: 'deny' };
+  });
+
+  mainWindow.webContents.on('will-navigate', (event, url): void => {
+    if (isInternalUrl(url)) {
+      return;
+    }
+
+    event.preventDefault();
+    void openExternalLink(url);
   });
 
   mainWindow.webContents.on('did-frame-finish-load', (): void => {
