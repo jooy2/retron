@@ -1,6 +1,27 @@
 import { IpcMainEvent, ipcMain, shell } from 'electron';
 import { version } from '../../package.json';
 
+const allowedExternalProtocols = ['http:', 'https:', 'mailto:'];
+
+/*
+ * Open a url with the default handler of the operating system.
+ * Anything that reaches the main process from the renderer has to be treated as
+ * untrusted input, so only a known set of protocols is forwarded to the shell.
+ * */
+export const openExternalLink = async (url: string): Promise<void> => {
+  try {
+    const { protocol } = new URL(url);
+
+    if (!allowedExternalProtocols.includes(protocol)) {
+      throw new Error(`Blocked an external link with a disallowed protocol: ${protocol}`);
+    }
+
+    await shell.openExternal(url);
+  } catch (error) {
+    console.error(`Failed to open the external link "${url}":`, error);
+  }
+};
+
 /*
  * IPC Communications
  * */
@@ -13,7 +34,7 @@ export default class IPCs {
 
     // Open url via web browser
     ipcMain.on('msgOpenExternalLink', async (event: IpcMainEvent, url: string) => {
-      await shell.openExternal(url);
+      await openExternalLink(url);
     });
   }
 }
