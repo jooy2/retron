@@ -37,7 +37,7 @@
     "build:linux": "npm run build:pre && electron-builder --linux --config=buildAssets/builder/config.ts",
     "lint": "eslint . --ext .js,.ts,.tsx,.jsx .",
     "lint:fix": "eslint . --ext .js,.ts,.tsx,.jsx --fix .",
-    "format": "prettier .",
+    "format": "prettier . --check",
     "format:fix": "prettier . --write",
     "test": "npm run build:pre && playwright test",
     "test:linux": "npm run build:pre && xvfb-run --auto-servernum --server-args='-screen 0, 1280x960x24' -- playwright test"
