@@ -59,6 +59,11 @@ It is configured to experience fast development and build speed using **[Vite](h
 - **For testing**
   - `playwright`
 
+## Requirements
+
+- **Node.js** `22.12.0` or later (required by `electron@42` and `vite@8`)
+- One of `npm`, `yarn` or `pnpm`
+
 ## Installation
 
 You can easily clone a repository with just the npm command. (Recommend)
@@ -96,7 +101,7 @@ $ npm run dev
 
 ## Build
 
-**Retron** can build targeting Windows 10 or later, macOS 14.x or later, and major Linux distributions.
+**Retron** can build targeting Windows 10 or later, macOS 12 (Monterey) or later, and major Linux distributions. The macOS floor is the one `electron@42` declares; it moves up as Electron drops older releases.
 
 ```shell
 # For Windows (.exe, .appx)
