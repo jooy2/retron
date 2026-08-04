@@ -32,6 +32,11 @@ export default class IPCs {
       event.returnValue = version;
     });
 
+    // Get the color scheme the operating system currently asks for
+    ipcMain.on('msgRequestGetSystemTheme', (event: IpcMainEvent) => {
+      event.returnValue = nativeTheme.shouldUseDarkColors;
+    });
+
     // Open url via web browser
     ipcMain.on('msgOpenExternalLink', async (event: IpcMainEvent, url: string) => {
       await openExternalLink(url);

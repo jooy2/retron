@@ -3,11 +3,12 @@ import { ReactNode, useEffect, useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
-import { setDarkTheme } from '@/renderer/store/slices/appScreenSlice';
+import { THEME_STORAGE_KEY, setSystemDarkTheme } from '@/renderer/store/slices/appScreenSlice';
 import { useAppDispatch, useAppSelector } from '@/renderer/store/hooks';
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const darkTheme = useAppSelector((state) => state.appScreen.darkTheme);
+  const followSystemTheme = useAppSelector((state) => state.appScreen.followSystemTheme);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -16,12 +17,24 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     const unsubscribe = window.mainApi.on(
       'msgNativeThemeUpdated',
       (_event: unknown, shouldUseDarkColors: boolean) => {
-        dispatch(setDarkTheme(shouldUseDarkColors));
+        dispatch(setSystemDarkTheme(shouldUseDarkColors));
       },
     );
 
     return unsubscribe;
   }, [dispatch]);
+
+  useEffect(() => {
+    // Only an explicit choice is stored, so that removing it restores the
+    // "follow the operating system" behavior on the next launch.
+    if (followSystemTheme) {
+      localStorage.removeItem(THEME_STORAGE_KEY);
+
+      return;
+    }
+
+    localStorage.setItem(THEME_STORAGE_KEY, String(darkTheme));
+  }, [darkTheme, followSystemTheme]);
 
   const muiTheme = useMemo(
     () =>

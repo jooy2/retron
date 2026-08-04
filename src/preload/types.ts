@@ -4,7 +4,10 @@ import type { IpcRendererEvent } from 'electron';
  * Channels the renderer may send to the main process.
  * A new channel has to be added here and to `mainAvailChannels` in `index.ts`.
  * */
-export type MainChannel = 'msgRequestGetVersion' | 'msgOpenExternalLink';
+export type MainChannel =
+  | 'msgRequestGetVersion'
+  | 'msgRequestGetSystemTheme'
+  | 'msgOpenExternalLink';
 
 /*
  * Channels the main process may push to the renderer.

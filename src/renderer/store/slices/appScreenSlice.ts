@@ -1,15 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+export const THEME_STORAGE_KEY = 'retron.darkTheme';
+
 export interface AppScreenState {
   version: string;
   darkTheme: boolean;
+  followSystemTheme: boolean;
   counterValue: number;
 }
 
+const readStoredDarkTheme = (): boolean | null => {
+  const storedValue = localStorage.getItem(THEME_STORAGE_KEY);
+
+  return storedValue === null ? null : storedValue === 'true';
+};
+
+const storedDarkTheme = readStoredDarkTheme();
+
 const initialState: AppScreenState = {
   version: 'Unknown',
-  darkTheme: false,
+  // As long as the user has not picked a theme, the operating system decides
+  darkTheme: storedDarkTheme ?? Boolean(window.mainApi.sendSync('msgRequestGetSystemTheme')),
+  followSystemTheme: storedDarkTheme === null,
   counterValue: 0,
 };
 
@@ -22,6 +35,15 @@ export const appScreenSlice = createSlice({
     },
     setDarkTheme: (state, action: PayloadAction<boolean>) => {
       state.darkTheme = action.payload;
+      // An explicit choice wins over the operating system from now on
+      state.followSystemTheme = false;
+    },
+    setSystemDarkTheme: (state, action: PayloadAction<boolean>) => {
+      if (!state.followSystemTheme) {
+        return;
+      }
+
+      state.darkTheme = action.payload;
     },
     increaseCount: (state) => {
       state.counterValue += 1;
@@ -29,6 +51,7 @@ export const appScreenSlice = createSlice({
   },
 });
 
-export const { setVersion, setDarkTheme, increaseCount } = appScreenSlice.actions;
+export const { setVersion, setDarkTheme, setSystemDarkTheme, increaseCount } =
+  appScreenSlice.actions;
 
 export default appScreenSlice.reducer;
