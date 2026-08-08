@@ -3,8 +3,13 @@
   "hello-desc": "これで、事前設定された環境で独自のWebアプリケーションを作成できます。 支援が必要な場合は、プロジェクトページの問題トラッカーを使用してください。",
   "using-version": "アプリケーションバージョン: ",
   "count-value": "カウント: ",
+  "window-count": "開いているウィンドウ: ",
   "source-code": "プロジェクトソースコード",
+  "open-window": "新しいウィンドウ",
+  "close-window": "このウィンドウを閉じる",
   "language": "言語",
+  "second-title": "2番目の画面",
+  "second-desc": "この画面は別のウィンドウで実行されています。",
   "not-found-title": "画面が見つかりません",
   "not-found-link": "メイン画面へ移動"
 }

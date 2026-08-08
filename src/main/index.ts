@@ -1,17 +1,11 @@
 import { app, BrowserWindow, nativeTheme } from 'electron';
 
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
-import IPCs, { openExternalLink } from './IPCs';
-import { debug } from '../../package.json';
-
-const isDevEnv = process.env.NODE_ENV === 'development';
-// `vite-plugin-electron` injects the address the dev server actually bound to.
-// The value in `package.json` is only a fallback for a manually started server.
-const devServerUrl = process.env.VITE_DEV_SERVER_URL || debug.env.VITE_DEV_SERVER_URL;
+import IPCs from './IPCs';
+import WindowManager from './WindowManager';
+import { appIndexFile, devServerUrl, isDevEnv, preloadFile } from './constants';
+import { registerWindowSecurity } from './security';
 
 let mainWindow: BrowserWindow;
-const currentDirName = dirname(fileURLToPath(import.meta.url));
 
 const exitApp = (): void => {
   if (mainWindow && !mainWindow.isDestroyed()) {
@@ -32,8 +26,8 @@ const installDevTron = async () => {
 
 const createWindow = async () => {
   mainWindow = new BrowserWindow({
-    width: 720,
-    height: 540,
+    width: 1160,
+    height: 600,
     // Keep the window hidden until the first paint is ready to avoid a white flash
     show: false,
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#111111' : '#ffffff',
@@ -41,7 +35,7 @@ const createWindow = async () => {
       nodeIntegration: false,
       contextIsolation: true,
       devTools: isDevEnv,
-      preload: join(currentDirName, '../preload/index.js'),
+      preload: preloadFile,
     },
   });
 
@@ -53,6 +47,10 @@ const createWindow = async () => {
   }
 
   mainWindow.on('close', (event): void => {
+    // Windows opened on top of this one go with it, so that the app is never
+    // left running with windows the user cannot get back to the main one from.
+    WindowManager.closeAll();
+
     // On macOS it is conventional to keep the app running after the window is
     // closed, so the default behavior is kept and `activate` re-creates it.
     if (process.platform === 'darwin') {
@@ -65,31 +63,7 @@ const createWindow = async () => {
 
   // Never let the renderer navigate away from the application itself.
   // Everything that points somewhere else is handed to the default browser.
-  const isInternalUrl = (url: string): boolean => {
-    try {
-      const target = new URL(url);
-      const current = new URL(mainWindow.webContents.getURL());
-
-      return target.protocol === current.protocol && target.host === current.host;
-    } catch {
-      return false;
-    }
-  };
-
-  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    void openExternalLink(url);
-
-    return { action: 'deny' };
-  });
-
-  mainWindow.webContents.on('will-navigate', (event, url): void => {
-    if (isInternalUrl(url)) {
-      return;
-    }
-
-    event.preventDefault();
-    void openExternalLink(url);
-  });
+  registerWindowSecurity(mainWindow);
 
   mainWindow.webContents.on('did-frame-finish-load', (): void => {
     if (isDevEnv) {
@@ -107,7 +81,7 @@ const createWindow = async () => {
   if (isDevEnv) {
     await mainWindow.loadURL(devServerUrl);
   } else {
-    await mainWindow.loadFile(join(currentDirName, '../index.html'));
+    await mainWindow.loadFile(appIndexFile);
   }
 };
 
@@ -122,7 +96,11 @@ app.on('ready', async () => {
 
   if (isDevEnv) {
     await import('./index.dev');
-    installDevTron();
+    // Awaited on purpose. Devtron wraps every renderer payload to track it and
+    // unwraps it again by patching `ipcMain`, so a handler registered before
+    // the patch is in place receives the wrapper object instead of its
+    // arguments. `IPCs.initialize()` below has to come second.
+    await installDevTron();
   }
 
   // Initialize IPC Communication. Handlers must be registered only once,

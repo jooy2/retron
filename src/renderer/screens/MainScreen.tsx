@@ -12,6 +12,7 @@ import { bodyRoot, jumbo } from '@/renderer/assets/css/global';
 import { languageNames, supportedLanguages } from '@/common/locales';
 import { mainChannels } from '@/common/ipc';
 import { useAppDispatch, useAppSelector } from '@/renderer/store/hooks';
+import useWindowInfo from '@/renderer/hooks/useWindowInfo';
 
 export default function MainScreen() {
   const darkTheme = useAppSelector((state) => state.appScreen.darkTheme);
@@ -19,6 +20,7 @@ export default function MainScreen() {
   const counterValue = useAppSelector((state) => state.appScreen.counterValue);
   const [t, i18n] = useTranslation(['common']);
   const dispatch = useAppDispatch();
+  const { childWindowIds } = useWindowInfo();
 
   const handleGithubLink = (): void => {
     window.mainApi.send(mainChannels.openExternalLink, 'https://github.com/jooy2/retron');
@@ -30,6 +32,12 @@ export default function MainScreen() {
 
   const handleIncreaseCount = (): void => {
     dispatch(increaseCount());
+  };
+
+  // The second screen is opened in a window of its own. The main process
+  // answers with `null` when it refuses, see `FEAT_MULTI_WINDOW`.
+  const handleOpenWindow = async (): Promise<void> => {
+    await window.mainApi.invoke(mainChannels.openWindow, '/second');
   };
 
   const handleChangeLanguage = async (language: string): Promise<void> => {
@@ -66,8 +74,17 @@ export default function MainScreen() {
                 <strong role="status">{counterValue}</strong>
               </span>
             </p>
+            <p data-testid="window-count">
+              {t('window-count')}{' '}
+              <span>
+                <strong role="status">{childWindowIds.length}</strong>
+              </span>
+            </p>
             <ButtonGroup variant="contained">
               <Button onClick={handleGithubLink}>{t('source-code')}</Button>
+              <Button data-testid="btn-open-window" onClick={handleOpenWindow}>
+                {t('open-window')}
+              </Button>
               <Button data-testid="btn-change-theme" onClick={handleChangeTheme}>
                 {darkTheme ? '🌞' : '🌙'}
               </Button>

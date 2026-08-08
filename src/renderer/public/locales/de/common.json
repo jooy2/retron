@@ -3,8 +3,13 @@
   "hello-desc": "Sie können jetzt Ihre eigenen Webanwendungen in einer vorkonfigurierten Umgebung erstellen. Wenn Sie Hilfe benötigen, nutzen Sie bitte den Issue-Tracker auf der Projektseite.",
   "using-version": "Anwendungsversion: ",
   "count-value": "zählen: ",
+  "window-count": "Geöffnete Fenster: ",
   "source-code": "Quellcode des Projekts",
+  "open-window": "Neues Fenster",
+  "close-window": "Dieses Fenster schließen",
   "language": "Sprache",
+  "second-title": "Zweiter Bildschirm",
+  "second-desc": "Dieser Bildschirm läuft in einem eigenen Fenster.",
   "not-found-title": "Bildschirm nicht gefunden",
   "not-found-link": "Zur Hauptseite"
 }

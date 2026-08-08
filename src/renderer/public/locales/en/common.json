@@ -3,8 +3,13 @@
   "hello-desc": "You can now build your own web applications in a pre-configured environment. If you need help, please use the issue tracker on the project page.",
   "using-version": "Application Version: ",
   "count-value": "Count: ",
+  "window-count": "Open windows: ",
   "source-code": "Project Source Code",
+  "open-window": "New Window",
+  "close-window": "Close this window",
   "language": "Language",
+  "second-title": "Second Screen",
+  "second-desc": "This screen is running in its own window.",
   "not-found-title": "Screen Not Found",
   "not-found-link": "Go to main page"
 }

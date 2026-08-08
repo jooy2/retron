@@ -3,8 +3,13 @@
   "hello-desc": "Vous pouvez désormais créer vos propres applications Web dans un environnement préconfiguré. Si vous avez besoin d'aide, veuillez utiliser l'outil de suivi des problèmes sur la page du projet.",
   "using-version": "Version de l'application: ",
   "count-value": "compter: ",
+  "window-count": "Fenêtres ouvertes: ",
   "source-code": "code source du projet",
+  "open-window": "Nouvelle fenêtre",
+  "close-window": "Fermer cette fenêtre",
   "language": "Langue",
+  "second-title": "Deuxième écran",
+  "second-desc": "Cet écran s'exécute dans sa propre fenêtre.",
   "not-found-title": "Écran introuvable",
   "not-found-link": "Aller à la page principale"
 }

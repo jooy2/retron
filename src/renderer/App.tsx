@@ -5,6 +5,7 @@ import ThemeProvider from '@/renderer/components/base/ThemeProvider';
 
 import NotFoundScreen from '@/renderer/screens/NotFoundScreen';
 import MainScreen from '@/renderer/screens/MainScreen';
+import SecondScreen from '@/renderer/screens/SecondScreen';
 
 export default function App() {
   return (
@@ -14,6 +15,8 @@ export default function App() {
           <Routes>
             <Route path="/">
               <Route index element={<MainScreen />} />
+              {/* Opened in a window of its own from the main screen */}
+              <Route path="second" element={<SecondScreen />} />
               <Route path="*" element={<NotFoundScreen />} />
             </Route>
           </Routes>

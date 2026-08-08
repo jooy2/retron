@@ -28,6 +28,7 @@ It is configured to experience fast development and build speed using **[Vite](h
 - ⚡️ Support for themes (dark & light)
 - ⚡️ Basic layout manager
 - ⚡️ Global state management through the Redux store
+- ⚡️ Multi window support through a window manager, switched by a single constant
 - ⚡️ Shared `src/common` folder for what both processes need, kept process-agnostic by lint rules
 - ⚡️ Quick support through the GitHub community
 
@@ -127,12 +128,16 @@ src
 ├── main         Main process. Full Node.js access: windows, menus, files, IPC handlers.
 │   ├── index.ts       Application entry point (`main` field of package.json)
 │   ├── index.dev.ts   Development-only extensions, stripped from release builds
-│   └── IPCs.ts        Every `ipcMain` handler lives here
+│   ├── IPCs.ts        Every `ipcMain` handler lives here
+│   ├── constants.ts   Shared main process values and feature switches
+│   ├── security.ts    External link and navigation guards
+│   └── WindowManager.ts  Windows opened on top of the main window
 ├── preload      Bridge between the two processes. Runs before the page scripts.
 │   └── index.ts       Exposes `window.mainApi` through `contextBridge`
 ├── renderer     The React application. Sandboxed, no Node.js access.
 │   ├── assets         Global styles
 │   ├── components     Reusable components
+│   ├── hooks          Reusable hooks
 │   ├── screens        One component per route
 │   ├── store          Redux Toolkit store, slices and pre-typed hooks
 │   ├── public         Static files copied as-is (images, translations)
@@ -190,7 +195,65 @@ const config = await window.mainApi.invoke(mainChannels.readConfigFile, '/etc/ho
 
 For the Main → Renderer direction, send from the main process with `webContents.send(...)` and subscribe with `window.mainApi.on(...)`, which returns the function that removes the listener again. `msgNativeThemeUpdated` is a working example of this.
 
-> Treat every value that arrives from the renderer as untrusted. `openExternalLink` in `src/main/IPCs.ts` shows the expected shape: validate first, act second.
+> Treat every value that arrives from the renderer as untrusted. `openExternalLink` in `src/main/security.ts` shows the expected shape: validate first, act second.
+
+## Multi window
+
+**Retron** can open extra windows on top of the main window at runtime. They are owned by `WindowManager` in `src/main/WindowManager.ts`, and the renderer asks for them over IPC instead of creating them itself.
+
+The feature is switched by `FEAT_MULTI_WINDOW` in `src/main/constants.ts`. While it is `false`, every open request is refused and logged, so multi window support leaves your app with a single constant.
+
+```ts
+export const FEAT_MULTI_WINDOW = true;
+```
+
+Size and placement come from `childWindowOptions` in the same file.
+
+```ts
+export const childWindowOptions: ChildWindowOptions = {
+  width: 720,
+  height: 540,
+  maxWindows: 5,
+  cascadeOffset: { x: 32, y: 32 },
+  allowDuplicatePath: true,
+};
+```
+
+| Option | Description |
+| --- | --- |
+| `width` / `height` | Size of a new window. |
+| `maxWindows` | How many windows may be open at the same time, the main window aside. Requests past the limit are refused and return `null`. |
+| `cascadeOffset` | `{ x, y }` offset applied to each new window relative to the window that opened it, so windows do not stack exactly on top of each other. The result stays inside the work area of the same display. |
+| `allowDuplicatePath` | `true` opens a new window every time. `false` focuses the window already showing that route instead of opening a second one for it. |
+
+### Opening a window from the renderer
+
+Windows are addressed by route: every window loads the same React app at a different path, so anything reachable in `App.tsx` can be opened in a window of its own.
+
+```ts
+import { mainChannels } from '@/common/ipc';
+
+// Resolves with the id of the new window, or `null` when the request was refused
+const windowId = await window.mainApi.invoke(mainChannels.openWindow, '/second');
+
+// Closes the window the call is made from. Resolves with `false` in the main
+// window, which is never closed this way.
+await window.mainApi.invoke(mainChannels.closeWindow);
+```
+
+`useWindowInfo` in `src/renderer/hooks` reads the state of the current window and keeps it up to date from the `msgWindowsUpdated` broadcast. A screen shared with the main window should ask it what it is running in rather than assume.
+
+```tsx
+const { isChildWindow, childWindowIds } = useWindowInfo();
+```
+
+The example that ships with the template is in `MainScreen.tsx` and `SecondScreen.tsx`: the main screen counts the open windows and opens `/second` in a new one, and the second screen shows a close button when it is running in one of them.
+
+### Notes
+
+The route comes from the renderer, so it is validated in `src/main/security.ts` and only plain hash routes such as `/second` are accepted. New windows get the same `webPreferences` and navigation guards as the main window, so context isolation and external link handling apply to all of them.
+
+`msgCloseWindow` only closes windows `WindowManager` owns, which means a component shared with the main window cannot shut the app down by mistake. Closing the main window closes the rest, so the app never stays alive with windows the user cannot get back from.
 
 ## Build
 

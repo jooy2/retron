@@ -1,27 +1,8 @@
-import { BrowserWindow, IpcMainEvent, ipcMain, nativeTheme, shell } from 'electron';
-import { mainChannels, rendererChannels } from '@/common/ipc';
+import { BrowserWindow, IpcMainEvent, IpcMainInvokeEvent, ipcMain, nativeTheme } from 'electron';
+import { mainChannels, rendererChannels, type WindowInfo } from '@/common/ipc';
+import { openExternalLink } from './security';
+import WindowManager from './WindowManager';
 import { version } from '../../package.json';
-
-const allowedExternalProtocols = ['http:', 'https:', 'mailto:'];
-
-/*
- * Open a url with the default handler of the operating system.
- * Anything that reaches the main process from the renderer has to be treated as
- * untrusted input, so only a known set of protocols is forwarded to the shell.
- * */
-export const openExternalLink = async (url: string): Promise<void> => {
-  try {
-    const { protocol } = new URL(url);
-
-    if (!allowedExternalProtocols.includes(protocol)) {
-      throw new Error(`Blocked an external link with a disallowed protocol: ${protocol}`);
-    }
-
-    await shell.openExternal(url);
-  } catch (error) {
-    console.error(`Failed to open the external link "${url}":`, error);
-  }
-};
 
 /*
  * IPC Communications
@@ -41,6 +22,35 @@ export default class IPCs {
     // Open url via web browser
     ipcMain.on(mainChannels.openExternalLink, async (event: IpcMainEvent, url: string) => {
       await openExternalLink(url);
+    });
+
+    // Open a renderer route in a window of its own. Returns the id of the new
+    // window, or `null` when the request was refused (feature switched off,
+    // window limit reached, route not allowed)
+    ipcMain.handle(mainChannels.openWindow, async (event: IpcMainInvokeEvent, path: string) => {
+      const childWindow = await WindowManager.open(
+        path,
+        BrowserWindow.fromWebContents(event.sender),
+      );
+
+      return childWindow?.id ?? null;
+    });
+
+    // Close the window the request came from. Only windows owned by
+    // `WindowManager` are closed, the main window ignores it.
+    ipcMain.handle(mainChannels.closeWindow, (event: IpcMainInvokeEvent) =>
+      WindowManager.close(BrowserWindow.fromWebContents(event.sender)),
+    );
+
+    // State a freshly loaded window needs before the next `msgWindowsUpdated`
+    // broadcast reaches it
+    ipcMain.handle(mainChannels.requestWindowInfo, (event: IpcMainInvokeEvent): WindowInfo => {
+      const senderWindow = BrowserWindow.fromWebContents(event.sender);
+
+      return {
+        isChildWindow: WindowManager.isChildWindow(senderWindow),
+        childWindowIds: WindowManager.getIds(),
+      };
     });
 
     // Push the operating system color scheme to every renderer.

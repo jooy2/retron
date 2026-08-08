@@ -25,6 +25,9 @@ export const mainChannels = {
   requestGetVersion: 'msgRequestGetVersion',
   requestGetSystemTheme: 'msgRequestGetSystemTheme',
   openExternalLink: 'msgOpenExternalLink',
+  openWindow: 'msgOpenWindow',
+  closeWindow: 'msgCloseWindow',
+  requestWindowInfo: 'msgRequestWindowInfo',
 } as const;
 
 /*
@@ -32,7 +35,19 @@ export const mainChannels = {
  * */
 export const rendererChannels = {
   nativeThemeUpdated: 'msgNativeThemeUpdated',
+  windowsUpdated: 'msgWindowsUpdated',
 } as const;
+
+/*
+ * Payload of `msgRequestWindowInfo`, and of `msgWindowsUpdated` for the part of
+ * it that can change while a window is open.
+ * */
+export interface WindowInfo {
+  /* Whether the calling window was opened on top of the main window */
+  isChildWindow: boolean;
+  /* Ids of the child windows open right now, the main window aside */
+  childWindowIds: number[];
+}
 
 export type MainChannel = (typeof mainChannels)[keyof typeof mainChannels];
 
