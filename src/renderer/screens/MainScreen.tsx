@@ -9,7 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import { increaseCount, setDarkTheme, setVersion } from '@/renderer/store/slices/appScreenSlice';
 import { bodyRoot, jumbo } from '@/renderer/assets/css/global';
-import { languageNames, supportedLanguages } from '@/renderer/i18n';
+import { languageNames, supportedLanguages } from '@/common/locales';
+import { mainChannels } from '@/common/ipc';
 import { useAppDispatch, useAppSelector } from '@/renderer/store/hooks';
 
 export default function MainScreen() {
@@ -20,7 +21,7 @@ export default function MainScreen() {
   const dispatch = useAppDispatch();
 
   const handleGithubLink = (): void => {
-    window.mainApi.send('msgOpenExternalLink', 'https://github.com/jooy2/retron');
+    window.mainApi.send(mainChannels.openExternalLink, 'https://github.com/jooy2/retron');
   };
 
   const handleChangeTheme = (): void => {
@@ -38,7 +39,7 @@ export default function MainScreen() {
 
   useEffect(() => {
     // Get application version from package.json version string (Using IPC communication)
-    dispatch(setVersion(window.mainApi.sendSync('msgRequestGetVersion')));
+    dispatch(setVersion(window.mainApi.sendSync(mainChannels.requestGetVersion)));
   }, []);
 
   return (

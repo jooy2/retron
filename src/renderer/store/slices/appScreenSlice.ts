@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { mainChannels } from '@/common/ipc';
 
 export const THEME_STORAGE_KEY = 'retron.darkTheme';
 
@@ -21,7 +22,8 @@ const storedDarkTheme = readStoredDarkTheme();
 const initialState: AppScreenState = {
   version: 'Unknown',
   // As long as the user has not picked a theme, the operating system decides
-  darkTheme: storedDarkTheme ?? Boolean(window.mainApi.sendSync('msgRequestGetSystemTheme')),
+  darkTheme:
+    storedDarkTheme ?? Boolean(window.mainApi.sendSync(mainChannels.requestGetSystemTheme)),
   followSystemTheme: storedDarkTheme === null,
   counterValue: 0,
 };

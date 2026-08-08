@@ -1,14 +1,21 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import type { MainApi, MainChannel, RendererChannel, RendererListener } from './types';
+import {
+  mainChannels,
+  rendererChannels,
+  type MainApi,
+  type MainChannel,
+  type RendererChannel,
+  type RendererListener,
+} from '@/common/ipc';
 
-// Whitelist of valid channels used for IPC communication (Send message from Renderer to Main)
-const mainAvailChannels: MainChannel[] = [
-  'msgRequestGetVersion',
-  'msgRequestGetSystemTheme',
-  'msgOpenExternalLink',
-];
-// Whitelist of valid channels used for IPC communication (Send message from Main to Renderer)
-const rendererAvailChannels: RendererChannel[] = ['msgNativeThemeUpdated'];
+// Whitelists of valid channels used for IPC communication, built from the lists
+// shared with the main process in `common/ipc`. The checks stay at runtime: the
+// renderer is bundled JavaScript by then, so its types are gone and it can pass
+// any string it likes.
+// (Send message from Renderer to Main)
+const mainAvailChannels: readonly string[] = Object.values(mainChannels);
+// (Send message from Main to Renderer)
+const rendererAvailChannels: readonly string[] = Object.values(rendererChannels);
 
 const mainApi: MainApi = {
   send: (channel: MainChannel, ...data: any[]): void => {

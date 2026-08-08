@@ -15,12 +15,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 - A language switcher on the main screen
 - Project structure and ipc guides in the readme
 - Lint and code style checks, test result artifacts and a dependabot configuration in CI
+- A `src/common` folder for code every process shares, with lint rules that keep it free of process specific APIs
 
 ### Changed
 
 - Minimum supported Node.js version is now `22.12.0`, as required by `electron@42` and `vite@8`
 - `build:pre` type-checks the main process, the preload script and the tests as well as the renderer
 - Closing the window no longer terminates the app on macOS
+- Ipc channel names and the `window.mainApi` type moved from `src/preload/types.ts` to `src/common/ipc.ts`, and the preload whitelist is built from them
+- The supported language list moved from `src/renderer/i18n.ts` to `src/common/locales.ts`
 
 ### Fixed
 

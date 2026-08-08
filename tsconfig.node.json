@@ -13,10 +13,15 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    /* Kept in sync with `tsconfig.json`, so that `@/common` resolves in every process. */
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "lib": ["esnext", "dom"]
   },
   "include": [
     "types",
+    "src/common",
     "src/main",
     "src/preload",
     "package.json",

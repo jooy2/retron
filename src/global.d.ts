@@ -1,4 +1,4 @@
-import type { MainApi } from './preload/types';
+import type { MainApi } from './common/ipc';
 
 declare global {
   interface Window {

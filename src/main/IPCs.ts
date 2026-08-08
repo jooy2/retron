@@ -1,4 +1,5 @@
 import { BrowserWindow, IpcMainEvent, ipcMain, nativeTheme, shell } from 'electron';
+import { mainChannels, rendererChannels } from '@/common/ipc';
 import { version } from '../../package.json';
 
 const allowedExternalProtocols = ['http:', 'https:', 'mailto:'];
@@ -28,17 +29,17 @@ export const openExternalLink = async (url: string): Promise<void> => {
 export default class IPCs {
   static initialize(): void {
     // Get application version
-    ipcMain.on('msgRequestGetVersion', (event: IpcMainEvent) => {
+    ipcMain.on(mainChannels.requestGetVersion, (event: IpcMainEvent) => {
       event.returnValue = version;
     });
 
     // Get the color scheme the operating system currently asks for
-    ipcMain.on('msgRequestGetSystemTheme', (event: IpcMainEvent) => {
+    ipcMain.on(mainChannels.requestGetSystemTheme, (event: IpcMainEvent) => {
       event.returnValue = nativeTheme.shouldUseDarkColors;
     });
 
     // Open url via web browser
-    ipcMain.on('msgOpenExternalLink', async (event: IpcMainEvent, url: string) => {
+    ipcMain.on(mainChannels.openExternalLink, async (event: IpcMainEvent, url: string) => {
       await openExternalLink(url);
     });
 
@@ -47,7 +48,10 @@ export default class IPCs {
     // subscribes to it through `window.mainApi.on`.
     nativeTheme.on('updated', () => {
       BrowserWindow.getAllWindows().forEach((browserWindow) => {
-        browserWindow.webContents.send('msgNativeThemeUpdated', nativeTheme.shouldUseDarkColors);
+        browserWindow.webContents.send(
+          rendererChannels.nativeThemeUpdated,
+          nativeTheme.shouldUseDarkColors,
+        );
       });
     });
   }

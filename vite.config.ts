@@ -37,6 +37,13 @@ export default defineConfig(({ command, mode }) => {
       vite: {
         root: resolve(projectRoot),
         base: './',
+        // The alias is declared per build. Each Electron process is bundled on
+        // its own, so the renderer one below does not reach this build.
+        resolve: {
+          alias: {
+            '@': resolve(projectRoot, 'src'),
+          },
+        },
         build: {
           sourcemap: isDEV,
           assetsDir: '.',
@@ -50,6 +57,11 @@ export default defineConfig(({ command, mode }) => {
     preload: {
       input: resolve(projectRoot, 'src/preload/index.ts'),
       vite: {
+        resolve: {
+          alias: {
+            '@': resolve(projectRoot, 'src'),
+          },
+        },
         build: {
           outDir: resolve(projectRoot, 'dist/preload'),
         },
@@ -58,6 +70,8 @@ export default defineConfig(({ command, mode }) => {
   };
 
   return {
+    // Renderer alias. `src/common` sits outside the renderer `root` below, so
+    // it is reached through `@` rather than a relative path out of the root.
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.mts', '.json', '.scss'],
       alias: {

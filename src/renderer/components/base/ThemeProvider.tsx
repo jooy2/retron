@@ -5,6 +5,7 @@ import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { THEME_STORAGE_KEY, setSystemDarkTheme } from '@/renderer/store/slices/appScreenSlice';
 import { useAppDispatch, useAppSelector } from '@/renderer/store/hooks';
+import { rendererChannels } from '@/common/ipc';
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const darkTheme = useAppSelector((state) => state.appScreen.darkTheme);
@@ -15,7 +16,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     // The main process notifies every window when the OS color scheme changes.
     // `on` returns the function that detaches the listener again.
     const unsubscribe = window.mainApi.on(
-      'msgNativeThemeUpdated',
+      rendererChannels.nativeThemeUpdated,
       (_event: unknown, shouldUseDarkColors: boolean) => {
         dispatch(setSystemDarkTheme(shouldUseDarkColors));
       },
