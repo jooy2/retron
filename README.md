@@ -287,9 +287,20 @@ $ npm run build:linux
 
 The built packages can be found in `release/{version}` location.
 
+### Where a new package goes
+
+`dependencies` in `package.json` is empty, and that is deliberate. Everything the three processes import is bundled into `dist` by Vite, so React, Material UI, Redux and i18next are build tools here rather than things the app loads at runtime. They belong in `devDependencies` with the rest of the toolchain.
+
+The distinction matters because `electron-builder` copies the `node_modules` tree of every `dependencies` entry into the package, on top of whatever the `files` list selects. A package left in `dependencies` therefore ships twice: once inside the bundle that already contains it, and once as its original source. Moving this template's libraries across took the packaged `app.asar` from 39 MB to 544 KB, for the same app.
+
+So, for a package you are adding:
+
+- **`devDependencies`** if your code imports it and Vite can bundle it. This is almost everything.
+- **`dependencies`** only if it cannot be bundled: a native module shipping a `.node` binary, or anything the main process has to `require` from disk at runtime. Add it to `rolldownOptions.external` for the main build in `vite.config.mts` as well, so the bundler leaves the import alone.
+
 ### Build settings for projects that use Native Node modules
 
-For projects that use the **Native Node Module**, add the following script to your `package.json`: When installing dependencies, `electron-builder` will take care of any modules that require rebuilding.
+Once something does live in `dependencies`, add the following script to your `package.json`. When installing dependencies, `electron-builder` will take care of any modules that require rebuilding.
 
 ```json
 {
