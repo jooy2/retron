@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 
 ### Removed
 
+- `pnpm-lock.yaml`, so `package-lock.json` is the only committed lock file. `pnpm-workspace.yaml` stays, so `pnpm i` still builds `electron` and the other packages that need a postinstall script
 - `@nabla/vite-plugin-eslint`, which re-ran ESLint on every hot update. The editor and `npm run lint` already report the same problems, so the dev server no longer pays for them
 - `eslint-plugin-n`, whose Node.js rules applied to the React renderer as well and had to be turned off one by one
 - The `@typescript-eslint/parser` dependency, along with the `parserOptions.parser` and `requireConfigFile` entries it was passed. Both are eslintrc-era settings that flat config ignores, and `typescript-eslint` already supplies the parser
