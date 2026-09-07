@@ -88,14 +88,29 @@ export default class WindowManager {
       childWindow.focus();
     });
 
-    // Every window loads the same renderer bundle, only the route differs
-    if (isDevEnv) {
-      await childWindow.loadURL(`${devServerUrl}#${path}`);
-    } else {
-      await childWindow.loadFile(appIndexFile, { hash: path });
-    }
-
+    // Announced before the load rather than after it, so a window that is still
+    // loading is already part of the list every other window sees
     WindowManager.notifyWindowsUpdated();
+
+    // Every window loads the same renderer bundle, only the route differs
+    try {
+      if (isDevEnv) {
+        await childWindow.loadURL(`${devServerUrl}#${path}`);
+      } else {
+        await childWindow.loadFile(appIndexFile, { hash: path });
+      }
+    } catch (error) {
+      // A load can fail or be aborted, and the window would otherwise stay
+      // registered while showing nothing. Destroying it fires `closed`, which
+      // takes the entry back out and tells the other windows.
+      console.error(`Failed to load the window route "${path}":`, error);
+
+      if (!childWindow.isDestroyed()) {
+        childWindow.destroy();
+      }
+
+      return null;
+    }
 
     return childWindow;
   }
