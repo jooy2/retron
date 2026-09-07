@@ -31,6 +31,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 - Translations are bundled into the renderer build instead of being fetched at runtime, and moved from `src/renderer/public/locales` to `src/renderer/locales`. The first render no longer shows the raw translation keys, and every language is now type-checked against `en`
 - The renderer content security policy no longer allows `file:` in `connect-src`, which only the translation requests needed
 
+- Every window is created from one `sharedWebPreferences` object in `src/main/constants.ts`, which now states `sandbox: true` and turns the spellchecker off
+
 ### Removed
 
 - `i18next-http-backend`. All five languages together are under 4 kB, so bundling them costs less than loading them

@@ -2,7 +2,7 @@ import { app, BrowserWindow, nativeTheme } from 'electron';
 
 import IPCs from './IPCs';
 import WindowManager from './WindowManager';
-import { appIndexFile, devServerUrl, isDevEnv, preloadFile } from './constants';
+import { appIndexFile, devServerUrl, isDevEnv, sharedWebPreferences } from './constants';
 import { registerWindowSecurity } from './security';
 
 let mainWindow: BrowserWindow;
@@ -31,12 +31,7 @@ const createWindow = async () => {
     // Keep the window hidden until the first paint is ready to avoid a white flash
     show: false,
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#111111' : '#ffffff',
-    webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      devTools: isDevEnv,
-      preload: preloadFile,
-    },
+    webPreferences: sharedWebPreferences,
   });
 
   // `BrowserWindow.setMenu` is only supported on Windows and Linux. The macOS

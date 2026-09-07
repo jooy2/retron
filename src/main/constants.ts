@@ -1,3 +1,4 @@
+import type { WebPreferences } from 'electron';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { debug } from '../../package.json';
@@ -21,6 +22,23 @@ const currentDirName = dirname(fileURLToPath(import.meta.url));
 // Both are resolved from `dist/main`, where this file ends up after the build
 export const preloadFile = join(currentDirName, '../preload/index.js');
 export const appIndexFile = join(currentDirName, '../index.html');
+
+/*
+ * Applied to every window, so the main window and the ones `WindowManager`
+ * opens cannot drift apart on what their renderer is allowed to do.
+ * */
+export const sharedWebPreferences: WebPreferences = {
+  nodeIntegration: false,
+  contextIsolation: true,
+  // Already the default since Electron 20. Stated because an unprivileged
+  // renderer is a decision this template makes, not one it wants to inherit.
+  sandbox: true,
+  // Nothing in the app takes free text, and the spellchecker downloads a
+  // dictionary per language the first time it runs.
+  spellcheck: false,
+  devTools: isDevEnv,
+  preload: preloadFile,
+};
 
 /* ------------------------------------------------------
  * Feature switches

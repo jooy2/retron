@@ -5,7 +5,7 @@ import {
   childWindowOptions,
   devServerUrl,
   isDevEnv,
-  preloadFile,
+  sharedWebPreferences,
 } from './constants';
 import { isAllowedWindowPath, registerWindowSecurity } from './security';
 import { rendererChannels } from '@/common/ipc';
@@ -64,12 +64,7 @@ export default class WindowManager {
       // Keep the window hidden until the first paint is ready to avoid a white flash
       show: false,
       backgroundColor: nativeTheme.shouldUseDarkColors ? '#111111' : '#ffffff',
-      webPreferences: {
-        nodeIntegration: false,
-        contextIsolation: true,
-        devTools: isDevEnv,
-        preload: preloadFile,
-      },
+      webPreferences: sharedWebPreferences,
       ...WindowManager.getCascadeBounds(parent),
     });
 
