@@ -36,6 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 ### Fixed
 
 - Development-only code and sourcemaps are no longer packaged into release builds
+- The development branch of the main process is now removed at build time, so `@electron/devtron` and `electron-extension-installer` no longer leave chunks in `dist/main`. A release build of the main process went from four files and 145 kB to one file of 4.6 kB
 - The dev server url is read from `vite-plugin-electron` instead of a hardcoded port
 - The renderer content security policy declares a `default-src` baseline
 - External links are restricted to http, https and mailto, and in-app navigation is blocked

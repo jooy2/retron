@@ -42,12 +42,27 @@ export default defineConfig(({ command, mode }) => {
             '@': resolve(projectRoot, 'src'),
           },
         },
+        // `isDevEnv` in `src/main/constants.ts` is derived from this, so
+        // replacing it at build time lets the bundler drop the development
+        // branch of `app.on('ready')` along with everything it reaches for.
+        define: {
+          'process.env.NODE_ENV': JSON.stringify(isDEV ? 'development' : 'production'),
+        },
         build: {
           sourcemap: isDEV,
           assetsDir: '.',
           outDir: resolve(projectRoot, 'dist/main'),
           rolldownOptions: {
-            external: ['electron', ...builtinModules],
+            // The two development tools are devDependencies, so they are never
+            // packaged and never resolved from a release build. Leaving them
+            // external keeps their code out of `dist` instead of emitting
+            // chunks that only the development branch could have loaded.
+            external: [
+              'electron',
+              '@electron/devtron',
+              'electron-extension-installer',
+              ...builtinModules,
+            ],
           },
         },
       },
