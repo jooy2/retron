@@ -3,7 +3,6 @@ import pluginJs from '@eslint/js';
 import pluginTypeScriptESLint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
-import pluginNode from 'eslint-plugin-n';
 import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
 import pluginImport from 'eslint-plugin-import';
 import pluginPrettier from 'eslint-plugin-prettier/recommended';
@@ -75,7 +74,6 @@ export default defineConfig([
   pluginTypeScriptESLint.configs.recommended,
   pluginImport.flatConfigs.electron,
   pluginJsxA11y.flatConfigs.recommended,
-  pluginNode.configs['flat/recommended-script'],
   globalIgnores([
     '**/node_modules',
     '**/dist',
@@ -117,8 +115,6 @@ export default defineConfig([
       'no-trailing-spaces': 'error',
       'no-unsafe-optional-chaining': 'off',
       'no-control-regex': 'off',
-      'n/no-missing-import': 'off',
-      'n/no-unsupported-features/node-builtins': 'off',
       'react/require-default-props': [
         'error',
         {
