@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import type { MainApi } from './common/ipc';
 
 declare global {

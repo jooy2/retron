@@ -1,0 +1,259 @@
+/*
+ * The page itself.
+ *
+ * Material Plus ships no reset and no page level styling on purpose, so
+ * everything outside a component is set here: the type stack the Material type
+ * scale inherits, the surface the window is painted in, and the few layout
+ * pieces the screens share.
+ *
+ * Colors are read through the library's `--color-mp-*` variables rather than
+ * written as literals, so a change of source color carries the whole page with
+ * it. Those are the resolved roles; `--mp-sys-color-*` is the other half of the
+ * pair, the name the library reads when a page wants to override a role, and it
+ * is never itself declared. `ThemeProvider` writes exactly one of them,
+ * `--mp-sys-color-surface`, because the main process paints a window with that
+ * value before the page exists. See `src/common/theme.ts`.
+ * */
+
+/*
+ * Declared before the import, so `base` is the first layer the page knows about
+ * and therefore the weakest. Material Plus emits its utilities unlayered, and an
+ * unlayered rule beats every layered one whatever its selector says, so nothing
+ * the library draws can be undone by the reset the page owes it. A component
+ * added later is styled by the library, not by this file.
+ * */
+@layer base;
+
+@import 'material-plus-ui/styles.css';
+
+@layer base {
+  /*
+   * The two rules Material Plus needs from the page.
+   *
+   * Its components are drawn with Tailwind utilities, and those are written
+   * against Tailwind's own base layer, which the library deliberately does not
+   * ship. `border-width` without a border style leaves a button on the browser's
+   * `outset` default and a field's outline on `groove`, and a Tailwind width or
+   * padding is measured on the border box. Both are the page's to declare.
+   * */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border: 0 solid;
+  }
+
+  /*
+   * A component renders as a link wherever the router needs one, and a Material
+   * button that is underlined because it happens to be an `<a>` is not a
+   * Material button. Anything that wants a rule of its own still sets it.
+   * */
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  :root {
+    font-family:
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      Roboto,
+      'Helvetica Neue',
+      'Noto Sans KR',
+      'Noto Sans JP',
+      sans-serif;
+    /* Native widgets and scrollbars follow the theme the app settled on */
+    color-scheme: light dark;
+  }
+
+  :root[data-mp-scheme='light'] {
+    color-scheme: light;
+  }
+
+  :root[data-mp-scheme='dark'] {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-mp-surface);
+    color: var(--color-mp-on-surface);
+    /* A desktop window is not a document, so a stray drag selects nothing */
+    user-select: none;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/*
+ * The layout the screens share. Left unlayered, because these are the app's own
+ * elements and a rule here is meant to win.
+ * */
+
+:root {
+  --app-topbar-height: 3.5rem;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/*
+ * Two soft washes of the generated palette, anchored to the top of the page.
+ * They sit in the background rather than in an element, so nothing in the
+ * layout has to make room for them.
+ * */
+.app,
+.app-notice {
+  background-image:
+    radial-gradient(
+      68% 52% at 10% -12%,
+      color-mix(in oklab, var(--color-mp-primary) 20%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      52% 44% at 96% -4%,
+      color-mix(in oklab, var(--color-mp-tertiary) 16%, transparent),
+      transparent 60%
+    );
+  background-repeat: no-repeat;
+}
+
+.app__topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: var(--app-topbar-height);
+  padding: 0 1.5rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-mp-outline-variant) 60%, transparent);
+  background-color: color-mix(in oklab, var(--color-mp-surface) 72%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.app__logo {
+  height: 1.75rem;
+  width: auto;
+}
+
+/*
+ * The logo is drawn in the dark navy of the light theme, which all but
+ * disappears on a dark surface. Inverting it and turning the hue back keeps the
+ * cyan reading as cyan instead of as rust.
+ * */
+:root[data-mp-scheme='dark'] .app__logo {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mp-scheme='light']) .app__logo {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}
+
+.app__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Wide enough that the trigger does not resize as the language changes */
+.app__language {
+  width: 10rem;
+}
+
+.app__main {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  flex-direction: column;
+  /*
+   * The screen carries one block of content, so it is centered in whatever is
+   * left under the bar rather than sitting on top of an empty half window.
+   * `safe` is what keeps the top of the block reachable once a window is shorter
+   * than the block itself.
+   * */
+  justify-content: safe center;
+  gap: 2rem;
+  padding: 2rem 1.5rem;
+}
+
+/* The introduction at the top of the main screen */
+
+/*
+ * The spacing is the container's rather than the children's. `MPTypography`
+ * pins its own margin to zero with a two-class selector, on purpose, so a
+ * layout that sets a margin on it is a layout fighting the library over every
+ * release. `gap` never enters that argument.
+ * */
+.app-hero {
+  display: flex;
+  max-width: 46rem;
+  flex-direction: column;
+  /* So the button is as wide as its label rather than as the column */
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.app-hero__title {
+  text-wrap: balance;
+}
+
+.app-hero__desc {
+  color: var(--color-mp-on-surface-variant);
+}
+
+/* A heading belongs to the paragraph under it more than the paragraph belongs
+   to what follows, so the call to action gets the wider half of the rhythm */
+.app-hero__cta {
+  margin-top: 0.75rem;
+}
+
+/* One demo per card, laid out on the grid below the introduction */
+
+/*
+ * The card is already a flex column, so this only has to fill the grid cell.
+ * There is no hover state on purpose: the card is a container, and the button
+ * inside it is the only thing on it that can be pressed.
+ * */
+.app-demo {
+  height: 100%;
+}
+
+.app-demo__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* A screen that carries nothing but one message, centered in its window */
+
+.app-notice {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.app-notice__title {
+  text-wrap: balance;
+}
+
+.app-notice__desc {
+  max-width: 32rem;
+  color: var(--color-mp-on-surface-variant);
+}

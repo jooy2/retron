@@ -21,10 +21,10 @@ const commonImportMessage =
 
 const commonRestrictedImportPaths = [
   ...builtinModules,
-  '@emotion/react',
-  '@emotion/styled',
+  '@base-ui/react',
   '@reduxjs/toolkit',
   'i18next',
+  'material-plus-ui',
   'react',
   'react-dom',
   'react-i18next',
@@ -37,8 +37,8 @@ const commonRestrictedImportPatterns = [
     group: [
       'node:*',
       'electron/*',
-      '@emotion/*',
-      '@mui/*',
+      '@base-ui/react/*',
+      'material-plus-ui/*',
       'react-dom/*',
       '@/main/**',
       '@/preload/**',
@@ -126,7 +126,7 @@ export default defineConfig([
       'react-hooks/exhaustive-deps': 'off',
       'react/react-in-jsx-scope': 'off',
       'react/jsx-props-no-spreading': 'off',
-      'react/no-unknown-property': ['error', { ignore: ['css'] }],
+      'react/no-unknown-property': 'error',
       'react/jsx-filename-extension': [
         2,
         {

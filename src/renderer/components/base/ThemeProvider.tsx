@@ -1,18 +1,20 @@
-/** @jsxImportSource @emotion/react */
-import { ReactNode, useEffect, useMemo } from 'react';
-import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
-import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
-import CssBaseline from '@mui/material/CssBaseline';
+import { ReactNode, useEffect, useLayoutEffect } from 'react';
 import {
   THEME_STORAGE_KEY,
   setDarkTheme,
   setSystemDarkTheme,
 } from '@/renderer/store/slices/appScreenSlice';
 import { useAppDispatch, useAppSelector } from '@/renderer/store/hooks';
-import { SYSTEM_DARK_THEME_QUERY } from '@/renderer/constants';
+import { SYSTEM_DARK_THEME_QUERY, THEME_SOURCE_COLOR } from '@/renderer/constants';
 import { backgroundColors } from '@/common/theme';
 import { mainChannels, rendererChannels } from '@/common/ipc';
 
+/*
+ * Material Plus has no provider of its own: a component reads the color roles
+ * off the document, and every role is generated from one source color. So this
+ * component holds the theme state and writes those two custom properties, and
+ * the tree below it needs nothing wrapped around it.
+ * */
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const darkTheme = useAppSelector((state) => state.appScreen.darkTheme);
   const followSystemTheme = useAppSelector((state) => state.appScreen.followSystemTheme);
@@ -61,23 +63,22 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     window.mainApi.send(mainChannels.setDarkTheme, darkTheme);
   }, [darkTheme, followSystemTheme]);
 
-  const muiTheme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: darkTheme ? 'dark' : 'light',
-          background: {
-            default: darkTheme ? backgroundColors.dark : backgroundColors.light,
-          },
-        },
-      }),
-    [darkTheme],
-  );
+  useLayoutEffect(() => {
+    const { dataset, style } = document.documentElement;
 
-  return (
-    <MuiThemeProvider theme={muiTheme}>
-      <CssBaseline />
-      <EmotionThemeProvider theme={muiTheme}>{children}</EmotionThemeProvider>
-    </MuiThemeProvider>
-  );
+    // `data-mp-scheme` is what the library reads instead of the media query, so
+    // setting it is what makes an explicit choice beat the operating system.
+    dataset.mpScheme = darkTheme ? 'dark' : 'light';
+    style.setProperty('--mp-source-color', THEME_SOURCE_COLOR);
+    // The surface is the one role the library does not get to generate: the main
+    // process paints the window with this exact value before the page loads.
+    style.setProperty(
+      '--mp-sys-color-surface',
+      darkTheme ? backgroundColors.dark : backgroundColors.light,
+    );
+    // Written in a layout effect rather than in `useEffect`, so the first paint
+    // of a window already carries the theme it settled on.
+  }, [darkTheme]);
+
+  return children;
 }

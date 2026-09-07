@@ -1,9 +1,6 @@
-/** @jsxImportSource @emotion/react */
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-import Button from '@mui/material/Button';
-import { bodyRoot, jumbo } from '@/renderer/assets/css/global';
+import { ChevronLeftIcon, CloseIcon, MPButton, MPIcon, MPTypography } from 'material-plus-ui';
 import { mainChannels } from '@/common/ipc';
 import useWindowInfo from '@/renderer/hooks/useWindowInfo';
 
@@ -18,18 +15,30 @@ export default function SecondScreen() {
   };
 
   return (
-    <div css={bodyRoot}>
-      <div css={jumbo}>
-        <h1>{t('second-title')}</h1>
-        <p>{t('second-desc')}</p>
-        {isChildWindow ? (
-          <Button data-testid="btn-close-window" variant="contained" onClick={handleCloseWindow}>
-            {t('close-window')}
-          </Button>
-        ) : (
-          <Link to="/">{t('not-found-link')}</Link>
-        )}
-      </div>
+    <div className="app-notice">
+      <MPTypography className="app-notice__title" level="h1">
+        {t('second-title')}
+      </MPTypography>
+      <MPTypography className="app-notice__desc" level="lead">
+        {t('second-desc')}
+      </MPTypography>
+      {isChildWindow ? (
+        <MPButton
+          data-testid="btn-close-window"
+          startIcon={<MPIcon icon={CloseIcon} size={18} />}
+          onClick={handleCloseWindow}
+        >
+          {t('close-window')}
+        </MPButton>
+      ) : (
+        <MPButton
+          variant="text"
+          render={<Link to="/" />}
+          startIcon={<MPIcon icon={ChevronLeftIcon} size={18} />}
+        >
+          {t('not-found-link')}
+        </MPButton>
+      )}
     </div>
   );
 }
