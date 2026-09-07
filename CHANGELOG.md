@@ -25,6 +25,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 - Ipc channel names and the `window.mainApi` type moved from `src/preload/types.ts` to `src/common/ipc.ts`, and the preload whitelist is built from them
 - The supported language list moved from `src/renderer/i18n.ts` to `src/common/locales.ts`
 
+### Removed
+
+- `vite-plugin-electron-renderer`, which only matters when the renderer uses Node.js APIs. This template keeps `nodeIntegration` off, and the build output is identical without it
+
 ### Fixed
 
 - Development-only code and sourcemaps are no longer packaged into release builds

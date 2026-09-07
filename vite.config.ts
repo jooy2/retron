@@ -1,7 +1,6 @@
 import { fileURLToPath } from 'url';
 import { defineConfig, loadEnv } from 'vite';
 import electron, { ElectronSimpleOptions } from 'vite-plugin-electron/simple';
-import RendererPlugin from 'vite-plugin-electron-renderer';
 import EslintPlugin from '@nabla/vite-plugin-eslint';
 import ReactPlugin from '@vitejs/plugin-react-swc';
 import { resolve, dirname } from 'path';
@@ -93,7 +92,6 @@ export default defineConfig(({ command, mode }) => {
       EslintPlugin(),
       // Docs: https://github.com/electron-vite/vite-plugin-electron
       electron(electronPluginConfigs),
-      RendererPlugin(),
     ],
   };
 });
