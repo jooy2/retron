@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 
 ### Removed
 
+- The `@typescript-eslint/parser` dependency, along with the `parserOptions.parser` and `requireConfigFile` entries it was passed. Both are eslintrc-era settings that flat config ignores, and `typescript-eslint` already supplies the parser
 - `vite-plugin-electron-renderer`, which only matters when the renderer uses Node.js APIs. This template keeps `nodeIntegration` off, and the build output is identical without it
 
 ### Fixed

@@ -5,7 +5,6 @@ import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 import pluginNode from 'eslint-plugin-n';
 import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
-import parserTypeScript from '@typescript-eslint/parser';
 import pluginImport from 'eslint-plugin-import';
 import pluginPrettier from 'eslint-plugin-prettier/recommended';
 
@@ -104,12 +103,10 @@ export default defineConfig([
         ...globals.node,
       },
       parserOptions: {
-        parser: parserTypeScript,
         ecmaVersion: 2022,
         ecmaFeatures: {
           jsx: true,
         },
-        requireConfigFile: false,
       },
     },
     rules: {
