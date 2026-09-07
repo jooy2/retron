@@ -59,7 +59,6 @@
   "devDependencies": {
     "@electron/devtron": "^2.1.1",
     "@eslint/js": "9.39.2",
-    "@nabla/vite-plugin-eslint": "^3.0.1",
     "@playwright/test": "^1.63.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",

@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 
 ### Removed
 
+- `@nabla/vite-plugin-eslint`, which re-ran ESLint on every hot update. The editor and `npm run lint` already report the same problems, so the dev server no longer pays for them
 - `eslint-plugin-n`, whose Node.js rules applied to the React renderer as well and had to be turned off one by one
 - The `@typescript-eslint/parser` dependency, along with the `parserOptions.parser` and `requireConfigFile` entries it was passed. Both are eslintrc-era settings that flat config ignores, and `typescript-eslint` already supplies the parser
 - `vite-plugin-electron-renderer`, which only matters when the renderer uses Node.js APIs. This template keeps `nodeIntegration` off, and the build output is identical without it
