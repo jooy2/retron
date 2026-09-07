@@ -2,7 +2,7 @@
 
 ![Retron-logo](src/renderer/public/images/retron-logo.webp)
 
-## Vite + Electron + React + Material-UI Template
+## Vite + Electron + React + Material Plus Template
 
 > [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jooy2/retron/blob/main/LICENSE) ![Programming Language Usage](https://img.shields.io/github/languages/top/jooy2/retron) ![Languages](https://img.shields.io/github/languages/count/jooy2/retron) ![Commit Count](https://img.shields.io/github/commit-activity/y/jooy2/retron) ![github repo size](https://img.shields.io/github/repo-size/jooy2/retron) [![Followers](https://img.shields.io/github/followers/jooy2?style=social)](https://github.com/jooy2) ![Stars](https://img.shields.io/github/stars/jooy2/retron?style=social)
 
@@ -47,8 +47,8 @@ It is configured to experience fast development and build speed using **[Vite](h
   - `typescript`
 
 - **For CSS Design**
-  - `@mui/material` (Material Design CSS Framework)
-  - `@emotion/react`
+  - `material-plus-ui` (Material Design 3 component library)
+  - `@base-ui/react` (Headless behavior the components are built on)
 
 - **For Multilingual language support**
   - `i18next` (Multilingual translation)
@@ -270,6 +270,20 @@ Each window runs its own copy of the React app with its own store, so nothing cr
 
 `msgCloseWindow` only closes windows `WindowManager` owns, which means a component shared with the main window cannot shut the app down by mistake. Closing the main window closes the rest, so the app never stays alive with windows the user cannot get back from.
 
+## Theming
+
+Material Plus has no theme provider. Every color role is generated from one source color, so a palette of your own is `THEME_SOURCE_COLOR` in `src/renderer/constants.ts` and nothing else. `ThemeProvider` writes it to the document together with `data-mp-scheme`, which is what makes an explicit light or dark choice beat the operating system.
+
+The window background is the one role written out by hand, in `src/common/theme.ts`, because the main process paints a window before its page exists. Change the source color and change those two values with it, or the first frame of a new window shows the old background.
+
+`src/renderer/assets/css/global.css` is the only stylesheet. It imports the library, declares the base rules the library's Tailwind utilities expect from the page, and holds the layout classes the screens share.
+
+Two things about that file are worth knowing before you edit it.
+
+The color tokens come in pairs. `--color-mp-primary` is the resolved role and is what a stylesheet of yours should read; `--mp-sys-color-primary` is the name the library reads when a page wants to override that role, and is never itself declared. Reading the second one gets you an invalid declaration rather than a color.
+
+The reset sits in `@layer base`, declared before the import so that it is the weakest layer on the page. Material Plus emits its utilities unlayered, and an unlayered rule wins over any layered one whatever its selector says, so a component added later is styled by the library and not by this file. Layout classes stay outside the layer, because those are meant to win.
+
 ## Build
 
 **Retron** can build targeting Windows 10 or later, macOS 12 (Monterey) or later, and major Linux distributions. The macOS floor is the one `electron@42` declares; it moves up as Electron drops older releases.
@@ -289,7 +303,7 @@ The built packages can be found in `release/{version}` location.
 
 ### Where a new package goes
 
-`dependencies` in `package.json` is empty, and that is deliberate. Everything the three processes import is bundled into `dist` by Vite, so React, Material UI, Redux and i18next are build tools here rather than things the app loads at runtime. They belong in `devDependencies` with the rest of the toolchain.
+`dependencies` in `package.json` is empty, and that is deliberate. Everything the three processes import is bundled into `dist` by Vite, so React, Material Plus, Redux and i18next are build tools here rather than things the app loads at runtime. They belong in `devDependencies` with the rest of the toolchain.
 
 The distinction matters because `electron-builder` copies the `node_modules` tree of every `dependencies` entry into the package, on top of whatever the `files` list selects. A package left in `dependencies` therefore ships twice: once inside the bundle that already contains it, and once as its original source. Moving this template's libraries across took the packaged `app.asar` from 39 MB to 544 KB, for the same app.
 
