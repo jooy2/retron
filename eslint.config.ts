@@ -87,7 +87,7 @@ export default defineConfig([
     '**/package-lock.json',
   ]),
   {
-    files: ['**/*.{js,mjs,cjs,jsx,tsx,ts}'],
+    files: ['**/*.{js,mjs,cjs,jsx,tsx,ts,mts,cts}'],
     settings: {
       react: {
         version: 'detect',

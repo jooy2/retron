@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 - Ipc channel names and the `window.mainApi` type moved from `src/preload/types.ts` to `src/common/ipc.ts`, and the preload whitelist is built from them
 - The supported language list moved from `src/renderer/i18n.ts` to `src/common/locales.ts`
 
+- `vite.config.ts` is now `vite.config.mts`, so Vite loads it as an ES module instead of warning that its `configLoader` will stop accepting the current form
 - `build.chunkSizeWarningLimit` is raised to 1500 kB for the renderer, which is loaded from disk rather than over a network
 
 ### Removed

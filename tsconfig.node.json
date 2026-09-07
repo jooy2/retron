@@ -26,7 +26,7 @@
     "src/preload",
     "package.json",
     "eslint.config.ts",
-    "vite.config.ts",
+    "vite.config.mts",
     "buildAssets/builder",
     "tests/**/*.ts",
     "tests/**/*.spec.ts"
