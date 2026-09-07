@@ -5,7 +5,7 @@ import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { THEME_STORAGE_KEY, setSystemDarkTheme } from '@/renderer/store/slices/appScreenSlice';
 import { useAppDispatch, useAppSelector } from '@/renderer/store/hooks';
-import { rendererChannels } from '@/common/ipc';
+import { SYSTEM_DARK_THEME_QUERY } from '@/renderer/constants';
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const darkTheme = useAppSelector((state) => state.appScreen.darkTheme);
@@ -13,16 +13,19 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // The main process notifies every window when the OS color scheme changes.
-    // `on` returns the function that detaches the listener again.
-    const unsubscribe = window.mainApi.on(
-      rendererChannels.nativeThemeUpdated,
-      (_event: unknown, shouldUseDarkColors: boolean) => {
-        dispatch(setSystemDarkTheme(shouldUseDarkColors));
-      },
-    );
+    // The renderer is told about a color scheme change directly, so the main
+    // process does not have to watch `nativeTheme` and relay it.
+    const systemDarkTheme = window.matchMedia(SYSTEM_DARK_THEME_QUERY);
 
-    return unsubscribe;
+    const handleSystemThemeChange = (event: MediaQueryListEvent): void => {
+      dispatch(setSystemDarkTheme(event.matches));
+    };
+
+    systemDarkTheme.addEventListener('change', handleSystemThemeChange);
+
+    return () => {
+      systemDarkTheme.removeEventListener('change', handleSystemThemeChange);
+    };
   }, [dispatch]);
 
   useEffect(() => {

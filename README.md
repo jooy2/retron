@@ -142,6 +142,7 @@ src
 │   ├── screens        One component per route
 │   ├── store          Redux Toolkit store, slices and pre-typed hooks
 │   ├── public         Static files copied as-is (images)
+│   ├── constants.ts   Renderer-only shared values
 │   ├── i18n.ts        i18next setup
 │   └── index.html     Renderer entry point, including the Content Security Policy
 └── global.d.ts  Declares `window.mainApi` for the renderer
@@ -177,7 +178,7 @@ Channels are whitelisted, so a new one takes two steps. Skipping the first fails
 
 ```ts
 export const mainChannels = {
-  requestGetVersion: 'msgRequestGetVersion',
+  openExternalLink: 'msgOpenExternalLink',
   readConfigFile: 'msgReadConfigFile',
 } as const;
 ```
@@ -194,7 +195,7 @@ The renderer can then call it, fully typed:
 const config = await window.mainApi.invoke(mainChannels.readConfigFile, '/etc/hosts');
 ```
 
-For the Main → Renderer direction, send from the main process with `webContents.send(...)` and subscribe with `window.mainApi.on(...)`, which returns the function that removes the listener again. `msgNativeThemeUpdated` is a working example of this.
+For the Main → Renderer direction, send from the main process with `webContents.send(...)` and subscribe with `window.mainApi.on(...)`, which returns the function that removes the listener again. `msgWindowsUpdated` is a working example of this.
 
 > Treat every value that arrives from the renderer as untrusted. `openExternalLink` in `src/main/security.ts` shows the expected shape: validate first, act second.
 

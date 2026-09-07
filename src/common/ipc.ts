@@ -22,8 +22,6 @@ import type { IpcRendererEvent } from 'electron';
  * Adding an entry here is enough, the preload whitelist follows it.
  * */
 export const mainChannels = {
-  requestGetVersion: 'msgRequestGetVersion',
-  requestGetSystemTheme: 'msgRequestGetSystemTheme',
   openExternalLink: 'msgOpenExternalLink',
   openWindow: 'msgOpenWindow',
   closeWindow: 'msgCloseWindow',
@@ -34,7 +32,6 @@ export const mainChannels = {
  * Channels the main process may push to the renderer.
  * */
 export const rendererChannels = {
-  nativeThemeUpdated: 'msgNativeThemeUpdated',
   windowsUpdated: 'msgWindowsUpdated',
 } as const;
 
@@ -63,7 +60,11 @@ export type RendererListener = (event: IpcRendererEvent, ...args: any[]) => void
 export interface MainApi {
   /* Renderer -> Main, fire and forget */
   send: (channel: MainChannel, ...data: any[]) => void;
-  /* Renderer -> Main, blocks the renderer until the main process replies */
+  /*
+   * Renderer -> Main, blocks the renderer until the main process replies.
+   * Nothing in the template uses it, because a blocking call before the first
+   * paint is what it usually ends up being. Reach for `invoke` first.
+   * */
   sendSync: (channel: MainChannel, ...data: any[]) => any;
   /* Main -> Renderer, returns the function that detaches the listener */
   on: (channel: RendererChannel, listener: RendererListener) => () => void;

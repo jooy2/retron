@@ -3,10 +3,16 @@ import { defineConfig, loadEnv } from 'vite';
 import electron, { ElectronSimpleOptions } from 'vite-plugin-electron/simple';
 import ReactPlugin from '@vitejs/plugin-react-swc';
 import { resolve, dirname } from 'path';
-import { rmSync } from 'fs';
+import { readFileSync, rmSync } from 'fs';
 import { builtinModules } from 'module';
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
+
+// Read rather than imported, so the config does not depend on the JSON import
+// syntax the loader happens to support.
+const { version: appVersion } = JSON.parse(
+  readFileSync(resolve(projectRoot, 'package.json'), 'utf8'),
+);
 
 export default defineConfig(({ command, mode }) => {
   // `NODE_ENV` is not set yet while this config file is being evaluated,
@@ -93,6 +99,11 @@ export default defineConfig(({ command, mode }) => {
     },
     base: './',
     root: resolve(projectRoot, 'src/renderer'),
+    // The version is fixed when the app is built, so the renderer reads it from
+    // here instead of asking the main process for it at startup.
+    define: {
+      __APP_VERSION__: JSON.stringify(appVersion),
+    },
     publicDir: resolve(projectRoot, 'src/renderer/public'),
     clearScreen: false,
     build: {

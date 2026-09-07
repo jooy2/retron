@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 
 - Type definitions for the `window.mainApi` bridge, so ipc channel names and payloads are checked at compile time
 - Pre-typed `useAppDispatch` and `useAppSelector` hooks
-- A working Main → Renderer ipc channel (`msgNativeThemeUpdated`)
+- A working Main → Renderer ipc channel (`msgWindowsUpdated`)
 - The theme now follows the operating system and remembers an explicit choice
 - A language switcher on the main screen
 - Project structure and ipc guides in the readme
@@ -33,8 +33,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 
 - Every window is created from one `sharedWebPreferences` object in `src/main/constants.ts`, which now states `sandbox: true` and turns the spellchecker off
 
+- The renderer no longer blocks on `sendSync` at startup. The app version is replaced at build time by `__APP_VERSION__`, and the operating system color scheme is read with `window.matchMedia` instead of being asked for and then relayed by the main process
+
 ### Removed
 
+- The `msgRequestGetVersion`, `msgRequestGetSystemTheme` and `msgNativeThemeUpdated` ipc channels, none of which the renderer needs any more
 - `i18next-http-backend`. All five languages together are under 4 kB, so bundling them costs less than loading them
 - `pnpm-lock.yaml`, so `package-lock.json` is the only committed lock file. `pnpm-workspace.yaml` stays, so `pnpm i` still builds `electron` and the other packages that need a postinstall script
 - `@nabla/vite-plugin-eslint`, which re-ran ESLint on every hot update. The editor and `npm run lint` already report the same problems, so the dev server no longer pays for them

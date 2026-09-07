@@ -110,7 +110,8 @@ export default defineConfig([
     rules: {
       eqeqeq: 'error',
       'no-unused-vars': 'off',
-      'no-underscore-dangle': 'warn',
+      // `__APP_VERSION__` follows the Vite convention for a build time constant
+      'no-underscore-dangle': ['warn', { allow: ['__APP_VERSION__'] }],
       'no-case-declarations': 'off',
       'no-trailing-spaces': 'error',
       'no-unsafe-optional-chaining': 'off',

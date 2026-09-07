@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -7,7 +6,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import { increaseCount, setDarkTheme, setVersion } from '@/renderer/store/slices/appScreenSlice';
+import { increaseCount, setDarkTheme } from '@/renderer/store/slices/appScreenSlice';
 import { bodyRoot, jumbo } from '@/renderer/assets/css/global';
 import { languageNames, supportedLanguages } from '@/common/locales';
 import { mainChannels } from '@/common/ipc';
@@ -16,7 +15,6 @@ import useWindowInfo from '@/renderer/hooks/useWindowInfo';
 
 export default function MainScreen() {
   const darkTheme = useAppSelector((state) => state.appScreen.darkTheme);
-  const appVersion = useAppSelector((state) => state.appScreen.version);
   const counterValue = useAppSelector((state) => state.appScreen.counterValue);
   const [t, i18n] = useTranslation(['common']);
   const dispatch = useAppDispatch();
@@ -45,11 +43,6 @@ export default function MainScreen() {
     await i18n.changeLanguage(language);
   };
 
-  useEffect(() => {
-    // Get application version from package.json version string (Using IPC communication)
-    dispatch(setVersion(window.mainApi.sendSync(mainChannels.requestGetVersion)));
-  }, []);
-
   return (
     <div css={bodyRoot}>
       <div css={jumbo}>
@@ -66,7 +59,8 @@ export default function MainScreen() {
             <h1>{t('hello-title')}</h1>
             <p>{t('hello-desc')}</p>
             <p>
-              {t('using-version')} <strong>{appVersion}</strong>
+              {/* Replaced with the `package.json` version at build time */}
+              {t('using-version')} <strong>{__APP_VERSION__}</strong>
             </p>
             <p data-testid="counter-value">
               {t('count-value')}{' '}
