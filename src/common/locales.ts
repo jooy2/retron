@@ -6,8 +6,9 @@
  * to land on the same one. See `src/common/ipc.ts` for what may live here.
  * */
 
-// Languages that have a matching folder in `src/renderer/public/locales`.
-// Add a new language here after creating its translation files.
+// Languages that have a matching folder in `src/renderer/locales`.
+// Add a new language here after creating its translation files, then import
+// them in `src/renderer/i18n.ts`, which is where they enter the bundle.
 export const supportedLanguages = ['en', 'de', 'fr', 'ja', 'ko'] as const;
 
 export type SupportedLanguage = (typeof supportedLanguages)[number];
