@@ -28,8 +28,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 - `vite.config.ts` is now `vite.config.mts`, so Vite loads it as an ES module instead of warning that its `configLoader` will stop accepting the current form
 - `build.chunkSizeWarningLimit` is raised to 1500 kB for the renderer, which is loaded from disk rather than over a network
 
+- Translations are bundled into the renderer build instead of being fetched at runtime, and moved from `src/renderer/public/locales` to `src/renderer/locales`. The first render no longer shows the raw translation keys, and every language is now type-checked against `en`
+- The renderer content security policy no longer allows `file:` in `connect-src`, which only the translation requests needed
+
 ### Removed
 
+- `i18next-http-backend`. All five languages together are under 4 kB, so bundling them costs less than loading them
 - `pnpm-lock.yaml`, so `package-lock.json` is the only committed lock file. `pnpm-workspace.yaml` stays, so `pnpm i` still builds `electron` and the other packages that need a postinstall script
 - `@nabla/vite-plugin-eslint`, which re-ran ESLint on every hot update. The editor and `npm run lint` already report the same problems, so the dev server no longer pays for them
 - `eslint-plugin-n`, whose Node.js rules applied to the React renderer as well and had to be turned off one by one

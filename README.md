@@ -138,9 +138,10 @@ src
 │   ├── assets         Global styles
 │   ├── components     Reusable components
 │   ├── hooks          Reusable hooks
+│   ├── locales        Translations, bundled into the renderer build
 │   ├── screens        One component per route
 │   ├── store          Redux Toolkit store, slices and pre-typed hooks
-│   ├── public         Static files copied as-is (images, translations)
+│   ├── public         Static files copied as-is (images)
 │   ├── i18n.ts        i18next setup
 │   └── index.html     Renderer entry point, including the Content Security Policy
 └── global.d.ts  Declares `window.mainApi` for the renderer
