@@ -2,6 +2,7 @@ import { BrowserWindow, IpcMainEvent, IpcMainInvokeEvent, ipcMain } from 'electr
 import { mainChannels, type WindowInfo } from '@/common/ipc';
 import { openExternalLink } from './security';
 import WindowManager from './WindowManager';
+import { setDarkTheme, setLanguage } from './appearance';
 
 /*
  * IPC Communications
@@ -40,6 +41,16 @@ export default class IPCs {
         isChildWindow: WindowManager.isChildWindow(senderWindow),
         childWindowIds: WindowManager.getIds(),
       };
+    });
+
+    // A window keeps its own store, so an explicit theme or language choice is
+    // reported here and handed to the windows that are already open
+    ipcMain.on(mainChannels.setDarkTheme, (event: IpcMainEvent, darkTheme: unknown) => {
+      setDarkTheme(darkTheme, BrowserWindow.fromWebContents(event.sender));
+    });
+
+    ipcMain.on(mainChannels.setLanguage, (event: IpcMainEvent, language: unknown) => {
+      setLanguage(language, BrowserWindow.fromWebContents(event.sender));
     });
   }
 }

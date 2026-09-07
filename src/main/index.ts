@@ -1,9 +1,10 @@
-import { app, BrowserWindow, nativeTheme } from 'electron';
+import { app, BrowserWindow } from 'electron';
 
 import IPCs from './IPCs';
 import WindowManager from './WindowManager';
 import { appIndexFile, devServerUrl, isDevEnv, sharedWebPreferences } from './constants';
 import { registerWindowSecurity } from './security';
+import { getBackgroundColor } from './appearance';
 
 let mainWindow: BrowserWindow;
 
@@ -30,7 +31,7 @@ const createWindow = async () => {
     height: 600,
     // Keep the window hidden until the first paint is ready to avoid a white flash
     show: false,
-    backgroundColor: nativeTheme.shouldUseDarkColors ? '#111111' : '#ffffff',
+    backgroundColor: getBackgroundColor(),
     webPreferences: sharedWebPreferences,
   });
 

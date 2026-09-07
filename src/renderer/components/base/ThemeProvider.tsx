@@ -3,9 +3,15 @@ import { ReactNode, useEffect, useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
-import { THEME_STORAGE_KEY, setSystemDarkTheme } from '@/renderer/store/slices/appScreenSlice';
+import {
+  THEME_STORAGE_KEY,
+  setDarkTheme,
+  setSystemDarkTheme,
+} from '@/renderer/store/slices/appScreenSlice';
 import { useAppDispatch, useAppSelector } from '@/renderer/store/hooks';
 import { SYSTEM_DARK_THEME_QUERY } from '@/renderer/constants';
+import { backgroundColors } from '@/common/theme';
+import { mainChannels, rendererChannels } from '@/common/ipc';
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const darkTheme = useAppSelector((state) => state.appScreen.darkTheme);
@@ -29,6 +35,22 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   }, [dispatch]);
 
   useEffect(() => {
+    // An explicit choice made in another window. Only explicit ones are handed
+    // around: a change the operating system makes reaches every window on its
+    // own through the media query above.
+    const unsubscribe = window.mainApi.on(
+      rendererChannels.darkThemeUpdated,
+      (_event: unknown, value: unknown) => {
+        if (typeof value === 'boolean') {
+          dispatch(setDarkTheme(value));
+        }
+      },
+    );
+
+    return unsubscribe;
+  }, [dispatch]);
+
+  useEffect(() => {
     // Only an explicit choice is stored, so that removing it restores the
     // "follow the operating system" behavior on the next launch.
     if (followSystemTheme) {
@@ -38,6 +60,10 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     }
 
     localStorage.setItem(THEME_STORAGE_KEY, String(darkTheme));
+    // Each window has a store of its own, so the choice goes through the main
+    // process to reach the windows that are already open. The main process also
+    // keeps it, and paints the next window with it before its page loads.
+    window.mainApi.send(mainChannels.setDarkTheme, darkTheme);
   }, [darkTheme, followSystemTheme]);
 
   const muiTheme = useMemo(
@@ -46,7 +72,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
         palette: {
           mode: darkTheme ? 'dark' : 'light',
           background: {
-            default: darkTheme ? '#111111' : '#ffffff',
+            default: darkTheme ? backgroundColors.dark : backgroundColors.light,
           },
         },
       }),

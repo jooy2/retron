@@ -26,6 +26,8 @@ export const mainChannels = {
   openWindow: 'msgOpenWindow',
   closeWindow: 'msgCloseWindow',
   requestWindowInfo: 'msgRequestWindowInfo',
+  setDarkTheme: 'msgSetDarkTheme',
+  setLanguage: 'msgSetLanguage',
 } as const;
 
 /*
@@ -33,6 +35,8 @@ export const mainChannels = {
  * */
 export const rendererChannels = {
   windowsUpdated: 'msgWindowsUpdated',
+  darkThemeUpdated: 'msgDarkThemeUpdated',
+  languageUpdated: 'msgLanguageUpdated',
 } as const;
 
 /*

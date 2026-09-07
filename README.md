@@ -124,11 +124,13 @@ An Electron app runs in more than one process, and each one has different privil
 src
 ├── common       Code every process shares. No Node.js, no Electron, no React.
 │   ├── ipc.ts         Channel names and the type of `window.mainApi`
-│   └── locales.ts     Supported languages and their display names
+│   ├── locales.ts     Supported languages and their display names
+│   └── theme.ts       Window background colors, painted before the page loads
 ├── main         Main process. Full Node.js access: windows, menus, files, IPC handlers.
 │   ├── index.ts       Application entry point (`main` field of package.json)
 │   ├── index.dev.ts   Development-only extensions, stripped from release builds
 │   ├── IPCs.ts        Every `ipcMain` handler lives here
+│   ├── appearance.ts  Theme and language shared between the windows
 │   ├── constants.ts   Shared main process values and feature switches
 │   ├── security.ts    External link and navigation guards
 │   └── WindowManager.ts  Windows opened on top of the main window
@@ -254,6 +256,8 @@ The example that ships with the template is in `MainScreen.tsx` and `SecondScree
 ### Notes
 
 The route comes from the renderer, so it is validated in `src/main/security.ts` and only plain hash routes such as `/second` are accepted. New windows get the same `webPreferences` and navigation guards as the main window, so context isolation and external link handling apply to all of them.
+
+Each window runs its own copy of the React app with its own store, so nothing crosses between them by itself. The theme and the language do, because `src/main/appearance.ts` takes the choice from the window it was made in and hands it to the rest. The main process keeps the last theme as well, so the next window is painted with it before its page loads. Anything else you want every window to agree on follows the same shape.
 
 `msgCloseWindow` only closes windows `WindowManager` owns, which means a component shared with the main window cannot shut the app down by mistake. Closing the main window closes the rest, so the app never stays alive with windows the user cannot get back from.
 

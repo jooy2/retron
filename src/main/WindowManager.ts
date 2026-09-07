@@ -1,4 +1,4 @@
-import { BrowserWindow, nativeTheme, screen } from 'electron';
+import { BrowserWindow, screen } from 'electron';
 import {
   FEAT_MULTI_WINDOW,
   appIndexFile,
@@ -8,6 +8,7 @@ import {
   sharedWebPreferences,
 } from './constants';
 import { isAllowedWindowPath, registerWindowSecurity } from './security';
+import { getBackgroundColor } from './appearance';
 import { rendererChannels } from '@/common/ipc';
 
 /*
@@ -63,7 +64,7 @@ export default class WindowManager {
       height: childWindowOptions.height,
       // Keep the window hidden until the first paint is ready to avoid a white flash
       show: false,
-      backgroundColor: nativeTheme.shouldUseDarkColors ? '#111111' : '#ffffff',
+      backgroundColor: getBackgroundColor(),
       webPreferences: sharedWebPreferences,
       ...WindowManager.getCascadeBounds(parent),
     });

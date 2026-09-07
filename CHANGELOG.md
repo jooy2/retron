@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 - Project structure and ipc guides in the readme
 - Lint and code style checks, test result artifacts and a dependabot configuration in CI
 - A `src/common` folder for code every process shares, with lint rules that keep it free of process specific APIs
+- `src/common/theme.ts`, so the background the main process paints before the page exists and the one Material UI uses cannot drift apart
 
 ### Changed
 
@@ -24,15 +25,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 - Closing the window no longer terminates the app on macOS
 - Ipc channel names and the `window.mainApi` type moved from `src/preload/types.ts` to `src/common/ipc.ts`, and the preload whitelist is built from them
 - The supported language list moved from `src/renderer/i18n.ts` to `src/common/locales.ts`
-
 - `vite.config.ts` is now `vite.config.mts`, so Vite loads it as an ES module instead of warning that its `configLoader` will stop accepting the current form
 - `build.chunkSizeWarningLimit` is raised to 1500 kB for the renderer, which is loaded from disk rather than over a network
-
 - Translations are bundled into the renderer build instead of being fetched at runtime, and moved from `src/renderer/public/locales` to `src/renderer/locales`. The first render no longer shows the raw translation keys, and every language is now type-checked against `en`
 - The renderer content security policy no longer allows `file:` in `connect-src`, which only the translation requests needed
-
 - Every window is created from one `sharedWebPreferences` object in `src/main/constants.ts`, which now states `sandbox: true` and turns the spellchecker off
-
 - The renderer no longer blocks on `sendSync` at startup. The app version is replaced at build time by `__APP_VERSION__`, and the operating system color scheme is read with `window.matchMedia` instead of being asked for and then relayed by the main process
 
 ### Removed
@@ -47,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 
 ### Fixed
 
+- Changing the theme or the language now reaches every open window instead of only the one it was changed in. `src/main/appearance.ts` passes the choice on, and paints a window opened later with the theme already in use
 - Development-only code and sourcemaps are no longer packaged into release builds
 - The development branch of the main process is now removed at build time, so `@electron/devtron` and `electron-extension-installer` no longer leave chunks in `dist/main`. A release build of the main process went from four files and 145 kB to one file of 4.6 kB
 - The dev server url is read from `vite-plugin-electron` instead of a hardcoded port

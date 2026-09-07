@@ -2,12 +2,16 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '@/renderer/store';
 import ThemeProvider from '@/renderer/components/base/ThemeProvider';
+import useLanguageSync from '@/renderer/hooks/useLanguageSync';
 
 import NotFoundScreen from '@/renderer/screens/NotFoundScreen';
 import MainScreen from '@/renderer/screens/MainScreen';
 import SecondScreen from '@/renderer/screens/SecondScreen';
 
 export default function App() {
+  // Every window shows the same language, whichever one it was changed in
+  useLanguageSync();
+
   return (
     <Provider store={store}>
       <ThemeProvider>
