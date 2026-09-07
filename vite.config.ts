@@ -99,6 +99,9 @@ export default defineConfig(({ command, mode }) => {
       sourcemap: isDEV,
       minify: !isDEV,
       outDir: resolve(projectRoot, 'dist'),
+      // The renderer is loaded from disk rather than over a network, so the
+      // default 500 kB warning does not describe a cost this app pays.
+      chunkSizeWarningLimit: 1500,
     },
     plugins: [
       ReactPlugin(),

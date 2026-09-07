@@ -25,6 +25,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 - Ipc channel names and the `window.mainApi` type moved from `src/preload/types.ts` to `src/common/ipc.ts`, and the preload whitelist is built from them
 - The supported language list moved from `src/renderer/i18n.ts` to `src/common/locales.ts`
 
+- `build.chunkSizeWarningLimit` is raised to 1500 kB for the renderer, which is loaded from disk rather than over a network
+
 ### Removed
 
 - `pnpm-lock.yaml`, so `package-lock.json` is the only committed lock file. `pnpm-workspace.yaml` stays, so `pnpm i` still builds `electron` and the other packages that need a postinstall script
