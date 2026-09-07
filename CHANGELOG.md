@@ -45,6 +45,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 
 ### Fixed
 
+- `useWindowInfo` opens one ipc subscription and sends one `msgRequestWindowInfo` per window instead of one per component that calls it, and a broadcast that arrives while that request is in flight is no longer overwritten by the answer
+
 - Changing the theme or the language now reaches every open window instead of only the one it was changed in. `src/main/appearance.ts` passes the choice on, and paints a window opened later with the theme already in use
 - Development-only code and sourcemaps are no longer packaged into release builds
 - The development branch of the main process is now removed at build time, so `@electron/devtron` and `electron-extension-installer` no longer leave chunks in `dist/main`. A release build of the main process went from four files and 145 kB to one file of 4.6 kB

@@ -254,7 +254,7 @@ const windowId = await window.mainApi.invoke(mainChannels.openWindow, '/second')
 await window.mainApi.invoke(mainChannels.closeWindow);
 ```
 
-`useWindowInfo` in `src/renderer/hooks` reads the state of the current window and keeps it up to date from the `msgWindowsUpdated` broadcast. A screen shared with the main window should ask it what it is running in rather than assume.
+`useWindowInfo` in `src/renderer/hooks` reads the state of the current window and keeps it up to date from the `msgWindowsUpdated` broadcast. A screen shared with the main window should ask it what it is running in rather than assume. However many components call it, the window holds one subscription and one copy of the state.
 
 ```tsx
 const { isChildWindow, childWindowIds } = useWindowInfo();
