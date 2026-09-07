@@ -174,7 +174,7 @@ Two things to keep in mind when adding your own:
 
 ## Adding an IPC channel
 
-Channels are whitelisted, so a new one takes two steps. Skipping the first fails fast with `Unknown ipc channel name`.
+Channels are whitelisted, so a new one takes three steps. Skipping the first fails fast with `Unknown ipc channel name`, and skipping the second does not compile.
 
 **1. Declare the channel name** in `src/common/ipc.ts`. `mainChannels` is Renderer → Main, `rendererChannels` is Main → Renderer. The preload whitelist is built from these lists, so there is nothing to add there.
 
@@ -185,19 +185,28 @@ export const mainChannels = {
 } as const;
 ```
 
-**2. Handle it in the main process** in `src/main/IPCs.ts`.
+**2. Say what the channel carries**, in the same file, as the function it stands for. This is the one description the three processes share: the renderer takes its arguments and its result from it, and the main process is checked against it.
 
 ```ts
-ipcMain.handle(mainChannels.readConfigFile, async (event, path: string) => readFile(path, 'utf8'));
+export interface MainChannelSignatures {
+  [mainChannels.readConfigFile]: (path: string) => string;
+}
 ```
 
-The renderer can then call it, fully typed:
+**3. Handle it in the main process** in `src/main/IPCs.ts`, through the local `on` and `handle` helpers rather than `ipcMain` directly. They are the same functions with the contract applied.
 
 ```ts
+handle(mainChannels.readConfigFile, async (event, path) => readFile(path, 'utf8'));
+```
+
+`path` is a `string` without being annotated, and returning anything but a `string` is a build error. The renderer call is typed from the same place:
+
+```ts
+// `config` is a string, and passing a number instead of a path does not compile
 const config = await window.mainApi.invoke(mainChannels.readConfigFile, '/etc/hosts');
 ```
 
-For the Main → Renderer direction, send from the main process with `webContents.send(...)` and subscribe with `window.mainApi.on(...)`, which returns the function that removes the listener again. `msgWindowsUpdated` is a working example of this.
+For the Main → Renderer direction, add the channel to `rendererChannels` and its signature to `RendererChannelSignatures`, then send from the main process with `webContents.send(...)` and subscribe with `window.mainApi.on(...)`, which returns the function that removes the listener again. The listener arguments come from the signature. `msgWindowsUpdated` is a working example of this.
 
 > Treat every value that arrives from the renderer as untrusted. `openExternalLink` in `src/main/security.ts` shows the expected shape: validate first, act second.
 

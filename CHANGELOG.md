@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 ### Added
 
 - Type definitions for the `window.mainApi` bridge, so ipc channel names and payloads are checked at compile time
+- `MainChannelSignatures` and `RendererChannelSignatures` in `src/common/ipc.ts`, which give every channel its arguments and its result. `invoke` resolves with the declared type instead of `any`, and `src/main/IPCs.ts` is checked against the same contract through its own `on` and `handle` helpers
 - Pre-typed `useAppDispatch` and `useAppSelector` hooks
 - A working Main → Renderer ipc channel (`msgWindowsUpdated`)
 - The theme now follows the operating system and remembers an explicit choice

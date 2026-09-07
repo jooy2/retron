@@ -1,4 +1,5 @@
 import type { IpcRendererEvent } from 'electron';
+import type { SupportedLanguage } from './locales';
 
 /*
  * The IPC contract, shared by the three processes.
@@ -54,7 +55,41 @@ export type MainChannel = (typeof mainChannels)[keyof typeof mainChannels];
 
 export type RendererChannel = (typeof rendererChannels)[keyof typeof rendererChannels];
 
-export type RendererListener = (event: IpcRendererEvent, ...args: any[]) => void;
+/*
+ * What each channel carries, written as the function the channel stands for.
+ *
+ * The bridge below is one generic pair of methods, so these two maps are what
+ * makes a call to it checked: the arguments come from the parameter list, and
+ * `invoke` resolves with the return type. A channel added to the lists above
+ * without an entry here does not compile.
+ * */
+export interface MainChannelSignatures {
+  [mainChannels.openExternalLink]: (url: string) => void;
+  [mainChannels.openWindow]: (path: string) => number | null;
+  [mainChannels.closeWindow]: () => boolean;
+  [mainChannels.requestWindowInfo]: () => WindowInfo;
+  [mainChannels.setDarkTheme]: (darkTheme: boolean) => void;
+  [mainChannels.setLanguage]: (language: SupportedLanguage) => void;
+}
+
+export interface RendererChannelSignatures {
+  [rendererChannels.windowsUpdated]: (childWindowIds: number[]) => void;
+  [rendererChannels.darkThemeUpdated]: (darkTheme: boolean) => void;
+  [rendererChannels.languageUpdated]: (language: SupportedLanguage) => void;
+}
+
+export type MainChannelArgs<Channel extends MainChannel> = Parameters<
+  MainChannelSignatures[Channel]
+>;
+
+export type MainChannelResult<Channel extends MainChannel> = ReturnType<
+  MainChannelSignatures[Channel]
+>;
+
+export type RendererListener<Channel extends RendererChannel = RendererChannel> = (
+  event: IpcRendererEvent,
+  ...args: Parameters<RendererChannelSignatures[Channel]>
+) => void;
 
 /*
  * Shape of the bridge exposed on `window.mainApi` by the preload script.
@@ -63,17 +98,29 @@ export type RendererListener = (event: IpcRendererEvent, ...args: any[]) => void
  * */
 export interface MainApi {
   /* Renderer -> Main, fire and forget */
-  send: (channel: MainChannel, ...data: any[]) => void;
+  send<Channel extends MainChannel>(channel: Channel, ...data: MainChannelArgs<Channel>): void;
   /*
    * Renderer -> Main, blocks the renderer until the main process replies.
    * Nothing in the template uses it, because a blocking call before the first
    * paint is what it usually ends up being. Reach for `invoke` first.
    * */
-  sendSync: (channel: MainChannel, ...data: any[]) => any;
+  sendSync<Channel extends MainChannel>(
+    channel: Channel,
+    ...data: MainChannelArgs<Channel>
+  ): Awaited<MainChannelResult<Channel>>;
   /* Main -> Renderer, returns the function that detaches the listener */
-  on: (channel: RendererChannel, listener: RendererListener) => () => void;
-  once: (channel: RendererChannel, listener: RendererListener) => () => void;
-  off: (channel: RendererChannel, listener: RendererListener) => void;
+  on<Channel extends RendererChannel>(
+    channel: Channel,
+    listener: RendererListener<Channel>,
+  ): () => void;
+  once<Channel extends RendererChannel>(
+    channel: Channel,
+    listener: RendererListener<Channel>,
+  ): () => void;
+  off<Channel extends RendererChannel>(channel: Channel, listener: RendererListener<Channel>): void;
   /* Renderer -> Main, resolves with the value returned by `ipcMain.handle` */
-  invoke: (channel: MainChannel, ...data: any[]) => Promise<any>;
+  invoke<Channel extends MainChannel>(
+    channel: Channel,
+    ...data: MainChannelArgs<Channel>
+  ): Promise<Awaited<MainChannelResult<Channel>>>;
 }

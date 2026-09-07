@@ -19,7 +19,8 @@ export default function useWindowInfo(): WindowInfo {
   useEffect(() => {
     let mounted = true;
 
-    window.mainApi.invoke(mainChannels.requestWindowInfo).then((currentInfo: WindowInfo) => {
+    // Typed by the channel, see `MainChannelSignatures` in `common/ipc`
+    window.mainApi.invoke(mainChannels.requestWindowInfo).then((currentInfo) => {
       if (mounted) {
         setWindowInfo(currentInfo);
       }
@@ -28,7 +29,7 @@ export default function useWindowInfo(): WindowInfo {
     // `on` returns the function that detaches the listener again
     const unsubscribe = window.mainApi.on(
       rendererChannels.windowsUpdated,
-      (_event: unknown, childWindowIds: number[]) => {
+      (_event, childWindowIds) => {
         // Whether this window is a child of the main one cannot change while it
         // is open, so only the list is taken from the broadcast.
         setWindowInfo((currentInfo) => ({ ...currentInfo, childWindowIds }));

@@ -38,14 +38,9 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     // An explicit choice made in another window. Only explicit ones are handed
     // around: a change the operating system makes reaches every window on its
     // own through the media query above.
-    const unsubscribe = window.mainApi.on(
-      rendererChannels.darkThemeUpdated,
-      (_event: unknown, value: unknown) => {
-        if (typeof value === 'boolean') {
-          dispatch(setDarkTheme(value));
-        }
-      },
-    );
+    const unsubscribe = window.mainApi.on(rendererChannels.darkThemeUpdated, (_event, value) => {
+      dispatch(setDarkTheme(value));
+    });
 
     return unsubscribe;
   }, [dispatch]);

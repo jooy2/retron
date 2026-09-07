@@ -24,14 +24,12 @@ export default function useLanguageSync(): void {
     i18n.on('languageChanged', handleLanguageChanged);
 
     // `on` returns the function that detaches the listener again
-    const unsubscribe = window.mainApi.on(
-      rendererChannels.languageUpdated,
-      (_event: unknown, language: unknown) => {
-        if (isSupportedLanguage(language) && language !== i18n.resolvedLanguage) {
-          void i18n.changeLanguage(language);
-        }
-      },
-    );
+    const unsubscribe = window.mainApi.on(rendererChannels.languageUpdated, (_event, language) => {
+      // The guard is what stops two windows from answering each other
+      if (language !== i18n.resolvedLanguage) {
+        void i18n.changeLanguage(language);
+      }
+    });
 
     return () => {
       i18n.off('languageChanged', handleLanguageChanged);

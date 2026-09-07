@@ -4,6 +4,8 @@ import {
   rendererChannels,
   type MainApi,
   type MainChannel,
+  type MainChannelArgs,
+  type MainChannelResult,
   type RendererChannel,
   type RendererListener,
 } from '@/common/ipc';
@@ -13,60 +15,79 @@ import {
 // renderer is bundled JavaScript by then, so its types are gone and it can pass
 // any string it likes.
 // (Send message from Renderer to Main)
-const mainAvailChannels: readonly string[] = Object.values(mainChannels);
+const mainAvailChannels = new Set<string>(Object.values(mainChannels));
 // (Send message from Main to Renderer)
-const rendererAvailChannels: readonly string[] = Object.values(rendererChannels);
+const rendererAvailChannels = new Set<string>(Object.values(rendererChannels));
 
+const assertMainChannel = (channel: string): void => {
+  if (!mainAvailChannels.has(channel)) {
+    throw new Error(`Unknown ipc channel name: ${channel}`);
+  }
+};
+
+const assertRendererChannel = (channel: string): void => {
+  if (!rendererAvailChannels.has(channel)) {
+    throw new Error(`Unknown ipc channel name: ${channel}`);
+  }
+};
+
+/*
+ * The bridge is generic, and `MainApi` in `common/ipc` is what gives each
+ * channel its arguments and its result. Nothing is typed again here.
+ * */
 const mainApi: MainApi = {
-  send: (channel: MainChannel, ...data: any[]): void => {
-    if (mainAvailChannels.includes(channel)) {
-      ipcRenderer.send.apply(null, [channel, ...data]);
-    } else {
-      throw new Error(`Unknown ipc channel name: ${channel}`);
-    }
-  },
-  sendSync: (channel: MainChannel, ...data: any[]): any => {
-    if (mainAvailChannels.includes(channel)) {
-      return ipcRenderer.sendSync.apply(null, [channel, ...data]);
-    }
+  send<Channel extends MainChannel>(channel: Channel, ...data: MainChannelArgs<Channel>): void {
+    assertMainChannel(channel);
 
-    throw new Error(`Unknown ipc channel name: ${channel}`);
+    ipcRenderer.send(channel, ...data);
   },
-  on: (channel: RendererChannel, listener: RendererListener): (() => void) => {
-    if (rendererAvailChannels.includes(channel)) {
-      ipcRenderer.on(channel, listener);
+  sendSync<Channel extends MainChannel>(
+    channel: Channel,
+    ...data: MainChannelArgs<Channel>
+  ): Awaited<MainChannelResult<Channel>> {
+    assertMainChannel(channel);
 
-      return () => {
-        ipcRenderer.off(channel, listener);
-      };
-    } else {
-      throw new Error(`Unknown ipc channel name: ${channel}`);
-    }
+    return ipcRenderer.sendSync(channel, ...data);
   },
-  once: (channel: RendererChannel, listener: RendererListener): (() => void) => {
-    if (rendererAvailChannels.includes(channel)) {
-      ipcRenderer.once(channel, listener);
+  on<Channel extends RendererChannel>(
+    channel: Channel,
+    listener: RendererListener<Channel>,
+  ): () => void {
+    assertRendererChannel(channel);
 
-      return () => {
-        ipcRenderer.off(channel, listener);
-      };
-    } else {
-      throw new Error(`Unknown ipc channel name: ${channel}`);
-    }
-  },
-  off: (channel: RendererChannel, listener: RendererListener): void => {
-    if (rendererAvailChannels.includes(channel)) {
+    ipcRenderer.on(channel, listener);
+
+    return () => {
       ipcRenderer.off(channel, listener);
-    } else {
-      throw new Error(`Unknown ipc channel name: ${channel}`);
-    }
+    };
   },
-  invoke: async (channel: MainChannel, ...data: any[]): Promise<any> => {
-    if (mainAvailChannels.includes(channel)) {
-      const result = await ipcRenderer.invoke.apply(null, [channel, ...data]);
-      return result;
-    }
-    throw new Error(`Unknown ipc channel name: ${channel}`);
+  once<Channel extends RendererChannel>(
+    channel: Channel,
+    listener: RendererListener<Channel>,
+  ): () => void {
+    assertRendererChannel(channel);
+
+    ipcRenderer.once(channel, listener);
+
+    return () => {
+      ipcRenderer.off(channel, listener);
+    };
+  },
+  off<Channel extends RendererChannel>(
+    channel: Channel,
+    listener: RendererListener<Channel>,
+  ): void {
+    assertRendererChannel(channel);
+
+    ipcRenderer.off(channel, listener);
+  },
+  async invoke<Channel extends MainChannel>(
+    channel: Channel,
+    ...data: MainChannelArgs<Channel>
+  ): Promise<Awaited<MainChannelResult<Channel>>> {
+    assertMainChannel(channel);
+
+    return ipcRenderer.invoke(channel, ...data);
   },
 };
 
