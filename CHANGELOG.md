@@ -48,4 +48,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 - The renderer content security policy declares a `default-src` baseline
 - External links are restricted to http, https and mailto, and in-app navigation is blocked
 - Ipc handlers are registered only once
+- The devtools open once when the window is ready instead of on every frame load
 - `npm run format` reports unformatted files instead of printing every file to stdout

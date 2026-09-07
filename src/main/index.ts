@@ -65,13 +65,13 @@ const createWindow = async () => {
   // Everything that points somewhere else is handed to the default browser.
   registerWindowSecurity(mainWindow);
 
-  mainWindow.webContents.on('did-frame-finish-load', (): void => {
+  mainWindow.once('ready-to-show', (): void => {
+    // Opened here rather than on `did-frame-finish-load`, which fires again for
+    // every frame the page loads and on every reload.
     if (isDevEnv) {
       mainWindow.webContents.openDevTools();
     }
-  });
 
-  mainWindow.once('ready-to-show', (): void => {
     mainWindow.setAlwaysOnTop(true);
     mainWindow.show();
     mainWindow.focus();
