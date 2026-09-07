@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0), 
 - The theme now follows the operating system and remembers an explicit choice
 - A language switcher on the main screen
 - Project structure and ipc guides in the readme
+- An end-to-end test that opens a second window and checks that a theme and a language change reach it
 - Lint and code style checks, test result artifacts and a dependabot configuration in CI
 - A `src/common` folder for code every process shares, with lint rules that keep it free of process specific APIs
 - `src/common/theme.ts`, so the background the main process paints before the page exists and the one Material UI uses cannot drift apart

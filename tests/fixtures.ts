@@ -63,6 +63,11 @@ export const afterAll = async () => {
   await appElectron.close();
 };
 
+/*
+ * The running app, for tests that need more than the window they start in.
+ * */
+export const getApp = (): ElectronApplication => appElectron;
+
 type Fixtures = {
   util: TestUtil;
 };
