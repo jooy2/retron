@@ -32,7 +32,7 @@
     "build:all": "npm run build:pre && electron-builder -wml --config=buildAssets/builder/config.ts",
     "build:dir": "npm run build:pre && electron-builder --dir --config=buildAssets/builder/config.ts",
     "build:win": "npm run build:pre && electron-builder --windows --config=buildAssets/builder/config.ts",
-    "build:win:portable": "npm run build:pre && electron-builder --windows nsis:ia32 portable --config=buildAssets/builder/config.ts",
+    "build:win:portable": "npm run build:pre && electron-builder --windows nsis:x64 portable --config=buildAssets/builder/config.ts",
     "build:mac": "npm run build:pre && electron-builder --mac --config=buildAssets/builder/config.ts",
     "build:linux": "npm run build:pre && electron-builder --linux --config=buildAssets/builder/config.ts",
     "lint": "eslint .",
