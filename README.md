@@ -63,7 +63,7 @@ It is configured to experience fast development and build speed using **[Vite](h
 
 ## Requirements
 
-- **Node.js** `22.12.0` or later (required by `electron@42` and `vite@8`)
+- **Node.js** `22.12.0` or later (required by `electron@45` and `vite@8`)
 - One of `npm`, `yarn` or `pnpm`
 
 ## Installation
@@ -286,7 +286,7 @@ The reset sits in `@layer base`, declared before the import so that it is the we
 
 ## Build
 
-**Retron** can build targeting Windows 10 or later, macOS 12 (Monterey) or later, and major Linux distributions. The macOS floor is the one `electron@42` declares; it moves up as Electron drops older releases.
+**Retron** can build targeting Windows 10 or later, macOS 13 (Ventura) or later, and major Linux distributions. The macOS floor is the one `electron@45` declares; it moves up as Electron drops older releases.
 
 ```shell
 # For Windows (.exe, .appx)
